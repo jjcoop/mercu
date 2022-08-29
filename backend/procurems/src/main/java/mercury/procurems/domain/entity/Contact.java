@@ -1,10 +1,9 @@
 package mercury.procurems.domain.entity;
 
+import mercury.procurems.domain.aggregate.Supplier;
 
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import mercury.procurems.domain.aggregate.Supplier;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -44,5 +43,82 @@ public class Contact {
     this.phone = phone;
     this.email = email;
     this.position = position;
+  }
+
+
+  public Long getId() {
+    return id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
+  }
+
+  public String getName() {
+    return fname + " " + lname;
+  }
+
+  public void setFname(String fname) {
+    this.fname = fname;
+  }
+
+  public void setLname(String lname) {
+    this.lname = lname;
+  }
+
+  public String getPhone() {
+    return phone;
+  }
+
+  public void setPhone(String phone) {
+    this.phone = phone;
+  }
+
+  public String getEmail() {
+    return email;
+  }
+
+  public void setEmail(String email) {
+    this.email = email;
+  }
+
+  public String getPosition() {
+    return position;
+  }
+
+  public void setPosition(String position) {
+    this.position = position;
+  }
+
+  public Supplier getSupplier() {
+    return supplier;
+  }
+
+  public void setSupplier(Supplier supplier) {
+    this.supplier = supplier;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+
+    if (this == o)
+      return true;
+    if (!(o instanceof Contact))
+      return false;
+    Contact Contact = (Contact) o;
+    return Objects.equals(this.id, Contact.id) && Objects.equals(this.fname, Contact.fname)
+        && Objects.equals(this.lname, Contact.lname)
+        && Objects.equals(this.phone, Contact.phone);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(this.id, this.fname, this.lname, this.phone);
+  }
+
+  @Override
+  public String toString() {
+    return "Contact [email=" + email + ", fname=" + fname + ", lname=" + lname + ", phone=" + phone
+        + ", position=" + position + ", id=" + id + "";
   }
 }
