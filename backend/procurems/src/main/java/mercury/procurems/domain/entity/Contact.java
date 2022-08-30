@@ -1,6 +1,10 @@
 package mercury.procurems.domain.entity;
 
 import mercury.procurems.domain.aggregate.Supplier;
+import mercury.procurems.interfaces.rest.SupplierController;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
+import org.springframework.hateoas.Link;
 
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -10,16 +14,19 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 
 @Entity
 @Table(name = "Tbl_Contact")
+@SequenceGenerator(name="con", initialValue=30423, allocationSize=100)
 public class Contact {
-  @Id @Column(name = "ID", unique = true, nullable = false) @GeneratedValue
+  @Id @Column(name = "ID", unique = true, nullable = false) @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="con")
   private Long id;
   @Column(name = "FNAME", unique = false, nullable = false, length = 100)
   private String fname;
@@ -47,8 +54,8 @@ public class Contact {
   }
 
   @JsonProperty(value = "supplier")
-  public String getSupplierName(){
-    return supplier.getCompanyName();
+  public Link getSupplierName(){
+    return linkTo(methodOn(SupplierController.class).one(supplier.getId())).withSelfRel();
   }
   
   public Long getId() {

@@ -21,7 +21,7 @@ curl -X POST http://localhost:8787/supplierProcurement \
 
 ###
 
-curl -X PUT http://localhost:8787/suppliers/1/contact \
+curl -X PUT http://localhost:8787/suppliers/2388/contact \
  -H 'Content-type:application/json' \
  -d '{
     "fname": "Big",

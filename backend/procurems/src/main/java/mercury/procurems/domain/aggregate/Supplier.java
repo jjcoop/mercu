@@ -9,18 +9,22 @@ import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "Tbl_Supplier")
+@SequenceGenerator(name="sup", initialValue=2386, allocationSize=100)
 public class Supplier {
-  @Id
+  
   @Column(name = "ID", unique = true, nullable = false)
-  @GeneratedValue
-  private Long id;
+  @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="sup")
+  @Id Long id;
+
   @Column(name = "COMPANY_NAME", unique = false, nullable = false, length = 100)
   private String companyName;
   @Column(name = "BASE", unique = false, nullable = false, length = 100)

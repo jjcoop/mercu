@@ -1,6 +1,5 @@
 import Head from "next/head";
 import Image from "next/image";
-import styles from "../../styles/Home.module.css";
 import { useEffect, useState } from "react";
 
 export default function procurement() {
@@ -50,20 +49,6 @@ export default function procurement() {
           ))}
         </div>
       </main>
-
-      <footer className={styles.footer}>
-        <a href="#" target="_blank" rel="noopener noreferrer">
-          Powered by{" "}
-          <span className={styles.logo}>
-            <Image
-              src="/bicycle_with_basket.png"
-              alt="Mercury Logo"
-              width={72}
-              height={29}
-            />
-          </span>
-        </a>
-      </footer>
     </div>
   );
 }
