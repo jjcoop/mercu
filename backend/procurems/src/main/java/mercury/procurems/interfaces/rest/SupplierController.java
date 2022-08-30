@@ -3,6 +3,7 @@ package mercury.procurems.interfaces.rest;
 import mercury.procurems.application.internal.commandservices.SupplierProcurementCommandService;
 import mercury.procurems.application.internal.queryservices.SupplierProcurementQueryService;
 import mercury.procurems.domain.aggregate.Supplier;
+import mercury.procurems.domain.entity.Contact;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
@@ -13,9 +14,8 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController    // This means that this class is a Controller
 public class SupplierController {
-   private SupplierProcurementCommandService commandService; //application service dependency
-   @Autowired
-   private SupplierProcurementQueryService queryService;
+   private final SupplierProcurementCommandService commandService; //application service dependency
+   private final SupplierProcurementQueryService queryService;
 
 
 public SupplierController(SupplierProcurementCommandService commandService, SupplierProcurementQueryService queryService) {
@@ -31,16 +31,19 @@ ResponseEntity<?> newSupplier(@RequestBody Supplier supplier){
 
 
 @GetMapping("/supplierProcurement")
-public CollectionModel<EntityModel<Supplier>> allSuppliers(){
+public CollectionModel<EntityModel<Supplier>> all(){
     return queryService.all();
 }
 
 @GetMapping("/supplierProcurement/{id}")
-public Supplier findOne(@PathVariable Long id){
+public Supplier one(@PathVariable Long id){
     return queryService.findById(id);
 }
    
-
+@PutMapping("/suppliers/{id}/contact")
+ResponseEntity<?> updateSupplierContact(@PathVariable Long id, @RequestBody Contact contact) {
+    return commandService.addSupplierContact(id, contact);
+}  
 }
 
 

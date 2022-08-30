@@ -16,16 +16,23 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Service
 public class SupplierProcurementQueryService {
-    private SupplierRepository supplierRepository;
+    private final SupplierRepository supplierRepository;
     private SupplierModelAssembler assembler;
+
+    
+
+    public SupplierProcurementQueryService(SupplierRepository supplierRepository, SupplierModelAssembler assembler) {
+        this.supplierRepository = supplierRepository;
+        this.assembler = assembler;
+    }
 
     public CollectionModel<EntityModel<Supplier>> all() {
     
-      List<EntityModel<Supplier>> suppliers = supplierRepository.findAll().stream()
+      List<EntityModel<Supplier>> suppliers = (List<EntityModel<Supplier>>) supplierRepository.findAll().stream()
           .map(assembler::toModel)
           .collect(Collectors.toList());
     
-      return CollectionModel.of(suppliers, linkTo(methodOn(SupplierController.class).allSuppliers()).withSelfRel());
+      return CollectionModel.of(suppliers, linkTo(methodOn(SupplierController.class).all()).withSelfRel());
     }
 
     public Supplier findById(Long id){

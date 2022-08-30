@@ -8,7 +8,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import mercury.procurems.domain.aggregate.Supplier;
+import mercury.procurems.domain.entity.Contact;
 import mercury.procurems.infrastructure.repository.SupplierRepository;
+import mercury.procurems.application.internal.queryservices.SupplierNotFoundException;
+
 
 @Service
 public class SupplierProcurementCommandService {
@@ -43,5 +46,20 @@ public class SupplierProcurementCommandService {
 
         return updatedSupplier;
     }
+
+    public ResponseEntity<?> addSupplierContact(Long id, Contact contact) {
+      
+      Supplier supplier = supplierRepository.findById(id)
+          .orElseThrow(() -> new SupplierNotFoundException(id));
+  
+      supplier.addContact(contact);
+      supplierRepository.save(supplier);
+  
+      EntityModel<Supplier> entityModel = assembler.toModel(supplier);
+  
+      return ResponseEntity //
+          .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()) //
+          .body(entityModel);
+    }      
     
 }

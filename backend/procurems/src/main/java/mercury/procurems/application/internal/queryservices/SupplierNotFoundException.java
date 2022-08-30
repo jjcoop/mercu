@@ -1,8 +1,8 @@
 package mercury.procurems.application.internal.queryservices;
 
-class SupplierNotFoundException extends RuntimeException {
+public class SupplierNotFoundException extends RuntimeException {
 
-    SupplierNotFoundException(Long id) {
+    public SupplierNotFoundException(Long id) {
       super("Could not find supplier " + id);
     }
   }

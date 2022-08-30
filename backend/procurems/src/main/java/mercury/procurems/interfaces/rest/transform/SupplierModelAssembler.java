@@ -19,7 +19,7 @@ class SupplierModelAssembler implements RepresentationModelAssembler<Supplier, E
     @Override
     public EntityModel<Supplier> toModel(Supplier entity) {
         return EntityModel.of(entity, //
-        linkTo(methodOn(SupplierController.class).findOne(entity.getId())).withSelfRel(),
-        linkTo(methodOn(SupplierController.class).allSuppliers()).withRel("suppliers"));
+        linkTo(methodOn(SupplierController.class).one(entity.getId())).withSelfRel(),
+        linkTo(methodOn(SupplierController.class).all()).withRel("suppliers"));
     }
 }

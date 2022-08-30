@@ -1,6 +1,7 @@
 package mercury.procurems.domain.aggregate;
 import mercury.procurems.domain.entity.Contact;
 
+import java.util.Collections;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -27,7 +28,7 @@ public class Supplier {
   @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
   @JoinColumn(name = "SUPPLIER")
   @Embedded
-  private Set<Contact> contacts;
+  private Set<Contact> contacts =  Collections.emptySet();
 
   Supplier() {
   }
