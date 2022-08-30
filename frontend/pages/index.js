@@ -1,13 +1,12 @@
 import Head from 'next/head'
 import Image from 'next/image'
-import Link from 'next/link'
 import Landing from '../components/Landing'
-import Header from '../components/Header'
+import LandingHeader from '../components/LandingHeader'
 
 export default function Home() {
   return (
     <div>
-      <Header />
+      <LandingHeader />
       <Landing />
     </div>
   )

@@ -16,8 +16,22 @@ import Link from 'next/link'
 
 
 
-const pages = ['procurement', 'orders', 'sales'];
-const settings = ['account', 'dash', 'logout'];
+const pages = ['procurement', 'inventory', 'sales'];
+// const settings = ['account', 'dash', 'login'];
+const settings = [
+    {
+        page: "account",
+        name: "Accounts",
+    },
+    {
+        page: "dash",
+        name: "Dashboard",
+    },
+    {
+        page: "login",
+        name: "Login",
+    },
+];
 
 const Header = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -90,11 +104,11 @@ const Header = () => {
                 display: { xs: 'block', md: 'none' },
               }}
             >
-              {pages.map((page) => (
+              {/* {pages.map((page) => (
                 <MenuItem key={page} onClick={handleCloseNavMenu}>
                         <Typography href={page} textAlign="center">{page}</Typography>
                 </MenuItem>
-              ))}
+              ))} */}
             </Menu>
           </Box>
           <PedalBikeIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
@@ -117,7 +131,7 @@ const Header = () => {
             LOGO
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {pages.map((page) => (
+            {/* {pages.map((page) => (
               <Button
                 href={page}
                 key={page}
@@ -126,7 +140,7 @@ const Header = () => {
               >
                 {page}
               </Button>
-            ))}
+            ))} */}
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
@@ -152,9 +166,9 @@ const Header = () => {
               onClose={handleCloseUserMenu}
             >
               {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                    <Link href={setting}>
-                        <Typography textAlign="center">{setting}</Typography>
+                <MenuItem key={setting.page} onClick={handleCloseUserMenu}>
+                    <Link href={setting.page}>
+                        <Typography textAlign="center">{setting.name}</Typography>
                     </Link>
                 </MenuItem>
               ))}

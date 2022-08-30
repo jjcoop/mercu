@@ -14,57 +14,43 @@ import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
 import GlobalStyles from '@mui/material/GlobalStyles';
 import Container from '@mui/material/Container';
-
-function Copyright(props) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
+import Copyright from './Copyright';
 
 const tiers = [
   {
-    title: 'Free',
-    price: '0',
+    title: 'Nextjs',
     description: [
-      '10 users included',
-      '2 GB of storage',
-      'Help center access',
-      'Email support',
+      'Super fast static websites',
+      'Great for SEO',
+      'Faster time to market',
     ],
-    buttonText: 'Sign up for free',
+    buttonText: 'Visit Site',
     buttonVariant: 'outlined',
+    URI: "https://nextjs.org/learn/foundations/about-nextjs",
   },
   {
-    title: 'Pro',
+    title: 'Spring Framework',
     subheader: 'Most popular',
-    price: '15',
     description: [
-      '20 users included',
-      '10 GB of storage',
-      'Help center access',
-      'Priority email support',
+      'Heavily used in industry',
+      'Inversion of Control',
+      'Dependency Injection',
+      'Secure and Reactive',
     ],
-    buttonText: 'Get started',
+    buttonText: 'Tutorial',
     buttonVariant: 'contained',
+    URI: "https://spring.io/guides/tutorials/rest/#_building_links_into_your_rest_api",
   },
   {
-    title: 'Enterprise',
-    price: '30',
+    title: 'Material UI',
     description: [
-      '50 users included',
-      '30 GB of storage',
-      'Help center access',
-      'Phone & email support',
+      'Comprehensive UI tools',
+      'Production ready',
+      'Delightful experience',
     ],
-    buttonText: 'Contact us',
+    buttonText: 'Templates',
     buttonVariant: 'outlined',
+    URI: 'https://mui.com/material-ui/getting-started/templates/',
   },
 ];
 
@@ -105,12 +91,12 @@ function PricingContent() {
           color="text.primary"
           gutterBottom
         >
-          Pricing
+          CSCI318
         </Typography>
         <Typography variant="h5" align="center" color="text.secondary" component="p">
-          Quickly build an effective pricing table for your potential customers with
-          this layout. It&apos;s built with default MUI components with little
-          customization.
+          Building microservices using the Domain Driven Design methodology. Software Engineering
+          Designs and Practices taught at UOW
+          by Dr. Guoxin Su
         </Typography>
       </Container>
       {/* End hero unit */}
@@ -122,7 +108,7 @@ function PricingContent() {
               item
               key={tier.title}
               xs={12}
-              sm={tier.title === 'Enterprise' ? 12 : 6}
+              sm={tier.title === 'Spring Framework' ? 12 : 6}
               md={4}
             >
               <Card>
@@ -130,7 +116,7 @@ function PricingContent() {
                   title={tier.title}
                   subheader={tier.subheader}
                   titleTypographyProps={{ align: 'center' }}
-                  action={tier.title === 'Pro' ? <StarIcon /> : null}
+                  action={tier.title === 'Spring Framework' ? <StarIcon /> : null}
                   subheaderTypographyProps={{
                     align: 'center',
                   }}
@@ -142,20 +128,18 @@ function PricingContent() {
                       justifyContent: 'center',
                       alignItems: 'baseline',
                       mb: 2,
+                      backgroundColor: 'primary.dark',
+                      '&:hover': {
+                        backgroundColor: 'primary.main',
+                        opacity: [0.9, 0.8, 0.7]}
                     }}
                   >
-                    <Typography component="h2" variant="h3" color="text.primary">
-                      ${tier.price}
-                    </Typography>
-                    <Typography variant="h6" color="text.secondary">
-                      /mo
-                    </Typography>
                   </Box>
                   <ul>
                     {tier.description.map((line) => (
                       <Typography
                         component="li"
-                        variant="subtitle1"
+                        variant="body1"
                         align="center"
                         key={line}
                       >
@@ -165,46 +149,17 @@ function PricingContent() {
                   </ul>
                 </CardContent>
                 <CardActions>
-                  <Button fullWidth variant={tier.buttonVariant}>
+                  <Button href={tier.URI} fullWidth variant={tier.buttonVariant}>
                     {tier.buttonText}
                   </Button>
                 </CardActions>
               </Card>
             </Grid>
           ))}
+
         </Grid>
+        <Copyright sx={{ pt: 4 }} />
       </Container>
-      {/* Footer */}
-      <Container
-        maxWidth="md"
-        component="footer"
-        sx={{
-          borderTop: (theme) => `1px solid ${theme.palette.divider}`,
-          mt: 8,
-          py: [3, 6],
-        }}
-      >
-        <Grid container spacing={4} justifyContent="space-evenly">
-          {footers.map((footer) => (
-            <Grid item xs={6} sm={3} key={footer.title}>
-              <Typography variant="h6" color="text.primary" gutterBottom>
-                {footer.title}
-              </Typography>
-              <ul>
-                {footer.description.map((item) => (
-                  <li key={item}>
-                    <Link href="#" variant="subtitle1" color="text.secondary">
-                      {item}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </Grid>
-          ))}
-        </Grid>
-        <Copyright sx={{ mt: 5 }} />
-      </Container>
-      {/* End footer */}
     </React.Fragment>
   );
 }

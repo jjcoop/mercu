@@ -17,23 +17,17 @@ import Link from '@mui/material/Link';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import NotificationsIcon from '@mui/icons-material/Notifications';
+import PedalBikeIcon from '@mui/icons-material/PedalBike';
 import { mainListItems, secondaryListItems } from './listItems';
 import Chart from './Chart';
 import Deposits from './Deposits';
 import Orders from './Orders';
+import SuppliersTable from './SuppliersTable';
+import Copyright from '../Copyright'
+import SettingsIcon from '@mui/icons-material/Settings';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
 
-function Copyright(props) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
 
 const drawerWidth = 240;
 
@@ -81,16 +75,45 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
   }),
 );
 
-const mdTheme = createTheme();
 
 function DashboardContent() {
+  const settings = [
+    {
+        page: "account",
+        name: "Accounts",
+    },
+    {
+        page: "/",
+        name: "Home",
+    },
+    {
+        page: "login",
+        name: "Login",
+    },
+];
+
   const [open, setOpen] = React.useState(true);
   const toggleDrawer = () => {
     setOpen(!open);
   };
+  const [anchorElNav, setAnchorElNav] = React.useState(null);
+  const [anchorElUser, setAnchorElUser] = React.useState(null);
 
+  const handleOpenNavMenu = (event) => {
+    setAnchorElNav(event.currentTarget);
+  };
+  const handleOpenUserMenu = (event) => {
+    setAnchorElUser(event.currentTarget);
+  };
+
+  const handleCloseNavMenu = () => {
+    setAnchorElNav(null);
+  };
+
+  const handleCloseUserMenu = () => {
+    setAnchorElUser(null);
+  };
   return (
-    <ThemeProvider theme={mdTheme}>
       <Box sx={{ display: 'flex' }}>
         <CssBaseline />
         <AppBar position="absolute" open={open}>
@@ -112,6 +135,7 @@ function DashboardContent() {
               <MenuIcon />
             </IconButton>
             <Typography
+              href="/dash"
               component="h1"
               variant="h6"
               color="inherit"
@@ -120,11 +144,35 @@ function DashboardContent() {
             >
               Dashboard
             </Typography>
-            <IconButton color="inherit">
-              <Badge badgeContent={4} color="secondary">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
+            <Box sx={{ flexGrow: 0 }}>
+              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                <SettingsIcon />
+              </IconButton>
+            <Menu
+              sx={{ mt: '45px' }}
+              id="menu-appbar"
+              anchorEl={anchorElUser}
+              anchorOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              open={Boolean(anchorElUser)}
+              onClose={handleCloseUserMenu}
+            >
+              {settings.map((setting) => (
+                <MenuItem key={setting.page} onClick={handleCloseUserMenu}>
+                    <Link href={setting.page}>
+                        <Typography textAlign="center">{setting.name}</Typography>
+                    </Link>
+                </MenuItem>
+              ))}
+            </Menu>
+          </Box>
           </Toolbar>
         </AppBar>
         <Drawer variant="permanent" open={open}>
@@ -191,6 +239,12 @@ function DashboardContent() {
               {/* Recent Orders */}
               <Grid item xs={12}>
                 <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
+                  <SuppliersTable />
+                </Paper>
+              </Grid>
+              {/* Suppliers */}
+              <Grid item xs={12}>
+                <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
                   <Orders />
                 </Paper>
               </Grid>
@@ -199,7 +253,6 @@ function DashboardContent() {
           </Container>
         </Box>
       </Box>
-    </ThemeProvider>
   );
 }
 
