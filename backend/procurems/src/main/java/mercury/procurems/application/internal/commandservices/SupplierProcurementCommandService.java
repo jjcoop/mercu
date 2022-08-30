@@ -52,6 +52,7 @@ public class SupplierProcurementCommandService {
       Supplier supplier = supplierRepository.findById(id)
           .orElseThrow(() -> new SupplierNotFoundException(id));
   
+      contact.setSupplier(supplier);
       supplier.addContact(contact);
       supplierRepository.save(supplier);
   

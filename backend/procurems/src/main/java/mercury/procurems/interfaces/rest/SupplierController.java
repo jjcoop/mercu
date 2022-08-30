@@ -5,7 +5,6 @@ import mercury.procurems.application.internal.queryservices.SupplierProcurementQ
 import mercury.procurems.domain.aggregate.Supplier;
 import mercury.procurems.domain.entity.Contact;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.ResponseEntity;

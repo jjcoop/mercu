@@ -4,6 +4,7 @@ import mercury.procurems.domain.aggregate.Supplier;
 
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -45,7 +46,11 @@ public class Contact {
     this.position = position;
   }
 
-
+  @JsonProperty(value = "supplier")
+  public String getSupplierName(){
+    return supplier.getCompanyName();
+  }
+  
   public Long getId() {
     return id;
   }
@@ -118,7 +123,15 @@ public class Contact {
 
   @Override
   public String toString() {
-    return "Contact [email=" + email + ", fname=" + fname + ", lname=" + lname + ", phone=" + phone
-        + ", position=" + position + ", id=" + id + "";
+    return "Contact [email=" + email + ", fname=" + fname + ", id=" + id + ", lname=" + lname + ", phone=" + phone
+        + ", position=" + position + ", supplier=" + supplier + "]";
   }
+
+  // @Override
+  // public String toString() {
+  //   return "Contact [email=" + email + ", fname=" + fname + ", lname=" + lname + ", phone=" + phone
+  //       + ", position=" + position + ", id=" + id + "";
+  // }
+
+  
 }
