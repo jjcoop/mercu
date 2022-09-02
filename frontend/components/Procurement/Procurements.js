@@ -21,14 +21,13 @@ import PedalBikeIcon from "@mui/icons-material/PedalBike";
 import { mainListItems, secondaryListItems } from "./listItems";
 import Chart from "./Chart";
 import Deposits from "./Deposits";
-import Orders from "./Orders";
-import ContactsTable from "./ContactsTable";
 import Copyright from "../Copyright";
 import SettingsIcon from "@mui/icons-material/Settings";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-import SuppliersTable from "./SuppliersTable";
 import Title from "./Title";
+import BasicForm from "../Dashboard/BasicForm";
+import ContactsForm from "./ContactsForm";
 
 const drawerWidth = 240;
 
@@ -76,7 +75,7 @@ const Drawer = styled(MuiDrawer, {
   },
 }));
 
-function DashboardContent() {
+function Procurements() {
   const settings = [
     {
       page: "account",
@@ -142,7 +141,7 @@ function DashboardContent() {
             noWrap
             sx={{ flexGrow: 1 }}
           >
-            Dashboard
+            Procurements
           </Typography>
           <Box sx={{ flexGrow: 0 }}>
             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
@@ -220,7 +219,7 @@ function DashboardContent() {
                   height: 240,
                 }}
               >
-                <Chart />
+                <ContactsForm/>
               </Paper>
             </Grid>
             {/* Recent Deposits */}
@@ -233,27 +232,7 @@ function DashboardContent() {
                   height: 240,
                 }}
               >
-                <Deposits />
-              </Paper>
-            </Grid>
-            {/* Recent Orders */}
-            <Grid item xs={12}>
-              <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
-                <Title>Contacts</Title>
-                <ContactsTable />
-              </Paper>
-            </Grid>
-            {/* Suppliers */}
-            <Grid item xs={12}>
-              <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
-                <Title>Suppliers</Title>
-                <SuppliersTable />
-              </Paper>
-            </Grid>
-            {/* orders */}
-            <Grid item xs={12}>
-              <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
-                <Orders />
+                <BasicForm/>
               </Paper>
             </Grid>
           </Grid>
@@ -264,6 +243,6 @@ function DashboardContent() {
   );
 }
 
-export default function Dashboard() {
-  return <DashboardContent />;
+export default function Procure() {
+  return <Procurements />;
 }

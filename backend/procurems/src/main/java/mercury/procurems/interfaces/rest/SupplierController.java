@@ -38,8 +38,13 @@ public CollectionModel<EntityModel<Supplier>> all(){
 public Supplier one(@PathVariable Long id){
     return queryService.findById(id);
 }
-   
-@PutMapping("/suppliers/{id}/contact")
+
+@PutMapping("/supplierProcurement/{id}")
+ResponseEntity<?> updateSupplierContact(@RequestBody Supplier supplier, @PathVariable Long id ) {
+    return commandService.updateSupplier(supplier, id);
+}
+
+@PutMapping("/supplierProcurement/{id}/contact")
 ResponseEntity<?> updateSupplierContact(@PathVariable Long id, @RequestBody Contact contact) {
     return commandService.addSupplierContact(id, contact);
 }  

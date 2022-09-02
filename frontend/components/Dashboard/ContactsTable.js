@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import Title from "./Title";
 
-
 export default function contacts() {
   const [keyword, setKeyword] = useState("supplierProcurement");
   const [data, setData] = useState([]);
@@ -19,32 +18,40 @@ export default function contacts() {
   }, []);
 
   const columns = [
-    { field: "id", headerName: "ID", width: 125, minWidth: 150, maxWidth: 200 },
-    { field: "companyName", headerName: "Company Name", width: 125, minWidth: 150, maxWidth: 200},
-    { field: "base", headerName: "Administrative Unit", width: 125, minWidth: 150, maxWidth: 200},
+    { field: "supplier_id", headerName: "Supplier ID", width: 125, minWidth: 150, maxWidth: 200 },
+    { field: "name", headerName: "Name", width: 125, minWidth: 150, maxWidth: 200 },
+    { field: "phone", headerName: "Phone", width: 125, minWidth: 150, maxWidth: 200 },
     {
-      field: "contacts",
-      headerName: "Contacts #",
-      type: 'number',
+      field: "email",
+      headerName: "Email",
       width: 125, minWidth: 150, maxWidth: 200
     },
+    { field: "position", headerName: "Position", width: 125, minWidth: 150, maxWidth: 200 },
+    { field: "id", headerName: "Contact ID", width: 125, minWidth: 150, maxWidth: 200 },
   ];
 
   const rows = [];
-  function createData(id, companyName, base, contacts) {
-    return {id, companyName, base, contacts};
+  function createData(supplier_id, name, phone, email, position, id) {
+    return { supplier_id, name, phone, email, position, id };
   }
 
   data.map((supplier) =>
+    supplier.contacts.map((c) =>
       rows.push(
-        createData(supplier.id, supplier.companyName, supplier.base, supplier.contacts.length)
+        createData(supplier.id, c.name, c.phone, c.email, c.position, c.id)
       )
+    )
   );
 
   return (
     <div style={{ height: 400, width: "100%" }}>
-      {/* <Title>Suppliers</Title> */}
+      {/* <Title>Contacts</Title> */}
       <DataGrid
+        sx={{
+          "@media print": {
+            ".MuiDataGrid-main": { color: "rgba(0, 0, 0, 0.87)" },
+          },
+        }}
         rows={rows}
         columns={columns}
         pageSize={5}

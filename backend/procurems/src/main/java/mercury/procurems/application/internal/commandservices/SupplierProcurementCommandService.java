@@ -63,4 +63,24 @@ public class SupplierProcurementCommandService {
           .body(entityModel);
     }      
     
+    public ResponseEntity<?> updateSupplier( Supplier newSupplier, Long id) {
+      
+      Supplier updatedSupplier = supplierRepository.findById(id) //
+      .map(supplier -> {
+        supplier.setCompanyName(newSupplier.getCompanyName());
+        supplier.setBase(newSupplier.getBase());
+        return supplierRepository.save(supplier);
+      }) //
+      .orElseGet(() -> {
+        newSupplier.setId(id);
+        return supplierRepository.save(newSupplier);
+      });
+  
+      EntityModel<Supplier> entityModel = assembler.toModel(updatedSupplier);
+  
+      return ResponseEntity //
+          .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()) //
+          .body(entityModel);
+    }
+
 }
