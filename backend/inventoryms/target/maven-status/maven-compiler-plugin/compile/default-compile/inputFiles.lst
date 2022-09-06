@@ -1,0 +1,10 @@
+/home/jjcoop/Desktop/CURRENT/CSCI318/group_project/mercu/backend/inventoryms/src/main/java/mercury/inventoryms/interfaces/rest/transform/SupplierModelAssembler.java
+/home/jjcoop/Desktop/CURRENT/CSCI318/group_project/mercu/backend/inventoryms/src/main/java/mercury/inventoryms/application/internal/commandservices/SupplierProcurementCommandService.java
+/home/jjcoop/Desktop/CURRENT/CSCI318/group_project/mercu/backend/inventoryms/src/main/java/mercury/inventoryms/interfaces/rest/SupplierController.java
+/home/jjcoop/Desktop/CURRENT/CSCI318/group_project/mercu/backend/inventoryms/src/main/java/mercury/inventoryms/domain/aggregate/Supplier.java
+/home/jjcoop/Desktop/CURRENT/CSCI318/group_project/mercu/backend/inventoryms/src/main/java/mercury/inventoryms/infrastructure/repository/SupplierRepository.java
+/home/jjcoop/Desktop/CURRENT/CSCI318/group_project/mercu/backend/inventoryms/src/main/java/mercury/inventoryms/ProcuremsApplication.java
+/home/jjcoop/Desktop/CURRENT/CSCI318/group_project/mercu/backend/inventoryms/src/main/java/mercury/inventoryms/application/internal/queryservices/SupplierProcurementQueryService.java
+/home/jjcoop/Desktop/CURRENT/CSCI318/group_project/mercu/backend/inventoryms/src/main/java/mercury/inventoryms/domain/entity/Contact.java
+/home/jjcoop/Desktop/CURRENT/CSCI318/group_project/mercu/backend/inventoryms/src/main/java/mercury/inventoryms/application/internal/queryservices/SupplierNotFoundAdvice.java
+/home/jjcoop/Desktop/CURRENT/CSCI318/group_project/mercu/backend/inventoryms/src/main/java/mercury/inventoryms/application/internal/queryservices/SupplierNotFoundException.java
