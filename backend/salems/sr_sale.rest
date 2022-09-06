@@ -15,7 +15,7 @@
 
 
 ###
-curl -X POST http://{{host}}/{{api}}/online \
+curl -X POST http://{{host}}/{{api}} \
  -H 'Content-type:application/json' \
  -d '{"productName": "crank", "quantity": 12, "dateTime": 1662363000}'
 
