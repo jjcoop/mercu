@@ -28,6 +28,12 @@ ResponseEntity<?> newProduct(@RequestBody Product product){
     return commandService.addProduct(product);
 }
 
+@PostMapping("/productInventory/sale")
+Product createSale(@RequestBody Product product){
+    System.out.println("**** Checking Inventory ****");
+
+    return queryService.findById(product.getId());
+}
 
 @GetMapping("/productInventory")
 public CollectionModel<EntityModel<Product>> all(){

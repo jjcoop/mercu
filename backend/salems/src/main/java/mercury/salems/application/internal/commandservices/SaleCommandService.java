@@ -1,6 +1,7 @@
 package mercury.salems.application.internal.commandservices;
 
 import mercury.salems.interfaces.rest.transform.SaleModelAssembler;
+import mercury.salems.model.Product;
 
 import java.util.Date;
 
@@ -8,6 +9,7 @@ import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.IanaLinkRelations;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import mercury.salems.domain.aggregate.Sale;
 import mercury.salems.domain.aggregate.InStoreSale;
@@ -22,11 +24,15 @@ public class SaleCommandService {
     private SaleRepository saleRepository;
     private StoreRepository storeRepository;
     private SaleModelAssembler assembler;
+    private RestTemplate restTemplate;
+	  final String rootUrl = "http://localhost:8788/productInventory/sale";
 
-    public SaleCommandService(SaleRepository saleRepository, StoreRepository storeRepository, SaleModelAssembler assembler) {
+
+    public SaleCommandService(SaleRepository saleRepository, StoreRepository storeRepository, SaleModelAssembler assembler, RestTemplate restTemplate) {
         this.saleRepository = saleRepository;
         this.storeRepository = storeRepository;
         this.assembler = assembler;
+        this.restTemplate = restTemplate;
     }
 
     public ResponseEntity<?> addSale(Sale newSale) {
@@ -66,6 +72,15 @@ public class SaleCommandService {
 
     public ResponseEntity<?> addStoreSale(Long id, InStoreSale newSale) {
       
+			Product product = new Product();
+			product.setName(newSale.getProductName());
+      product.setDescription("description");
+      product.setPrice(12.34);
+			product = restTemplate.postForObject(rootUrl, product, Product.class);
+			// product = restTemplate.getForObject(rootUrl+"/"+product.getId(), Product.class);
+			assert product != null;
+			System.out.println("****CREATE****" + product);
+
       Store store = storeRepository.findById(id)
           .orElseThrow(() -> new SaleNotFoundException(id));
   
@@ -81,7 +96,7 @@ public class SaleCommandService {
     }      
     
     public ResponseEntity<?> updateSale( Sale newSale, Long id) {
-      
+
       Sale updatedSale = saleRepository.findById(id) //
       .map(sale -> {
         sale.setProductName(newSale.getProductName());
