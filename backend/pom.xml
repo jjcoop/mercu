@@ -10,8 +10,8 @@
     <version>1.0-SNAPSHOT</version>
     <modules>
         <module>procurems</module>
-        <!-- <module>inventoryms</module> -->
-        <!-- <module>salesms</module> -->
+        <module>inventoryms</module>
+        <module>salems</module>
         <!-- <module>bi-salesms</module> -->
     </modules>
 
