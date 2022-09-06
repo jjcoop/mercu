@@ -25,7 +25,6 @@ public class SaleCommandService {
     private StoreRepository storeRepository;
     private SaleModelAssembler assembler;
     private RestTemplate restTemplate;
-	  final String rootUrl = "http://localhost:8788/productInventory/sale";
 
 
     public SaleCommandService(SaleRepository saleRepository, StoreRepository storeRepository, SaleModelAssembler assembler, RestTemplate restTemplate) {
@@ -70,29 +69,36 @@ public class SaleCommandService {
         return updatedSale;
     }
 
-    public ResponseEntity<?> addStoreSale(Long id, InStoreSale newSale) {
-      
+    public boolean addStoreSale(Long id, InStoreSale newSale) {
+	    String rootUrl = "http://localhost:8788/productInventory/check";
 			Product product = new Product();
 			product.setName(newSale.getProductName());
       product.setDescription("description");
       product.setPrice(12.34);
 			product = restTemplate.postForObject(rootUrl, product, Product.class);
 			// product = restTemplate.getForObject(rootUrl+"/"+product.getId(), Product.class);
-			assert product != null;
-			System.out.println("****CREATE****" + product);
+			if (product != null) {
+        System.out.println("****CREATE****" + product);
+        return true;
+      }
+      else {
+        System.out.println("****NOT IN STOCK****");
+        return false;
+      }
 
-      Store store = storeRepository.findById(id)
-          .orElseThrow(() -> new SaleNotFoundException(id));
+
+      // Store store = storeRepository.findById(id)
+      //     .orElseThrow(() -> new SaleNotFoundException(id));
   
-      store.addSale(newSale);
-      newSale.setStore(store);
-      saleRepository.save(newSale);
+      // store.addSale(newSale);
+      // newSale.setStore(store);
+      // saleRepository.save(newSale);
   
-      EntityModel<Sale> entityModel = assembler.toModel(newSale);
+      // EntityModel<Sale> entityModel = assembler.toModel(newSale);
   
-      return ResponseEntity //
-          .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()) //
-          .body(entityModel);
+      // return ResponseEntity //
+      //     .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()) //
+      //     .body(entityModel);
     }      
     
     public ResponseEntity<?> updateSale( Sale newSale, Long id) {

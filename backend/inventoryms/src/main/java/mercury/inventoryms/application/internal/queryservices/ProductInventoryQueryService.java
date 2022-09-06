@@ -4,6 +4,7 @@ import mercury.inventoryms.interfaces.rest.ProductController;
 import mercury.inventoryms.interfaces.rest.transform.ProductModelAssembler;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.hateoas.CollectionModel;
@@ -38,5 +39,10 @@ public class ProductInventoryQueryService {
     public Product findById(Long id){
         return productRepository.findById(id)
         .orElseThrow(() -> new ProductNotFoundException(id));
+    }
+
+    public Product checkStock(Product product) {
+        Product p = productRepository.findByName(product.getName());
+        return p == null ? p : new Product();
     }
 }

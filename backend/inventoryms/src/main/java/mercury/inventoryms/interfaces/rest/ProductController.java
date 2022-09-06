@@ -28,11 +28,10 @@ ResponseEntity<?> newProduct(@RequestBody Product product){
     return commandService.addProduct(product);
 }
 
-@PostMapping("/productInventory/sale")
+@PostMapping("/productInventory/check")
 Product createSale(@RequestBody Product product){
     System.out.println("**** Checking Inventory ****");
-
-    return queryService.findById(product.getId());
+    return queryService.checkStock(product);
 }
 
 @GetMapping("/productInventory")

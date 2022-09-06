@@ -51,7 +51,7 @@ GET http://{{host}}/{{api}}/store/33333200 HTTP/1.1
 
 curl -X POST http://{{host}}/{{api}}/store/33333200 \
  -H 'Content-type:application/json' \
- -d '{"productName": "crank", "quantity": 12, "dateTime": 1662363000}'
+ -d '{"productName": "bob", "quantity": 12, "dateTime": 1662363000}'
 
 ###
 
