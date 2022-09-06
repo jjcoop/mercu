@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>mercury</groupId>
-	<artifactId>inventoryms</artifactId>
+	<artifactId>salems</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>inventoryms</name>
+	<name>salems</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
 		<java.version>1.8</java.version>

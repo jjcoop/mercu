@@ -1,4 +1,4 @@
-package mercury.inventoryms;
+package mercury.salems;
 import org.springframework.context.annotation.Bean;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -6,17 +6,17 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @SpringBootApplication
-public class InventorymsApplication {
+public class SalemsApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(InventorymsApplication.class, args);
+		SpringApplication.run(SalemsApplication.class, args);
 	}
 	@Bean
 	public WebMvcConfigurer corsConfigurer() {
 		return new WebMvcConfigurer() {
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
-				registry.addMapping("/supplierProcurement").allowedOrigins("http://localhost:3000");
+				registry.addMapping("/sales").allowedOrigins("http://localhost:3000");
 			}
 		};
 	}
