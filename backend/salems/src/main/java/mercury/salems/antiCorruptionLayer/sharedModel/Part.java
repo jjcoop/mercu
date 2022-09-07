@@ -1,4 +1,4 @@
-package mercury.salems.model;
+package mercury.salems.antiCorruptionLayer.sharedModel;
 
 public class Part {
     private Long id;

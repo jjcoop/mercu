@@ -1,7 +1,6 @@
 package mercury.salems.application.internal.commandservices;
 
 import mercury.salems.interfaces.rest.transform.SaleModelAssembler;
-import mercury.salems.model.Product;
 
 import java.util.Date;
 
@@ -12,11 +11,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import mercury.salems.domain.aggregate.Sale;
+import mercury.salems.antiCorruptionLayer.sharedModel.Product;
 import mercury.salems.domain.aggregate.InStoreSale;
+import mercury.salems.domain.aggregate.OnlineSale;
 import mercury.salems.domain.entity.Store;
 import mercury.salems.infrastructure.repository.SaleRepository;
 import mercury.salems.infrastructure.repository.StoreRepository;
-import mercury.salems.application.internal.queryservices.SaleNotFoundException;
 
 
 @Service
@@ -34,7 +34,7 @@ public class SaleCommandService {
         this.restTemplate = restTemplate;
     }
 
-    public ResponseEntity<?> addSale(Sale newSale) {
+    public ResponseEntity<?> addSale(OnlineSale newSale) {
   
       Date date = new Date();
       newSale.setDateTime(date);
@@ -77,6 +77,7 @@ public class SaleCommandService {
       product.setPrice(12.34);
 			product = restTemplate.postForObject(rootUrl, product, Product.class);
 			// product = restTemplate.getForObject(rootUrl+"/"+product.getId(), Product.class);
+      // Boolean check = false;
 			if (product != null) {
         System.out.println("****CREATE****" + product);
         return true;

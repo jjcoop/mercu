@@ -52,7 +52,13 @@ ResponseEntity<?> updateProductContact(@RequestBody Product product, @PathVariab
 @PutMapping("/productInventory/{id}/part")
 ResponseEntity<?> updateProductPart(@PathVariable Long id, @RequestBody Part part) {
     return commandService.addProductPart(id, part);
-}  
+}
+
+@GetMapping("/productInventory/sales")
+public String soldProducts(){
+    return queryService.findByProductName();
+}
+
 }
 
 

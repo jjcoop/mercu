@@ -1,4 +1,4 @@
-package mercury.salems.model;
+package mercury.salems.antiCorruptionLayer.sharedModel;
 
 import java.util.Collections;
 import java.util.Set;

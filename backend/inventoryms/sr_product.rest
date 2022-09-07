@@ -42,6 +42,10 @@ GET http://{{host}}/{{api}} HTTP/1.1
 
 ###
 
+GET http://{{host}}/{{api}}/productInventory/sales HTTP/1.1
+
+###
+
 # curl -v localhost:8080/suppliers/1
 GET http://{{host}}/{{api}}/2 HTTP/1.1
 
