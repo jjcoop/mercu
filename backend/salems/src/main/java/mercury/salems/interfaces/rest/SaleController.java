@@ -62,7 +62,7 @@ ResponseEntity<?> replaceSale(@RequestBody Sale sale, @PathVariable Long id ) {
 }
 
 @PostMapping("/sales/store/{id}")
-Boolean updateStoreSale(@PathVariable Long id, @RequestBody InStoreSale sale) {
+ResponseEntity<?> updateStoreSale(@PathVariable Long id, @RequestBody InStoreSale sale) {
     return commandService.addStoreSale(id, sale);
 }
 

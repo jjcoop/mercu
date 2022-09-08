@@ -25,7 +25,7 @@ public class InStoreSale extends Sale{
     @JoinColumn(name = "STORE_ID")
     @JsonIgnore
     private Store store;
-    @Column(name = "RECEIPT", unique = false, nullable = false, length = 100)
+    @Column(name = "RECEIPT", unique = false, nullable = true, length = 100)
     private String receipt = RandomString.make();
   
     @JsonProperty(value = "store")

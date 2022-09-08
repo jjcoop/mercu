@@ -40,7 +40,7 @@ public class ProductInventoryQueryService {
 
     public Product checkStock(Product product) {
         Product p = productRepository.findByName(product.getName());
-        return p == null ? p : null;
+        return p != null ? p : null;
     }
 
     public String findByProductName() {
