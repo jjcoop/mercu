@@ -1,5 +1,5 @@
 @hostname = localhost
-@port = 9000
+@port = 8788
 @host = {{hostname}}:{{port}}
 @api = productInventory
 @contentType = application/json
@@ -39,6 +39,10 @@ curl -X POST http://localhost:8080/suppliers \
 
 # curl -v localhost:8080/suppliers | json_pp
 GET http://{{host}}/{{api}} HTTP/1.1
+
+###
+
+GET http://{{host}}/{{api}}/productInventory/sales HTTP/1.1
 
 ###
 

@@ -2,11 +2,13 @@ package mercury.salems.domain.aggregate;
 
 import javax.persistence.InheritanceType;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
+
 import org.springframework.hateoas.Link;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -14,6 +16,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import mercury.salems.domain.entity.Store;
 import mercury.salems.interfaces.rest.SaleController;
+import net.bytebuddy.utility.RandomString;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
@@ -22,6 +25,8 @@ public class InStoreSale extends Sale{
     @JoinColumn(name = "STORE_ID")
     @JsonIgnore
     private Store store;
+    @Column(name = "RECEIPT", unique = false, nullable = true, length = 100)
+    private String receipt = RandomString.make();
   
     @JsonProperty(value = "store")
     public Link getStoreName(){
@@ -36,5 +41,11 @@ public class InStoreSale extends Sale{
       this.store = store;
     }
 
-    
+    public String getReceipt() {
+      return receipt;
+    }
+
+    public void setReceipt(String receipt) {
+      this.receipt = receipt;
+    }
   }

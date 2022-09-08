@@ -3,6 +3,7 @@ package mercury.salems.interfaces.rest;
 import mercury.salems.application.internal.commandservices.SaleCommandService;
 import mercury.salems.application.internal.queryservices.SaleQueryService;
 import mercury.salems.domain.aggregate.InStoreSale;
+import mercury.salems.domain.aggregate.OnlineSale;
 import mercury.salems.domain.aggregate.Sale;
 import mercury.salems.domain.entity.Store;
 
@@ -24,7 +25,7 @@ public SaleController(SaleCommandService commandService, SaleQueryService queryS
 }
 
 @PostMapping("/sales")
-ResponseEntity<?> newSale(@RequestBody Sale sale){
+ResponseEntity<?> newSale(@RequestBody OnlineSale sale){
     System.out.println("**** Sale Added ****");
     return commandService.addSale(sale);
 }
@@ -63,7 +64,8 @@ ResponseEntity<?> replaceSale(@RequestBody Sale sale, @PathVariable Long id ) {
 @PostMapping("/sales/store/{id}")
 ResponseEntity<?> updateStoreSale(@PathVariable Long id, @RequestBody InStoreSale sale) {
     return commandService.addStoreSale(id, sale);
-}  
+}
+
 }
 
 

@@ -18,7 +18,7 @@ import javax.persistence.Table;
 public class Sale {
   
   @Column(name = "ID", unique = true, nullable = false)
-  @GeneratedValue(strategy=GenerationType.TABLE, generator="sal")
+  @GeneratedValue(strategy=GenerationType.IDENTITY, generator="sal")
   @Id Long id;
 
   @Column(name = "PRODUCT", unique = false, nullable = false, length = 100)
@@ -26,17 +26,17 @@ public class Sale {
   @Column(name = "QUANTITY", unique = false, nullable = false, length = 100)
   private int quantity;
   @Column(name = "DATE", unique = false, nullable = false, length = 100)
-  private Date dateTime;
+  private Date dateTime = new Date();
 
 
   public Sale(){}
 
-  public Sale(String productName, int quantity, Date dateTime) {
 
+  public Sale(Long id, String productName, int quantity) {
+    this.id = id;
     this.productName = productName;
     this.quantity = quantity;
-    this.dateTime = dateTime;
-  }
+}
 
   public Long getId() {
     return id;
@@ -70,21 +70,44 @@ public class Sale {
     this.dateTime = dateTime;
   }
 
+  @Override
+  public int hashCode() {
+    final int prime = 31;
+    int result = 1;
+    result = prime * result + ((dateTime == null) ? 0 : dateTime.hashCode());
+    result = prime * result + ((id == null) ? 0 : id.hashCode());
+    result = prime * result + ((productName == null) ? 0 : productName.hashCode());
+    result = prime * result + quantity;
+    return result;
+  }
 
-
-  // @Override
-  // public boolean equals(Object o) {
-  //   if (this == o)
-  //     return true;
-  //   if (!(o instanceof Product))
-  //     return false;
-  //   return true;
-  // }
-
-  // @Override
-  // public String toString() {
-  //   return "Product [name=" + name + ", price=" + price + ", description=" + description + ", parts=" + parts + ", id=" + id + "]";
-  // }
-  
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj)
+      return true;
+    if (obj == null)
+      return false;
+    if (getClass() != obj.getClass())
+      return false;
+    Sale other = (Sale) obj;
+    if (dateTime == null) {
+      if (other.dateTime != null)
+        return false;
+    } else if (!dateTime.equals(other.dateTime))
+      return false;
+    if (id == null) {
+      if (other.id != null)
+        return false;
+    } else if (!id.equals(other.id))
+      return false;
+    if (productName == null) {
+      if (other.productName != null)
+        return false;
+    } else if (!productName.equals(other.productName))
+      return false;
+    if (quantity != other.quantity)
+      return false;
+    return true;
+  }
 }
 
