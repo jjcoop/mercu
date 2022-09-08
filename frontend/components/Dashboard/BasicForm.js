@@ -2,6 +2,10 @@ import React, { useState } from "react";
 import TextField from "@mui/material/TextField";
 import SendIcon from '@mui/icons-material/Send';
 import Button from '@mui/material/Button';
+import Grid from "@mui/material/Grid";
+import Paper from "@mui/material/Paper";
+import Title from "./Title";
+import SuppliersTable from "./SuppliersTable";
 
 export default function BasicForm() {
   const [myValue, setValue] = useState("");
@@ -44,8 +48,8 @@ export default function BasicForm() {
     alert(`Is this your full name: ${result.data}`);
   };
   return (
-    // We pass the event to the handleSubmit() function on submit.
-    <form onSubmit={handleSubmit}>
+    <>
+      <form onSubmit={handleSubmit}>
       <TextField
         margin="normal"
         required
@@ -53,6 +57,7 @@ export default function BasicForm() {
         label="Company Name"
         name="companyName"
       />
+      
       <TextField
         margin="normal"
         required
@@ -63,6 +68,14 @@ export default function BasicForm() {
       <Button type="submit" variant="contained" endIcon={<SendIcon />}>
         Create Supplier
       </Button>
-    </form>
+      </form>
+
+    </>
+    
+
+    
   );
+
 }
+
+

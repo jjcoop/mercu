@@ -250,6 +250,12 @@ function DashboardContent() {
                 <SuppliersTable />
               </Paper>
             </Grid>
+            <Grid item xs={12}>
+              <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
+                <Title>Beans</Title>
+                <SuppliersTable />
+              </Paper>
+            </Grid>
             {/* orders */}
             <Grid item xs={12}>
               <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>

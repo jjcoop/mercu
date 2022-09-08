@@ -28,6 +28,14 @@ import MenuItem from "@mui/material/MenuItem";
 import Title from "./Title";
 import BasicForm from "../Dashboard/BasicForm";
 import ContactsForm from "./ContactsForm";
+import TextField from "@mui/material/TextField";
+
+import SendIcon from '@mui/icons-material/Send';
+
+import SuppliersTable from "./SuppliersTable";
+import { Button } from "@mui/material";
+
+import ContactsTable from "../Dashboard/ContactsTable";
 
 const drawerWidth = 240;
 
@@ -209,7 +217,12 @@ function Procurements() {
         <Toolbar />
         <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
           <Grid container spacing={3}>
-            {/* Chart */}
+            <Grid item xs={12}>
+              <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
+                <Title>Current Suppliers</Title>
+                <SuppliersTable />
+              </Paper>
+            </Grid>
             <Grid item xs={12} md={8} lg={9}>
               <Paper
                 sx={{
@@ -219,6 +232,7 @@ function Procurements() {
                   height: 240,
                 }}
               >
+                <Title>Create Supplier</Title>
                 <ContactsForm/>
               </Paper>
             </Grid>
@@ -233,6 +247,82 @@ function Procurements() {
                 }}
               >
                 <BasicForm/>
+              </Paper>
+            </Grid>
+            <Grid item xs={12} md={12} lg={12}>
+              <Paper
+                sx={{
+                  p: 2,
+                  display: "flex",
+                  flexDirection: "column",
+                  height: 340,
+                }}
+              >
+                <Title>Update Supplier</Title>
+                <ContactsForm/>
+                <TextField
+                  margin="normal"
+                  required
+                  id="outlined-required"
+                  label="New Company Name"
+                  name="companyName"
+                />
+      
+                <TextField
+                  margin="normal"
+                  required
+                  id="outlined-required"
+                  label="New Base Name"
+                  name="base"
+                />
+
+                <Button 
+                  color='success' 
+                  sx={{ width: 300, marginTop: 2 }} 
+                  type="submit" 
+                  variant="contained" 
+                  endIcon={<SendIcon />}>
+                    Update Supplier
+                </Button>
+              </Paper>
+            </Grid>
+            {/* Chart */}
+            <Grid item xs={12}>
+              <Paper
+                sx={{
+                  p: 2,
+                  display: "flex",
+                  flexDirection: "column",
+                  height: 240,
+                }}
+              >
+                <Title>Remove Supplier</Title>
+                <ContactsForm/>
+                <Button 
+                  color='error' 
+                  sx={{ width: 300, marginTop: 4 }} 
+                  type="submit" 
+                  variant="contained" 
+                  endIcon={<SendIcon />}
+                  onClick={() => {
+                    alert('clicked');
+                  }}>
+                    Delete Supplier
+                </Button>
+              </Paper>
+            </Grid>
+            
+            <Grid item xs={12}>
+              <Paper
+                sx={{
+                  p: 2,
+                  display: "flex",
+                  flexDirection: "column",
+                }}
+              >
+                <Title>View Supplier Contacts</Title>
+                <ContactsForm/>
+                <ContactsTable />
               </Paper>
             </Grid>
           </Grid>
