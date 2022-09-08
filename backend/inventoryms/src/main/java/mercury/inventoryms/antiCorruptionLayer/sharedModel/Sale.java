@@ -1,8 +1,6 @@
 package mercury.inventoryms.antiCorruptionLayer.sharedModel;
 
-import java.util.Collections;
 import java.util.Date;
-import java.util.Set;
 
 public class Sale {
     private Long id;

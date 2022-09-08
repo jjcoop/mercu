@@ -3,7 +3,6 @@ package mercury.salems.application.internal.commandservices;
 import mercury.salems.interfaces.rest.transform.SaleModelAssembler;
 
 import java.util.Date;
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.hateoas.EntityModel;
