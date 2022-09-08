@@ -28,6 +28,9 @@ import MenuItem from "@mui/material/MenuItem";
 import Title from "./Title";
 import BasicForm from "../Dashboard/BasicForm";
 import ContactsForm from "./ContactsForm";
+import UpdateSupplierForm from "./UpdateSupplierForm"
+import CreateSupplierForm from "./CreateSupplierForm"
+import RemoveSupplierForm from "./RemoveSupplierForm"
 import TextField from "@mui/material/TextField";
 
 import SendIcon from '@mui/icons-material/Send';
@@ -223,92 +226,46 @@ function Procurements() {
                 <SuppliersTable />
               </Paper>
             </Grid>
-            <Grid item xs={12} md={8} lg={9}>
-              <Paper
-                sx={{
-                  p: 2,
-                  display: "flex",
-                  flexDirection: "column",
-                  height: 240,
-                }}
-              >
-                <Title>Create Supplier</Title>
-                <ContactsForm/>
-              </Paper>
-            </Grid>
-            {/* Recent Deposits */}
-            <Grid item xs={12} md={4} lg={3}>
-              <Paper
-                sx={{
-                  p: 2,
-                  display: "flex",
-                  flexDirection: "column",
-                  height: 240,
-                }}
-              >
-                <BasicForm/>
-              </Paper>
-            </Grid>
-            <Grid item xs={12} md={12} lg={12}>
-              <Paper
-                sx={{
-                  p: 2,
-                  display: "flex",
-                  flexDirection: "column",
-                  height: 340,
-                }}
-              >
-                <Title>Update Supplier</Title>
-                <ContactsForm/>
-                <TextField
-                  margin="normal"
-                  required
-                  id="outlined-required"
-                  label="New Company Name"
-                  name="companyName"
-                />
-      
-                <TextField
-                  margin="normal"
-                  required
-                  id="outlined-required"
-                  label="New Base Name"
-                  name="base"
-                />
-
-                <Button 
-                  color='success' 
-                  sx={{ width: 300, marginTop: 2 }} 
-                  type="submit" 
-                  variant="contained" 
-                  endIcon={<SendIcon />}>
-                    Update Supplier
-                </Button>
-              </Paper>
-            </Grid>
-            {/* Chart */}
             <Grid item xs={12}>
               <Paper
                 sx={{
                   p: 2,
                   display: "flex",
                   flexDirection: "column",
-                  height: 240,
+                  height: 375,
+                }}
+              >
+                <Title>Create Supplier</Title>
+                <CreateSupplierForm />
+              </Paper>
+            </Grid>
+            {/* Recent Deposits */}
+            <Grid item xs={12} md={12} lg={12}>
+              <Paper
+                sx={{
+                  p: 2,
+                  display: "flex",
+                  flexDirection: "column",
+                  height: 350,
+                }}
+              >
+                <Title>Update Supplier</Title>
+                <UpdateSupplierForm/>
+              </Paper>
+            </Grid>
+            {/* Chart */}
+            <Grid item xs={12}>
+              
+              <Paper
+                sx={{
+                  p: 2,
+                  display: "flex",
+                  flexDirection: "column",
+                  height: 300,
                 }}
               >
                 <Title>Remove Supplier</Title>
-                <ContactsForm/>
-                <Button 
-                  color='error' 
-                  sx={{ width: 300, marginTop: 4 }} 
-                  type="submit" 
-                  variant="contained" 
-                  endIcon={<SendIcon />}
-                  onClick={() => {
-                    alert('clicked');
-                  }}>
-                    Delete Supplier
-                </Button>
+                <RemoveSupplierForm />
               </Paper>
             </Grid>
             
@@ -322,6 +279,7 @@ function Procurements() {
               >
                 <Title>View Supplier Contacts</Title>
                 <ContactsForm/>
+                <br />
                 <ContactsTable />
               </Paper>
             </Grid>
