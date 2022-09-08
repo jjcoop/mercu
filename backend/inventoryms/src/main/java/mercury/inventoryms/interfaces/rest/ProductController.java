@@ -28,6 +28,11 @@ ResponseEntity<?> newProduct(@RequestBody Product product){
     return commandService.addProduct(product);
 }
 
+@PostMapping("/productInventory/check")
+Product createSale(@RequestBody Product product){
+    System.out.println("**** Checking Inventory ****");
+    return queryService.checkStock(product);
+}
 
 @GetMapping("/productInventory")
 public CollectionModel<EntityModel<Product>> all(){
@@ -47,7 +52,13 @@ ResponseEntity<?> updateProductContact(@RequestBody Product product, @PathVariab
 @PutMapping("/productInventory/{id}/part")
 ResponseEntity<?> updateProductPart(@PathVariable Long id, @RequestBody Part part) {
     return commandService.addProductPart(id, part);
-}  
+}
+
+@GetMapping("/productInventory/sales")
+public String soldProducts(){
+    return queryService.findByProductName();
+}
+
 }
 
 
