@@ -3,6 +3,7 @@ import { Button } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 import * as React from 'react';
 import { useEffect, useState } from "react";
+import Alert from "@mui/material";
 
 
 import Autocomplete from '@mui/material/Autocomplete';
@@ -12,6 +13,8 @@ export default function CreateSupplier() {
   const [inputId, setInputId] = React.useState("");
   const [keyword, setKeyword] = useState("supplierProcurement");
   const [data, setData] = useState([]);
+  const [alert, setAlert] = React.useState(false);
+  const [alertContent, setAlertContent] = React.useState('');
   const fetchData = () => {
     fetch(`http://localhost:8787/${keyword}`)
       .then((response) => response.json())
@@ -20,12 +23,7 @@ export default function CreateSupplier() {
   };
 
   const deleteSupplier = () => {
-    fetch(`http://localhost:8787/${keyword}/${inputId}`, { method: 'DELETE' })
-    .then(async response => {
-
-
-        element.innerHTML = 'Delete successful';
-    })
+    fetch(`http://localhost:8787/${keyword}/${inputId}`, { method: 'DELETE'})
   }
 
   useEffect(() => {
