@@ -75,7 +75,7 @@ GET http://{{host}}/suppliers/1 HTTP/1.1
 curl -X DELETE localhost:8080/suppliers/1
 
 ###
-DELETE  http://{{host}}/{{api}}/1 HTTP/1.1
+DELETE  http://{{host}}/{{api}}/2386 HTTP/1.1
 
 ###
 
