@@ -13,8 +13,8 @@ export default function CreateSupplier() {
   const [inputId, setInputId] = React.useState("");
   const [keyword, setKeyword] = useState("supplierProcurement");
   const [data, setData] = useState([]);
-  const [alert, setAlert] = React.useState(false);
-  const [alertContent, setAlertContent] = React.useState('');
+
+
   const fetchData = () => {
     fetch(`http://localhost:8787/${keyword}`)
       .then((response) => response.json())
@@ -24,6 +24,12 @@ export default function CreateSupplier() {
 
   const deleteSupplier = () => {
     fetch(`http://localhost:8787/${keyword}/${inputId}`, { method: 'DELETE'})
+    .then((response) =>{
+      if(response.status==200){
+        alert("Successfully removed: " + inputValue)
+      }
+    })
+    .then(window.location.reload(false));
   }
 
   useEffect(() => {
