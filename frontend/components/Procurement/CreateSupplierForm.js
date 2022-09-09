@@ -46,6 +46,11 @@ export default function BasicForm() {
     // Get the response data from server as JSON.
     // If server returns the name submitted, that means the form works.
     const result = await response.json();
+    
+    if(response.status == 201){
+        alert("Created New Supplier: " + data.companyName + ". Refreshing webpage now...")
+        window.location.reload(false)
+    }
   };
   return (
     // We pass the event to the handleSubmit() function on submit.
