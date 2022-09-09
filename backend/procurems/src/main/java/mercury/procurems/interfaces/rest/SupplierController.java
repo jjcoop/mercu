@@ -47,7 +47,13 @@ ResponseEntity<?> updateSupplierContact(@RequestBody Supplier supplier, @PathVar
 @PutMapping("/supplierProcurement/{id}/contact")
 ResponseEntity<?> updateSupplierContact(@PathVariable Long id, @RequestBody Contact contact) {
     return commandService.addSupplierContact(id, contact);
-}  
+}
+
+@DeleteMapping("/supplierProcurement/{id}")
+String delete(@PathVariable Long id){
+    return commandService.deleteSupplier(id);
+}
+
 }
 
 
