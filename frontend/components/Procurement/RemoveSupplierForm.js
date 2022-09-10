@@ -22,9 +22,8 @@ export default function CreateSupplier() {
   const deleteSupplier = () => {
     fetch(`http://localhost:8787/${keyword}/${inputId}`, { method: 'DELETE' })
     .then(async response => {
-
-
-        element.innerHTML = 'Delete successful';
+      alert("Deleted Supplier: " + inputValue + "\nRefreshing page now...")
+      window.location.reload(false);
     })
   }
 
