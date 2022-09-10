@@ -11,7 +11,9 @@ public class ProcuremsApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(ProcuremsApplication.class, args);
 	}
-	@Bean
+
+
+	 @Bean
 	public WebMvcConfigurer corsConfigurer() {
 		return new WebMvcConfigurer() {
 			@Override
@@ -20,4 +22,6 @@ public class ProcuremsApplication {
 			}
 		};
 	}
+
+	
 }

@@ -11,16 +11,6 @@ export default function CreateSupplier() {
         <div>
             <div>
                 <TextField
-                    
-                    margin="normal"
-                    id="outlined-required"
-                    label="ID"
-                    defaultValue="Company ID"
-                />
-            </div>
-
-            <div>
-                <TextField
                     fullWidth
                     margin="normal"
                     required
