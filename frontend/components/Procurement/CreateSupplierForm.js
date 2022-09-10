@@ -69,7 +69,7 @@ export default function CreateSupplierForm() {
         />
         <br />
         <br />
-        <Button type="submit" variant="contained" endIcon={<SendIcon />}>
+        <Button color="success" type="submit" variant="contained" endIcon={<SendIcon />}>
           Create Supplier
         </Button>
       </form>

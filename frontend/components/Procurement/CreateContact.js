@@ -1,32 +1,51 @@
-import React, { useState } from "react";
+import * as React from "react";
+import { useEffect, useState } from "react";
+import { Button } from "@mui/material";
 import TextField from "@mui/material/TextField";
+import Autocomplete from "@mui/material/Autocomplete";
 import SendIcon from "@mui/icons-material/Send";
-import Button from "@mui/material/Button";
+import Box from "@mui/material";
 
-export default function CreateSupplierForm() {
-  const [myValue, setValue] = useState("");
+export default function UpdateSupplierForm() {
+  const [inputValue, setInputValue] = React.useState("");
+  const [inputId, setInputId] = React.useState("");
+  const [keyword, setKeyword] = useState("supplierProcurement");
+  const [data, setData] = useState([]);
+  const fetchData = () => {
+    fetch(`http://localhost:8787/${keyword}`)
+      .then((response) => response.json())
+      .then((data) => setData(data._embedded.supplierList))
+      .catch((err) => console.error(err));
+  };
 
-  // Handles the submit event on form submit.
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   const handleSubmit = async (event) => {
     // Stop the form from submitting and refreshing the page.
     event.preventDefault();
 
     // Get data from the form.
     const data = {
-      companyName: event.target.companyName.value,
-      base: event.target.base.value,
+      fname: event.target.firstName.value,
+      lname: event.target.lastName.value,
+      phone: event.target.contactPhone.value,
+      email: event.target.contactEmail.value,
+      position: event.target.contactPosition.value,
     };
 
     // Send the data to the server in JSON format.
     const JSONdata = JSON.stringify(data);
 
     // API endpoint where we send form data.
-    const endpoint = "http://localhost:8787/supplierProcurement";
+
+    const endpoint = `http://localhost:8787/supplierProcurement/${inputId}/contact`;
 
     // Form the request for sending data to the server.
     const options = {
       // The method is POST because we are sending data.
-      method: "POST",
+      method: "PUT",
       // Tell the server we're sending JSON.
       headers: {
         "Content-Type": "application/json",
@@ -42,21 +61,52 @@ export default function CreateSupplierForm() {
     // If server returns the name submitted, that means the form works.
     const result = await response.json();
 
-    if(response.status == 201){
-        alert("Created New Supplier: " + data.companyName + ". Refreshing webpage now...")
-        window.location.reload(false)
+    if (response.status == 201) {
+      alert(
+        "Created Contact for Supplier: " +
+          inputValue +
+          "\nContact Name: " +
+          event.target.firstName.value + event.target.lastName.value +
+          "\nContact Email: " + event.target.contactEmail.value +
+          "\nContact Position: " + event.target.contactPosition.value +
+          ".\nRefreshing webpage now..."
+      );
+      window.location.reload(false);
     }
   };
+
   return (
     <div>
       <form onSubmit={handleSubmit}>
+        <Autocomplete
+          getOptionLabel={(option) => `${option.companyName}: ${option.id}`}
+          onInputChange={(event, newInputValue) => {
+            setInputValue(newInputValue);
+            setInputId(newInputValue.replace(/\D/g, ""));
+          }}
+          disablePortal
+          id="combo-box-demo"
+          options={data}
+          sx={{ width: 400 }}
+          renderInput={(params) => (
+            <div>
+              <TextField {...params} label="Select Supplier To Add Contact" />
+              <br />
+            </div>
+          )}
+        />
+        <br />
         <TextField
-          fullWidth
-          margin="normal"
           required
           id="outlined-required"
-          label="Company Name"
-          name="companyName"
+          label="First Name"
+          name="firstName"
+        />
+        <TextField
+          required
+          id="outlined-required"
+          label="Last Name"
+          name="lastName"
         />
         <br />
         <TextField
@@ -64,13 +114,34 @@ export default function CreateSupplierForm() {
           margin="normal"
           required
           id="outlined-required"
-          label="Base Name"
-          name="base"
+          label="Phone"
+          name="contactPhone"
+        />
+        <TextField
+          fullWidth
+          margin="normal"
+          required
+          id="outlined-required"
+          label="Email"
+          name="contactEmail"
+        />
+        <TextField
+          fullWidth
+          margin="normal"
+          required
+          id="outlined-required"
+          label="Position"
+          name="contactPosition"
         />
         <br />
-        <br />
-        <Button type="submit" variant="contained" endIcon={<SendIcon />}>
-          Create Supplier
+        <Button
+          color="success"
+          sx={{ width: 250, marginTop: 2 }}
+          type="submit"
+          variant="contained"
+          endIcon={<SendIcon />}
+        >
+          Create Contact
         </Button>
       </form>
     </div>

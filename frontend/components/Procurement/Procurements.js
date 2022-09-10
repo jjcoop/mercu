@@ -30,6 +30,7 @@ import BasicForm from "../Dashboard/BasicForm";
 import ContactsForm from "./ContactsForm";
 import UpdateSupplierForm from "./UpdateSupplierForm"
 import CreateSupplierForm from "./CreateSupplierForm"
+import CreateContact from "./CreateContact"
 import RemoveSupplierForm from "./RemoveSupplierForm"
 import TextField from "@mui/material/TextField";
 
@@ -227,6 +228,12 @@ function Procurements() {
               </Paper>
             </Grid>
             <Grid item xs={12}>
+              <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
+                <Title>Current Contacts</Title>
+                <ContactsTable />
+              </Paper>
+            </Grid>
+            <Grid item xs={12}>
               <Paper
                 sx={{
                   p: 2,
@@ -237,6 +244,19 @@ function Procurements() {
               >
                 <Title>Create Supplier</Title>
                 <CreateSupplierForm />
+              </Paper>
+            </Grid>
+            <Grid item xs={12}>
+              <Paper
+                sx={{
+                  p: 2,
+                  display: "flex",
+                  flexDirection: "column",
+                  height: 500,
+                }}
+              >
+                <Title>Create Contact</Title>
+                <CreateContact />
               </Paper>
             </Grid>
             {/* Recent Deposits */}

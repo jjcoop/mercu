@@ -34,9 +34,8 @@ export default function UpdateSupplierForm() {
     // Send the data to the server in JSON format.
     const JSONdata = JSON.stringify(data);
 
-
     // API endpoint where we send form data.
-    
+
     const endpoint = `http://localhost:8787/supplierProcurement/${inputId}`;
 
     // Form the request for sending data to the server.
@@ -58,12 +57,14 @@ export default function UpdateSupplierForm() {
     // If server returns the name submitted, that means the form works.
     const result = await response.json();
 
-
     if (response.status == 201) {
       alert(
         "Updated Supplier: " +
-          inputValue + "\nNew Supplier Name: " + event.target.newCpmpanyName.value +
-          "\nNew Supplier Base: " + event.target.newBase.value +
+          inputValue +
+          "\nNew Supplier Name: " +
+          event.target.newCpmpanyName.value +
+          "\nNew Supplier Base: " +
+          event.target.newBase.value +
           ".\nRefreshing webpage now..."
       );
       window.location.reload(false);
@@ -92,6 +93,7 @@ export default function UpdateSupplierForm() {
         />
         <br />
         <TextField
+          fullWidth
           required
           id="outlined-required"
           label="New Company Name"
@@ -99,6 +101,7 @@ export default function UpdateSupplierForm() {
         />
         <br />
         <TextField
+          fullWidth
           margin="normal"
           required
           id="outlined-required"
