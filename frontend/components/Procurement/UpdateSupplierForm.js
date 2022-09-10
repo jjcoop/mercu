@@ -10,7 +10,7 @@ export default function UpdateSupplierForm() {
   const [inputId, setInputId] = React.useState("");
   const [keyword, setKeyword] = useState("supplierProcurement");
   const [data, setData] = useState([]);
-  const fetchData = () => {
+  const fetchSupplierData = () => {
     fetch(`http://localhost:8787/${keyword}`)
       .then((response) => response.json())
       .then((data) => setData(data._embedded.supplierList))
@@ -18,7 +18,7 @@ export default function UpdateSupplierForm() {
   };
 
   useEffect(() => {
-    fetchData();
+    fetchSupplierData();
   }, []);
 
   const handleSubmit = async (event) => {

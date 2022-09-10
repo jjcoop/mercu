@@ -52,17 +52,6 @@ export default function CreateSupplier() {
             </div>
           )}
         />
-        <br />
-        <TextField
-          id="filled-read-only-input"
-          label="Supplier ID"
-          value={inputId}
-          defaultValue=""
-          InputProps={{
-            readOnly: true,
-          }}
-          variant="filled"
-        />
       </div>
       <div>
         <Button
