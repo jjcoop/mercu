@@ -5,6 +5,8 @@ import mercury.procurems.application.internal.queryservices.SupplierProcurementQ
 import mercury.procurems.domain.aggregate.Supplier;
 import mercury.procurems.domain.entity.Contact;
 
+import java.util.Set;
+
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.ResponseEntity;
@@ -37,6 +39,13 @@ public CollectionModel<EntityModel<Supplier>> all(){
 @GetMapping("/supplierProcurement/{id}")
 public Supplier one(@PathVariable Long id){
     return queryService.findById(id);
+}
+
+@GetMapping("/supplierProcurement/{id}/contacts")
+@ResponseBody
+public Set<Contact> getFoos(@PathVariable Long id) {
+    Set<Contact> name = queryService.findById(id).getContacts();
+    return name;
 }
 
 @PutMapping("/supplierProcurement/{id}")
