@@ -5,52 +5,30 @@ import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import SendIcon from "@mui/icons-material/Send";
 
+
 export default function UpdateContactForm() {
-  const [inputValue, setInputValue] = React.useState("");
-  const [inputId, setInputId] = React.useState("");
   const [keyword, setKeyword] = useState("supplierProcurement");
-  const [sData, setSupplierData] = useState([]);
-  const [cData, setContactData] = useState([]);
-
-  const fetchSupplierData = () => {
-    fetch(`http://localhost:8787/${keyword}`)
+  const [inputId, setInputId] = React.useState("");
+  const [data, setData] = useState([]);
+  const fetchData = () => {
+    fetch(`http://localhost:8787/contacts`)
       .then((response) => response.json())
-      .then((sData) => setSupplierData(sData._embedded.supplierList))
+      .then((data) => setData(data._embedded.supplierList))
       .catch((err) => console.error(err));
   };
 
   useEffect(() => {
-    fetchSupplierData();
+    fetchData();
   }, []);
-
-  const fetchContactData = () => {
-    fetch(`http://localhost:8787/${keyword}/contact/${inputId}`)
-      .then((response) => response.json())
-      .then((cData) => setData(cData._embedded.supplierList))
-      .catch((err) => console.error(err));
-  };
-
-  useEffect(() => {
-    fetchContactData();
-  }, []);
-
-
+  
+  
   const handleSubmit = async (event) => {
     // Stop the form from submitting and refreshing the page.
     event.preventDefault();
 
-    // Get data from the form.
-    const data = {
-      companyName: event.target.newCpmpanyName.value,
-      base: event.target.newBase.value,
-    };
-
-    // Send the data to the server in JSON format.
-    const JSONdata = JSON.stringify(data);
-
     // API endpoint where we send form data.
 
-    const endpoint = `http://localhost:8787/supplierProcurement/${inputId}`;
+    const endpoint = `http://localhost:8787/supplierProcurement/${inputId}/contact`;
 
     // Form the request for sending data to the server.
     const options = {
@@ -73,12 +51,18 @@ export default function UpdateContactForm() {
 
     if (response.status == 201) {
       alert(
-        "Updated Supplier: " +
+        "Updated Contact: " +
           inputValue +
-          "\nNew Supplier Name: " +
-          event.target.newCpmpanyName.value +
-          "\nNew Supplier Base: " +
-          event.target.newBase.value +
+          "\nNew Contact First Name: " +
+          event.target.firstName.value +
+          "\nNew Contact Last Name: " +
+          event.target.lastName.value +
+          "\nNew Contact Phone: " +
+          event.target.phone.value +
+          "\nNew Contact Email: " +
+          event.target.email.value +
+          "\nNew Contact Position: " +
+          event.target.position.value +
           ".\nRefreshing webpage now..."
       );
       window.location.reload(false);
@@ -89,36 +73,19 @@ export default function UpdateContactForm() {
     <div>
       <form onSubmit={handleSubmit}>
         <Autocomplete
-          getOptionLabel={(option) => `${option.companyName}: ${option.id}`}
+          getOptionLabel={(option) => `${option.contacts.name}: ${option.id}`}
           onInputChange={(event, newInputValue) => {
             setInputValue(newInputValue);
             setInputId(newInputValue.replace(/\D/g, ""));
+            
           }}
           disablePortal
           id="combo-box-demo"
-          options={sData}
+          options={data}
           sx={{ width: 400 }}
           renderInput={(params) => (
             <div>
               <TextField {...params} label="Supplier" />
-              <br />
-            </div>
-          )}
-        />
-        <br />
-        <Autocomplete
-          getOptionLabel={(option) => `${option.companyName}: ${option.id}`}
-          onInputChange={(event, newInputValue) => {
-            setInputValue(newInputValue);
-            setInputId(newInputValue.replace(/\D/g, ""));
-          }}
-          disablePortal
-          id="combo-box-demo"
-          options={cData}
-          sx={{ width: 400 }}
-          renderInput={(params) => (
-            <div>
-              <TextField {...params} label="Contact" />
               <br />
             </div>
           )}
