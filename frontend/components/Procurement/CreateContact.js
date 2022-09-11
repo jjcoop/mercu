@@ -4,13 +4,14 @@ import { Button } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import SendIcon from "@mui/icons-material/Send";
+import Box from "@mui/material";
 
 export default function UpdateSupplierForm() {
   const [inputValue, setInputValue] = React.useState("");
   const [inputId, setInputId] = React.useState("");
   const [keyword, setKeyword] = useState("supplierProcurement");
   const [data, setData] = useState([]);
-  const fetchSupplierData = () => {
+  const fetchData = () => {
     fetch(`http://localhost:8787/${keyword}`)
       .then((response) => response.json())
       .then((data) => setData(data._embedded.supplierList))
@@ -18,7 +19,7 @@ export default function UpdateSupplierForm() {
   };
 
   useEffect(() => {
-    fetchSupplierData();
+    fetchData();
   }, []);
 
   const handleSubmit = async (event) => {
@@ -27,8 +28,11 @@ export default function UpdateSupplierForm() {
 
     // Get data from the form.
     const data = {
-      companyName: event.target.newCpmpanyName.value,
-      base: event.target.newBase.value,
+      fname: event.target.firstName.value,
+      lname: event.target.lastName.value,
+      phone: event.target.contactPhone.value,
+      email: event.target.contactEmail.value,
+      position: event.target.contactPosition.value,
     };
 
     // Send the data to the server in JSON format.
@@ -36,7 +40,7 @@ export default function UpdateSupplierForm() {
 
     // API endpoint where we send form data.
 
-    const endpoint = `http://localhost:8787/supplierProcurement/${inputId}`;
+    const endpoint = `http://localhost:8787/supplierProcurement/${inputId}/contact`;
 
     // Form the request for sending data to the server.
     const options = {
@@ -59,12 +63,12 @@ export default function UpdateSupplierForm() {
 
     if (response.status == 201) {
       alert(
-        "Updated Supplier: " +
+        "Created Contact for Supplier: " +
           inputValue +
-          "\nNew Supplier Name: " +
-          event.target.newCpmpanyName.value +
-          "\nNew Supplier Base: " +
-          event.target.newBase.value +
+          "\nContact Name: " +
+          event.target.firstName.value + event.target.lastName.value +
+          "\nContact Email: " + event.target.contactEmail.value +
+          "\nContact Position: " + event.target.contactPosition.value +
           ".\nRefreshing webpage now..."
       );
       window.location.reload(false);
@@ -86,18 +90,23 @@ export default function UpdateSupplierForm() {
           sx={{ width: 400 }}
           renderInput={(params) => (
             <div>
-              <TextField {...params} label="Suppliers" />
+              <TextField {...params} label="Select Supplier To Add Contact" />
               <br />
             </div>
           )}
         />
         <br />
         <TextField
-          fullWidth
           required
           id="outlined-required"
-          label="New Company Name"
-          name="newCpmpanyName"
+          label="First Name"
+          name="firstName"
+        />
+        <TextField
+          required
+          id="outlined-required"
+          label="Last Name"
+          name="lastName"
         />
         <br />
         <TextField
@@ -105,18 +114,34 @@ export default function UpdateSupplierForm() {
           margin="normal"
           required
           id="outlined-required"
-          label="New Base Name"
-          name="newBase"
+          label="Phone"
+          name="contactPhone"
+        />
+        <TextField
+          fullWidth
+          margin="normal"
+          required
+          id="outlined-required"
+          label="Email"
+          name="contactEmail"
+        />
+        <TextField
+          fullWidth
+          margin="normal"
+          required
+          id="outlined-required"
+          label="Position"
+          name="contactPosition"
         />
         <br />
         <Button
-          color="warning"
+          color="success"
           sx={{ width: 250, marginTop: 2 }}
           type="submit"
           variant="contained"
           endIcon={<SendIcon />}
         >
-          Update Supplier
+          Create Contact
         </Button>
       </form>
     </div>

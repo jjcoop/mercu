@@ -11,30 +11,59 @@ export default function CreateSupplier() {
   const [inputValue, setInputValue] = React.useState("");
   const [inputId, setInputId] = React.useState("");
   const [keyword, setKeyword] = useState("supplierProcurement");
-  const [data, setData] = useState([]);
+  const [sData, setSupplierData] = useState([]);
+  const [cData, setContactData] = useState([]);
 
-  const fetchData = () => {
+  const fetchSupplierData = () => {
     fetch(`http://localhost:8787/${keyword}`)
       .then((response) => response.json())
-      .then((data) => setData(data._embedded.supplierList))
+      .then((sData) => setSupplierData(sData._embedded.supplierList))
       .catch((err) => console.error(err));
   };
+
+  useEffect(() => {
+    fetchSupplierData();
+  }, []);
+
+  const fetchContactData = () => {
+    fetch(`http://localhost:8787/${keyword}/contact/${inputId}`)
+      .then((response) => response.json())
+      .then((cData) => setData(cData._embedded.supplierList))
+      .catch((err) => console.error(err));
+  };
+
+  useEffect(() => {
+    fetchContactData();
+  }, []);
+
 
   const deleteSupplier = () => {
     fetch(`http://localhost:8787/${keyword}/${inputId}`, { method: 'DELETE' })
     .then(async response => {
-      alert("Deleted Supplier: " + inputValue + "\nRefreshing page now...")
-      window.location.reload(false);
     })
   }
-
-  useEffect(() => {
-    fetchData();
-  }, []);
 
   return (
     <div>
       <div>
+      <Autocomplete
+          getOptionLabel={(option) => `${option.companyName}: ${option.id}`}
+          onInputChange={(event, newInputValue) => {
+            setInputValue(newInputValue);
+            setInputId(newInputValue.replace(/\D/g, ""));
+          }}
+          disablePortal
+          id="combo-box-demo"
+          options={sData}
+          sx={{ width: 400 }}
+          renderInput={(params) => (
+            <div>
+              <TextField {...params} label="Supplier" />
+              <br />
+            </div>
+          )}
+        />
+        <br />
         <Autocomplete
           getOptionLabel={(option) => `${option.companyName}: ${option.id}`}
           onInputChange={(event, newInputValue) => {
@@ -43,15 +72,16 @@ export default function CreateSupplier() {
           }}
           disablePortal
           id="combo-box-demo"
-          options={data}
+          options={cData}
           sx={{ width: 400 }}
           renderInput={(params) => (
             <div>
-              <TextField {...params} label="Suppliers" />
+              <TextField {...params} label="Contact" />
               <br />
             </div>
           )}
         />
+       
       </div>
       <div>
         <Button

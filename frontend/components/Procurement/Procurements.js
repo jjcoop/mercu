@@ -29,8 +29,11 @@ import Title from "./Title";
 import BasicForm from "../Dashboard/BasicForm";
 import ContactsForm from "./ContactsForm";
 import UpdateSupplierForm from "./UpdateSupplierForm"
+import UpdateContactForm from "./UpdateContactForm"
 import CreateSupplierForm from "./CreateSupplierForm"
+import CreateContact from "./CreateContact"
 import RemoveSupplierForm from "./RemoveSupplierForm"
+import RemoveContactForm from "./RemoveContactForm"
 import TextField from "@mui/material/TextField";
 
 import SendIcon from '@mui/icons-material/Send';
@@ -227,16 +230,35 @@ function Procurements() {
               </Paper>
             </Grid>
             <Grid item xs={12}>
+              <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
+                <Title>Current Contacts</Title>
+                <ContactsTable />
+              </Paper>
+            </Grid>
+            <Grid item xs={12}>
               <Paper
                 sx={{
                   p: 2,
                   display: "flex",
                   flexDirection: "column",
-                  height: 450,
+                  height: 300,
                 }}
               >
                 <Title>Create Supplier</Title>
                 <CreateSupplierForm />
+              </Paper>
+            </Grid>
+            <Grid item xs={12}>
+              <Paper
+                sx={{
+                  p: 2,
+                  display: "flex",
+                  flexDirection: "column",
+                  height: 500,
+                }}
+              >
+                <Title>Create Contact</Title>
+                <CreateContact />
               </Paper>
             </Grid>
             {/* Recent Deposits */}
@@ -253,7 +275,34 @@ function Procurements() {
                 <UpdateSupplierForm/>
               </Paper>
             </Grid>
+            <Grid item xs={12} md={12} lg={12}>
+              <Paper
+                sx={{
+                  p: 2,
+                  display: "flex",
+                  flexDirection: "column",
+                  height: 600,
+                }}
+              >
+                <Title>Update Contact</Title>
+                <UpdateContactForm/>
+              </Paper>
+            </Grid>
             {/* Chart */}
+            <Grid item xs={12}>
+              
+              <Paper
+                sx={{
+                  p: 2,
+                  display: "flex",
+                  flexDirection: "column",
+                  height: 225,
+                }}
+              >
+                <Title>Remove Supplier</Title>
+                <RemoveSupplierForm />
+              </Paper>
+            </Grid>
             <Grid item xs={12}>
               
               <Paper
@@ -264,23 +313,8 @@ function Procurements() {
                   height: 300,
                 }}
               >
-                <Title>Remove Supplier</Title>
-                <RemoveSupplierForm />
-              </Paper>
-            </Grid>
-            
-            <Grid item xs={12}>
-              <Paper
-                sx={{
-                  p: 2,
-                  display: "flex",
-                  flexDirection: "column",
-                }}
-              >
-                <Title>View Supplier Contacts</Title>
-                <ContactsForm/>
-                <br />
-                <ContactsTable />
+                <Title>Remove Contact</Title>
+                <RemoveContactForm />
               </Paper>
             </Grid>
           </Grid>

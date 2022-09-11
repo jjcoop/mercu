@@ -5,21 +5,35 @@ import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import SendIcon from "@mui/icons-material/Send";
 
-export default function UpdateSupplierForm() {
+export default function UpdateContactForm() {
   const [inputValue, setInputValue] = React.useState("");
   const [inputId, setInputId] = React.useState("");
   const [keyword, setKeyword] = useState("supplierProcurement");
-  const [data, setData] = useState([]);
+  const [sData, setSupplierData] = useState([]);
+  const [cData, setContactData] = useState([]);
+
   const fetchSupplierData = () => {
     fetch(`http://localhost:8787/${keyword}`)
       .then((response) => response.json())
-      .then((data) => setData(data._embedded.supplierList))
+      .then((sData) => setSupplierData(sData._embedded.supplierList))
       .catch((err) => console.error(err));
   };
 
   useEffect(() => {
     fetchSupplierData();
   }, []);
+
+  const fetchContactData = () => {
+    fetch(`http://localhost:8787/${keyword}/contact/${inputId}`)
+      .then((response) => response.json())
+      .then((cData) => setData(cData._embedded.supplierList))
+      .catch((err) => console.error(err));
+  };
+
+  useEffect(() => {
+    fetchContactData();
+  }, []);
+
 
   const handleSubmit = async (event) => {
     // Stop the form from submitting and refreshing the page.
@@ -82,22 +96,45 @@ export default function UpdateSupplierForm() {
           }}
           disablePortal
           id="combo-box-demo"
-          options={data}
+          options={sData}
           sx={{ width: 400 }}
           renderInput={(params) => (
             <div>
-              <TextField {...params} label="Suppliers" />
+              <TextField {...params} label="Supplier" />
+              <br />
+            </div>
+          )}
+        />
+        <br />
+        <Autocomplete
+          getOptionLabel={(option) => `${option.companyName}: ${option.id}`}
+          onInputChange={(event, newInputValue) => {
+            setInputValue(newInputValue);
+            setInputId(newInputValue.replace(/\D/g, ""));
+          }}
+          disablePortal
+          id="combo-box-demo"
+          options={cData}
+          sx={{ width: 400 }}
+          renderInput={(params) => (
+            <div>
+              <TextField {...params} label="Contact" />
               <br />
             </div>
           )}
         />
         <br />
         <TextField
-          fullWidth
           required
           id="outlined-required"
-          label="New Company Name"
-          name="newCpmpanyName"
+          label="First Name"
+          name="firstName"
+        />
+        <TextField
+          required
+          id="outlined-required"
+          label="Last Name"
+          name="lastName"
         />
         <br />
         <TextField
@@ -105,8 +142,24 @@ export default function UpdateSupplierForm() {
           margin="normal"
           required
           id="outlined-required"
-          label="New Base Name"
-          name="newBase"
+          label="Phone"
+          name="contactPhone"
+        />
+        <TextField
+          fullWidth
+          margin="normal"
+          required
+          id="outlined-required"
+          label="Email"
+          name="contactEmail"
+        />
+        <TextField
+          fullWidth
+          margin="normal"
+          required
+          id="outlined-required"
+          label="Position"
+          name="contactPosition"
         />
         <br />
         <Button

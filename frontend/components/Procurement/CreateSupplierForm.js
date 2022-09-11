@@ -2,13 +2,8 @@ import React, { useState } from "react";
 import TextField from "@mui/material/TextField";
 import SendIcon from "@mui/icons-material/Send";
 import Button from "@mui/material/Button";
-import Radio from '@mui/material/Radio';
-import RadioGroup from '@mui/material/RadioGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import FormControl from '@mui/material/FormControl';
-import FormLabel from '@mui/material/FormLabel';
 
-export default function BasicForm() {
+export default function CreateSupplierForm() {
   const [myValue, setValue] = useState("");
 
   // Handles the submit event on form submit.
@@ -46,64 +41,38 @@ export default function BasicForm() {
     // Get the response data from server as JSON.
     // If server returns the name submitted, that means the form works.
     const result = await response.json();
-    
+
     if(response.status == 201){
         alert("Created New Supplier: " + data.companyName + ". Refreshing webpage now...")
         window.location.reload(false)
     }
   };
   return (
-    // We pass the event to the handleSubmit() function on submit.
-    <form onSubmit={handleSubmit}>
-      <div>
-        <div>
-          <TextField
-            fullWidth
-            margin="normal"
-            required
-            id="outlined-required"
-            label="Company Name"
-            name="companyName"
-          />
-        </div>
-        <div>
-          <TextField
-            fullWidth
-            margin="normal"
-            required
-            id="outlined-required"
-            label="Base Name"
-            name="base"
-          />
-        </div>
+    <div>
+      <form onSubmit={handleSubmit}>
+        <TextField
+          fullWidth
+          margin="normal"
+          required
+          id="outlined-required"
+          label="Company Name"
+          name="companyName"
+        />
         <br />
-        <div>
-          <FormControl>
-            <FormLabel id="demo-radio-buttons-group-label">Add Contacts?</FormLabel>
-            <RadioGroup
-              aria-labelledby="demo-radio-buttons-group-label"
-              defaultValue="female"
-              name="radio-buttons-group"
-            >
-              <FormControlLabel
-                value="female"
-                control={<Radio />}
-                label="Yes"
-              />
-              <FormControlLabel 
-                value="male" 
-                control={<Radio />} 
-                label="No" />
-            </RadioGroup>
-          </FormControl>
-        </div>
+        <TextField
+          fullWidth
+          margin="normal"
+          required
+          id="outlined-required"
+          label="Base Name"
+          name="base"
+        />
         <br />
-        <div>
-          <Button type="submit" variant="contained" endIcon={<SendIcon />}>
-            Create Supplier
-          </Button>
-        </div>
-      </div>
-    </form>
+        <br />
+        <Button color="success" type="submit" variant="contained" endIcon={<SendIcon />}>
+          Create Supplier
+        </Button>
+      </form>
+    </div>
   );
 }
