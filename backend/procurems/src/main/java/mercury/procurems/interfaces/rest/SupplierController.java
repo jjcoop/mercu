@@ -48,7 +48,6 @@ public Set<Contact> getFoos(@PathVariable Long id) {
     return name;
 }
 
-
 @PutMapping("/supplierProcurement/{id}")
 ResponseEntity<?> updateSupplierContact(@RequestBody Supplier supplier, @PathVariable Long id ) {
     return commandService.updateSupplier(supplier, id);

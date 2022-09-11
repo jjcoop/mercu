@@ -12,6 +12,7 @@ export default function CreateSupplier() {
   const [inputId, setInputId] = React.useState("");
   const [keyword, setKeyword] = useState("supplierProcurement");
   const [data, setData] = useState([]);
+
   const fetchData = () => {
     fetch(`http://localhost:8787/${keyword}`)
       .then((response) => response.json())
