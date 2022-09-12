@@ -6,8 +6,7 @@ import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
 import org.springframework.stereotype.Component;
 
-
-
+import mercury.salems.domain.aggregate.OnlineSale;
 import mercury.salems.domain.aggregate.Sale;
 import mercury.salems.domain.entity.Store;
 import mercury.salems.interfaces.rest.SaleController;
@@ -28,5 +27,11 @@ class SaleModelAssembler implements RepresentationModelAssembler<Sale, EntityMod
         return EntityModel.of(entity, //
         linkTo(methodOn(SaleController.class).getStore(entity.getId())).withSelfRel(),
         linkTo(methodOn(SaleController.class).allStores()).withRel("Stores"));
+    }
+
+    public EntityModel<OnlineSale> toModel(OnlineSale entity) {
+        return EntityModel.of(entity, //
+        linkTo(methodOn(SaleController.class).one(entity.getId())).withSelfRel(),
+        linkTo(methodOn(SaleController.class).all()).withRel("Sales"));
     }
 }

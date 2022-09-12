@@ -41,7 +41,7 @@ public class SaleCommandService {
 
     Date date = new Date();
     newSale.setDateTime(date);
-    EntityModel<Sale> entityModel = assembler.toModel(saleRepository.save(newSale));
+    EntityModel<OnlineSale> entityModel = assembler.toModel(saleRepository.save(newSale));
 
     return ResponseEntity
         .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
