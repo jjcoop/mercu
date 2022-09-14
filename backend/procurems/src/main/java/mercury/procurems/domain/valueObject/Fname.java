@@ -1,28 +1,22 @@
-package mercury.salems.domain.entity;
+package mercury.procurems.domain.valueObject;
 
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
-import mercury.salems.domain.exceptions.EmptyStringException;
+import mercury.procurems.domain.exceptions.EmptyStringException;
 
 @Embeddable
-public class CustomerName {
+public class Fname {
 
-  @Column(
-    name = "CUSTOMER",
-    unique = false,
-    nullable = true,
-    updatable = false,
-    length = 100
-  )
+  @Column(name = "FNAME", unique = false, nullable = false, length = 100)
   private String value;
 
-  public CustomerName() {}
+  public Fname() {}
 
-  public CustomerName(String value) {
+  public Fname(String value) {
     try {
       if (value.length() == 0) {
-        throw new EmptyStringException("Customer name");
+        throw new EmptyStringException("First name");
       }
       this.value = value;
     } catch (EmptyStringException e) {
@@ -36,10 +30,10 @@ public class CustomerName {
 
   @Override
   public boolean equals(Object o) {
-    if (!(o instanceof CustomerName)) {
+    if (!(o instanceof Fname)) {
       return false;
     } else {
-      CustomerName pp = (CustomerName) o;
+      Fname pp = (Fname) o;
       if (this.value == pp.getValue()) {
         return true;
       } else {

@@ -5,8 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 
-import mercury.salems.domain.entity.CustomerAddress;
-import mercury.salems.domain.entity.CustomerName;
+import mercury.salems.domain.valueObject.CustomerAddress;
+import mercury.salems.domain.valueObject.CustomerName;
 
 
 @Entity

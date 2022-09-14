@@ -34,4 +34,5 @@ class SaleModelAssembler implements RepresentationModelAssembler<Sale, EntityMod
         linkTo(methodOn(SaleController.class).one(entity.getId())).withSelfRel(),
         linkTo(methodOn(SaleController.class).all()).withRel("Sales"));
     }
+    
 }

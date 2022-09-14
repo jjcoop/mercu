@@ -1,5 +1,7 @@
 package mercury.procurems.domain.aggregate;
 import mercury.procurems.domain.entity.Contact;
+import mercury.procurems.domain.valueObject.CompanyBase;
+import mercury.procurems.domain.valueObject.CompanyName;
 
 import java.util.Collections;
 import java.util.Set;
@@ -25,10 +27,10 @@ public class Supplier {
   @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="sup")
   @Id Long id;
 
-  @Column(name = "COMPANY_NAME", unique = false, nullable = false, length = 100)
-  private String companyName;
-  @Column(name = "BASE", unique = false, nullable = false, length = 100)
-  private String base;
+  @Embedded
+  private CompanyName companyName;
+  @Embedded
+  private CompanyBase base;
   @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
   @JoinColumn(name = "SUPPLIER")
   @Embedded
@@ -39,8 +41,8 @@ public class Supplier {
 
   public Supplier(String companyName, String base) {
 
-    this.companyName = companyName;
-    this.base = base;
+    this.companyName = new CompanyName(companyName);
+    this.base = new CompanyBase(base);
     this.contacts = getContacts();
 
   }
@@ -50,11 +52,11 @@ public class Supplier {
   }
 
   public String getCompanyName() {
-    return this.companyName;
+    return this.companyName.getValue();
   }
 
   public String getBase() {
-    return this.base;
+    return this.base.getValue();
   }
 
   public void setId(Long id) {
@@ -62,11 +64,11 @@ public class Supplier {
   }
 
   public void setCompanyName(String companyName) {
-    this.companyName = companyName;
+    this.companyName = new CompanyName(companyName);
   }
 
   public void setBase(String base) {
-    this.base = base;
+    this.base = new CompanyBase(base);
   }
 
   public Set<Contact> getContacts() {
@@ -92,7 +94,7 @@ public class Supplier {
 
   @Override
   public String toString() {
-    return "Supplier [base=" + base + ", companyName=" + companyName + ", contacts=" + contacts + ", id=" + id + "]";
+    return "Supplier [base=" + base.getValue() + ", companyName=" + companyName.getValue() + ", contacts=" + contacts + ", id=" + id + "]";
   }
 
 }
