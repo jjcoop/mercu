@@ -32,7 +32,7 @@ curl -X PUT http://localhost:8787/supplierProcurement/2386/contact \
 }'
 
 ###
-curl -X PUT http://localhost:8787/supplierProcurement/2386/contact/31423 \
+curl -X PUT http://localhost:8787/supplierProcurement/2386/contact/30423 \
  -H 'Content-type:application/json' \
  -d '{
     "fname": "slick",

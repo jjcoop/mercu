@@ -17,10 +17,15 @@
 ###
 curl -X POST http://{{host}}/{{api}} \
  -H 'Content-type:application/json' \
- -d '{"name": "crank", "price": 12.3, "description": "sample description"}'
+ -d '{"name": "crank", "price": 122.3, "description": "sample description"}'
 
 ###
 
+curl -X PUT http://{{host}}/{{api}}/777678 \
+ -H 'Content-type:application/json' \
+ -d '{"name": "dssfgdsfg", "price": 33.3, "description": "sample description"}'
+
+###
 curl -X PUT http://{{host}}/{{api}}/777677/part \
  -H 'Content-type:application/json' \
  -d '{
