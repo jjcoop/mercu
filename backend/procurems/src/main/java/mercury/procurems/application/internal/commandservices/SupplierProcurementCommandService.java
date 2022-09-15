@@ -31,21 +31,6 @@ public class SupplierProcurementCommandService {
         .body(entityModel);
   }
 
-  public Supplier replaceSupplier(Supplier newSupplier, long id) {
-    Supplier updatedSupplier = supplierRepository.findById(id) //
-        .map(supplier -> {
-          supplier.setCompanyName(newSupplier.getCompanyName());
-          supplier.setBase(newSupplier.getBase());
-          return supplierRepository.save(supplier);
-        }) //
-        .orElseGet(() -> {
-          newSupplier.setId(id);
-          return supplierRepository.save(newSupplier);
-        });
-
-    return updatedSupplier;
-  }
-
   public ResponseEntity<?> addSupplierContact(Long id, Contact contact) {
 
     Supplier supplier = supplierRepository.findById(id)

@@ -45,12 +45,12 @@ public Product one(@PathVariable Long id){
 }
 
 @PutMapping("/productInventory/{id}")
-ResponseEntity<?> updateProductContact(@RequestBody Product product, @PathVariable Long id ) {
+ResponseEntity<?> updateProduct(@RequestBody Product product, @PathVariable Long id ) {
     return commandService.updateProduct(product, id);
 }
 
 @PutMapping("/productInventory/{id}/part")
-ResponseEntity<?> updateProductPart(@PathVariable Long id, @RequestBody Part part) {
+ResponseEntity<?> addProductPart(@PathVariable Long id, @RequestBody Part part) {
     return commandService.addProductPart(id, part);
 }
 
