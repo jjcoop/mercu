@@ -36,7 +36,7 @@ public class Supplier {
   @Embedded
   private Set<Contact> contacts =  Collections.emptySet();
 
-  Supplier() {
+  public Supplier() {
   }
 
   public Supplier(String companyName, String base) {

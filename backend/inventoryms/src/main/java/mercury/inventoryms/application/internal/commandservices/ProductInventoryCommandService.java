@@ -32,21 +32,6 @@ public class ProductInventoryCommandService {
           .body(entityModel);
     }
 
-    public Product replaceProduct(Product newProduct, long id){
-      Product updatedProduct = productRepository.findById(id) //
-      .map(product -> {
-        product.setName(newProduct.getName());
-        product.setDescription(newProduct.getDescription());
-        return productRepository.save(product);
-      }) //
-      .orElseGet(() -> {
-        newProduct.setId(id);
-        return productRepository.save(newProduct);
-      });
-
-        return updatedProduct;
-    }
-
     public ResponseEntity<?> addProductPart(Long id, Part part) {
       
       Product product = productRepository.findById(id)
@@ -83,5 +68,19 @@ public class ProductInventoryCommandService {
           .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()) //
           .body(entityModel);
     }
+
+    public ResponseEntity<?> updatePart(Long productId, Long partId, Part newPart) {
+      
+      Product updatedProduct = productRepository.findById(productId)
+        .orElseThrow(() -> new ProductNotFoundException(productId));
+  
+      updatedProduct.updatePart(partId, newPart);
+
+      EntityModel<Product> entityModel = assembler.toModel(productRepository.save(updatedProduct));
+  
+      return ResponseEntity //
+          .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()) //
+          .body(entityModel);
+    }    
 
 }

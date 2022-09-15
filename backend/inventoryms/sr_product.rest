@@ -30,11 +30,20 @@ curl -X PUT http://{{host}}/{{api}}/777677/part \
  -H 'Content-type:application/json' \
  -d '{
     "partName": "Crank",
-    "partDescription": "metal oxide"
+    "partDescription": "metal oxide",
+    "manufacturer": "Bent Spoke"
 }'
 
 ###
+curl -X PUT http://{{host}}/{{api}}/777677/part/31423 \
+ -H 'Content-type:application/json' \
+ -d '{
+    "partName": "dank",
+    "partDescription": "shafted",
+    "manufacturer": "bent"
+}'
 
+###
 curl -X POST http://localhost:8080/suppliers \
  -H 'Content-type:application/json' \
  -d '{"companyName": "Soft Tails", "base": "Campbelltown"}'
@@ -52,7 +61,7 @@ GET http://{{host}}/{{api}}/productInventory/sales HTTP/1.1
 ###
 
 # curl -v localhost:8080/suppliers/1
-GET http://{{host}}/{{api}}/2 HTTP/1.1
+GET http://{{host}}/{{api}}/777677 HTTP/1.1
 
 ###
 ###

@@ -3,7 +3,9 @@ package mercury.procurems.application.internal.queryservices;
 import mercury.procurems.interfaces.rest.SupplierController;
 import mercury.procurems.interfaces.rest.transform.SupplierModelAssembler;
 
+import java.net.URI;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.hateoas.CollectionModel;
@@ -39,4 +41,17 @@ public class SupplierProcurementQueryService {
         return supplierRepository.findById(id)
         .orElseThrow(() -> new SupplierNotFoundException(id));
     }
+
+    public URI findByName(String name){
+        List<Supplier> suppliers = supplierRepository.findAll();
+        Supplier tmpSupplier = new Supplier();
+        for (Supplier s : suppliers){
+            if (s.getCompanyName().equals(name)){
+                tmpSupplier = s;
+            }
+        }
+        
+        return linkTo(methodOn(SupplierController.class).one(tmpSupplier.getId())).toUri();
+    }
+
 }
