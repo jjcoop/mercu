@@ -314,7 +314,7 @@ function Procurements() {
                 }}
               >
                 <Title>Remove Contact</Title>
-                <RemoveContactForm />
+                {/* <RemoveContactForm /> */}
               </Paper>
             </Grid>
           </Grid>

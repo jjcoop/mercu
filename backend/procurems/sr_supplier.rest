@@ -32,13 +32,13 @@ curl -X PUT http://localhost:8787/supplierProcurement/2386/contact \
 }'
 
 ###
-curl -X PUT http://localhost:8787/supplierProcurement/2386/contact/31423 \
+curl -X PUT http://localhost:8787/supplierProcurement/2388/contact/324223 \
  -H 'Content-type:application/json' \
  -d '{
-    "fname": "slick",
-    "lname": "hoops",
+    "fname": "sliasdfasdfck",
+    "lname": "sdgs",
     "phone": "042342342342",
-    "email": "swagginsoftheshire@mercury.com.au",
+    "email": "swagginssdfsdfoftheshire@mercury.com.au",
     "position": "big booss"
 }'
 
@@ -57,7 +57,7 @@ GET http://{{host}}/{{api}} HTTP/1.1
 ###
 
 # curl -v localhost:8787/supplierProcurement/1
-GET http://{{host}}/{{api}}/2 HTTP/1.1
+GET http://{{host}}/{{api}}/2386 HTTP/1.1
 
 ###
 ###
