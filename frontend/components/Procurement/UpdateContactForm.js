@@ -7,6 +7,8 @@ import SendIcon from "@mui/icons-material/Send";
 export default function UpdateContactForm() {
   const [inputValue, setInputValue] = useState("");
   const [inputId, setInputId] = useState("");
+  const [contactID, setContactID] = useState("");
+  const [contactName, setContactName] = useState("");
   const [keyword, setKeyword] = useState("supplierProcurement");
   const [sData, setSupplierData] = useState([]);
   const [cData, setContactData] = useState([]);
@@ -31,25 +33,17 @@ export default function UpdateContactForm() {
       .catch((err) => console.error(err));
   };
 
-  // useEffect(() => {
-  //   fetchContactData();
-  // }, []);
-
-  const twoEvents = e => {
-    setInputValue(e)
-    setInputId(e.id)
-    fetchContactData();
-  }
-
-
   const handleSubmit = async (event) => {
     // Stop the form from submitting and refreshing the page.
     event.preventDefault();
 
     // Get data from the form.
     const data = {
-      companyName: event.target.newCpmpanyName.value,
-      base: event.target.newBase.value,
+      fname: event.target.firstName.value,
+      lname: event.target.lastName.value,
+      phone: event.target.contactPhone.value,
+      email: event.target.contactEmail.value,
+      position: event.target.contactPosition.value
     };
 
     // Send the data to the server in JSON format.
@@ -57,7 +51,7 @@ export default function UpdateContactForm() {
 
     // API endpoint where we send form data.
 
-    const endpoint = `http://localhost:8787/supplierProcurement/${inputId}`;
+    const endpoint = `http://localhost:8787/supplierProcurement/${inputId}/contact/${contactID}`;
 
     // Form the request for sending data to the server.
     const options = {
@@ -81,7 +75,7 @@ export default function UpdateContactForm() {
     if (response.status == 201) {
       alert(
         "Updated Contact: " +
-          inputValue +
+          contactName +
           "\nNew Contact Name: " +
           event.target.firstName.value + event.target.lastName.value +
           "\nNew Contact Phone: " +
@@ -101,20 +95,13 @@ export default function UpdateContactForm() {
       <form onSubmit={handleSubmit}>
         <Autocomplete
           getOptionLabel={(option) => `${option.companyName}: ${option.id}`}
-          /*
-          onChange={(event, value) => 
-            twoEvents(value)
-          }
-          */
-          
           onInputChange={(event, newInputValue) => {
             setInputValue(newInputValue)
             setInputId(newInputValue.replace(/\D/g, ""))
           }}
-
+          //onMouseOut is crucial to the fetching of contact data
+          //don't delete this line
           onMouseOut={fetchContactData()}
-          
-
           disablePortal
           id="combo-box-demo"
           options={sData}
@@ -129,7 +116,12 @@ export default function UpdateContactForm() {
         />
         <br />
         <Autocomplete
+          isOptionEqualToValue={(option, value) => option.id === value.id}
           getOptionLabel={(option) => `${option.name}: ${option.id}`}
+          onInputChange={(event, value) => {
+            setContactName(value)
+            setContactID(value.replace(/\D/g, ""))
+          }}
           disablePortal
           id="combo-box-demo"
           options={cData}
@@ -187,7 +179,7 @@ export default function UpdateContactForm() {
           variant="contained"
           endIcon={<SendIcon />}
         >
-          Update Supplier
+          Update Contact
         </Button>
       </form>
     </div>
