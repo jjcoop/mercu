@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 
 import Autocomplete from '@mui/material/Autocomplete';
 
-export default function CreateSupplier() {
+export default function RemoveSupplier() {
   const [inputValue, setInputValue] = React.useState("");
   const [inputId, setInputId] = React.useState("");
   const [keyword, setKeyword] = useState("supplierProcurement");
