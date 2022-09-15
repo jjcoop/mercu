@@ -1,4 +1,3 @@
-import * as React from "react";
 import { useEffect, useState } from "react";
 import { Button } from "@mui/material";
 import TextField from "@mui/material/TextField";
@@ -6,8 +5,8 @@ import Autocomplete from "@mui/material/Autocomplete";
 import SendIcon from "@mui/icons-material/Send";
 
 export default function UpdateContactForm() {
-  const [inputValue, setInputValue] = React.useState("");
-  const [inputId, setInputId] = React.useState("");
+  const [inputValue, setInputValue] = useState("");
+  const [inputId, setInputId] = useState("2386");
   const [keyword, setKeyword] = useState("supplierProcurement");
   const [sData, setSupplierData] = useState([]);
   const [cData, setContactData] = useState([]);
@@ -17,6 +16,7 @@ export default function UpdateContactForm() {
       .then((response) => response.json())
       .then((sData) => setSupplierData(sData._embedded.supplierList))
       .catch((err) => console.error(err));
+    
   };
 
   useEffect(() => {
@@ -24,15 +24,15 @@ export default function UpdateContactForm() {
   }, []);
 
   const fetchContactData = () => {
-    fetch(`http://localhost:8787/${keyword}/contact/${inputId}`)
+    fetch(`http://localhost:8787/${keyword}/${inputId}`)
       .then((response) => response.json())
-      .then((cData) => setData(cData._embedded.supplierList))
+      .then((cData) => setContactData(cData.contacts))
       .catch((err) => console.error(err));
   };
 
-  useEffect(() => {
-    fetchContactData();
-  }, []);
+  // useEffect(() => {
+  //   fetchContactData();
+  // }, []);
 
 
   const handleSubmit = async (event) => {
@@ -93,6 +93,7 @@ export default function UpdateContactForm() {
           onInputChange={(event, newInputValue) => {
             setInputValue(newInputValue);
             setInputId(newInputValue.replace(/\D/g, ""));
+            fetchContactData();
           }}
           disablePortal
           id="combo-box-demo"
@@ -107,11 +108,11 @@ export default function UpdateContactForm() {
         />
         <br />
         <Autocomplete
-          getOptionLabel={(option) => `${option.companyName}: ${option.id}`}
-          onInputChange={(event, newInputValue) => {
-            setInputValue(newInputValue);
-            setInputId(newInputValue.replace(/\D/g, ""));
-          }}
+          getOptionLabel={(option) => `${option.name}: ${option.id}`}
+          // onInputChange={(event, newInputValue) => {
+          //   setInputValue(newInputValue);
+          //   setInputId(newInputValue.replace(/\D/g, ""));
+          // }}
           disablePortal
           id="combo-box-demo"
           options={cData}
