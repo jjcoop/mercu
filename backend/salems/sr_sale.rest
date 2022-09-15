@@ -13,6 +13,12 @@
 # ./mvnw clean install
 # java -jar target/Procurement*
 
+###
+curl -X POST http://{{host}}/{{api}} \
+ -H 'Content-type:application/json' \
+ -d '{"customerName": "Bill Murray", "address": "13 The Farm, Adelaide, 4321", "productName": "Handlebars", "quantity": "2"}'
+
+###
 
 ###
 curl -X POST http://{{host}}/{{api}} \

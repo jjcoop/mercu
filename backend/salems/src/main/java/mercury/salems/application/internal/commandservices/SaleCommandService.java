@@ -12,7 +12,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import mercury.salems.domain.aggregate.Sale;
-import mercury.salems.antiCorruptionLayer.sharedModel.Product;
+//import mercury.salems.antiCorruptionLayer.sharedModel.Product;
+import mercury.salems.antiCorruptionLayer.sharedModel.ProductSimple;
 import mercury.salems.application.internal.queryservices.SaleNotFoundException;
 import mercury.salems.domain.aggregate.InStoreSale;
 import mercury.salems.domain.aggregate.OnlineSale;
@@ -77,11 +78,15 @@ public class SaleCommandService {
     Store store = storeRepository.findById(id)
         .orElseThrow(() -> new SaleNotFoundException(id));
     String rootUrl = "http://localhost:8788/productInventory/check";
-    Product product = new Product();
-    product.setName(newSale.getProductName());
-    product.setDescription("TMP");
-    product.setPrice(0);
-    product = restTemplate.postForObject(rootUrl, product, Product.class);
+    //Product product = new Product();
+    ProductSimple product = new ProductSimple(newSale.getProductName(), 1.0, "TMP");
+    //product.setName(newSale.getProductName());
+    //product.setDescription("TMP");
+    //product.setPrice(0);
+    //product = restTemplate.postForObject(rootUrl, product, Product.class);
+    product = restTemplate.postForObject(rootUrl, product, ProductSimple.class);
+
+
 
     if (product != null) {
       System.out.println("****PRODUCT AVAILABLE: " + product.getId() + "****");
@@ -99,7 +104,6 @@ public class SaleCommandService {
       inStoreSale.setQuantity(0);
       inStoreSale.setReceipt(hashSale.toString());
       inStoreSale.setStore(store);
-
     }
 
     EntityModel<Sale> entityModel = assembler.toModel(inStoreSale);
