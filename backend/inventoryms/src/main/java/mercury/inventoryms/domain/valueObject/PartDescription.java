@@ -12,7 +12,6 @@ public class PartDescription {
     name = "PART_DESCRIPTION",
     unique = false,
     nullable = false,
-    updatable = false,
     length = 100
   )
   private String value;

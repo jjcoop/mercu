@@ -30,7 +30,7 @@ public class ProductInventoryQueryService {
                 .map(assembler::toModel)
                 .collect(Collectors.toList());
 
-        return CollectionModel.of(products, linkTo(methodOn(ProductController.class).all()).withSelfRel());
+        return CollectionModel.of(products, linkTo(methodOn(ProductController.class).getProducts()).withSelfRel());
     }
 
     public Product findById(Long id) {

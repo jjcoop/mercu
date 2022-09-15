@@ -23,7 +23,7 @@ public ProductController(ProductInventoryCommandService commandService, ProductI
 }
 
 @PostMapping("/productInventory")
-ResponseEntity<?> newProduct(@RequestBody Product product){
+ResponseEntity<?> addProduct(@RequestBody Product product){
     System.out.println("**** Product Added ****");
     return commandService.addProduct(product);
 }
@@ -35,12 +35,12 @@ Product createSale(@RequestBody Product product){
 }
 
 @GetMapping("/productInventory")
-public CollectionModel<EntityModel<Product>> all(){
+public CollectionModel<EntityModel<Product>> getProducts(){
     return queryService.all();
 }
 
 @GetMapping("/productInventory/{id}")
-public Product one(@PathVariable Long id){
+public Product getProduct(@PathVariable Long id){
     return queryService.findById(id);
 }
 
@@ -52,6 +52,11 @@ ResponseEntity<?> updateProduct(@RequestBody Product product, @PathVariable Long
 @PutMapping("/productInventory/{id}/part")
 ResponseEntity<?> addProductPart(@PathVariable Long id, @RequestBody Part part) {
     return commandService.addProductPart(id, part);
+}
+
+@PutMapping("/productInventory/{productId}/part/{partId}")
+ResponseEntity<?> updateProductPart(@PathVariable Long productId, @PathVariable Long partId, @RequestBody Part part) {
+    return commandService.updatePart(productId, partId, part);
 }
 
 @GetMapping("/productInventory/sales")

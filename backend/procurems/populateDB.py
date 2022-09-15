@@ -20,14 +20,12 @@ def postSupplier(supplier):
     response = requests.post(f"{ROOT_AGG_PRO}", data=json.dumps(supplier), headers=headers)
     response.raise_for_status()
     data = json.dumps(response.json(), indent=2)
-    print(data)
     return response.json()
 
 def putSupplierContact(contact, supplierID):
     response = requests.put(f"{ROOT_AGG_PRO}/{supplierID}/contact", data=json.dumps(contact), headers=headers)
     response.raise_for_status()
     data = json.dumps(response.json(), indent=2)
-    print(data)
     return data
 
 getSuppliers()
@@ -45,5 +43,6 @@ for x in range(20):
             "email": f"{ln}{fake.random_number(digits=3, fix_len=True)}@example.com",
             "position": fake.job()
         }
-        print(sup)
         putSupplierContact(contact, int(sup['id']))
+
+getSuppliers()
