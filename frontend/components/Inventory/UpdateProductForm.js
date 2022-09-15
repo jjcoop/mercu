@@ -1,3 +1,4 @@
+import * as React from "react";
 import { useEffect, useState } from "react";
 import { Button } from "@mui/material";
 import TextField from "@mui/material/TextField";
@@ -6,38 +7,6 @@ import SendIcon from "@mui/icons-material/Send";
 
 
 export default function UpdateContactForm() {
-<<<<<<< HEAD
-  const [inputValue, setInputValue] = useState("");
-  const [inputId, setInputId] = useState("2386");
-  const [keyword, setKeyword] = useState("supplierProcurement");
-  const [sData, setSupplierData] = useState([]);
-  const [cData, setContactData] = useState([]);
-
-  const fetchSupplierData = () => {
-    fetch(`http://localhost:8787/${keyword}`)
-      .then((response) => response.json())
-      .then((sData) => setSupplierData(sData._embedded.supplierList))
-      .catch((err) => console.error(err));
-    
-  };
-
-  useEffect(() => {
-    fetchSupplierData();
-  }, []);
-
-  const fetchContactData = () => {
-    fetch(`http://localhost:8787/${keyword}/${inputId}`)
-      .then((response) => response.json())
-      .then((cData) => setContactData(cData.contacts))
-      .catch((err) => console.error(err));
-  };
-
-  // useEffect(() => {
-  //   fetchContactData();
-  // }, []);
-
-
-=======
   const [keyword, setKeyword] = useState("supplierProcurement");
   const [inputId, setInputId] = React.useState("");
   const [data, setData] = useState([]);
@@ -53,7 +22,6 @@ export default function UpdateContactForm() {
   }, []);
   
   
->>>>>>> d43022a2718752d3469983571cc38bf1f77ffd70
   const handleSubmit = async (event) => {
     // Stop the form from submitting and refreshing the page.
     event.preventDefault();
@@ -109,11 +77,7 @@ export default function UpdateContactForm() {
           onInputChange={(event, newInputValue) => {
             setInputValue(newInputValue);
             setInputId(newInputValue.replace(/\D/g, ""));
-<<<<<<< HEAD
-            fetchContactData();
-=======
             
->>>>>>> d43022a2718752d3469983571cc38bf1f77ffd70
           }}
           disablePortal
           id="combo-box-demo"
@@ -127,27 +91,6 @@ export default function UpdateContactForm() {
           )}
         />
         <br />
-<<<<<<< HEAD
-        <Autocomplete
-          getOptionLabel={(option) => `${option.name}: ${option.id}`}
-          // onInputChange={(event, newInputValue) => {
-          //   setInputValue(newInputValue);
-          //   setInputId(newInputValue.replace(/\D/g, ""));
-          // }}
-          disablePortal
-          id="combo-box-demo"
-          options={cData}
-          sx={{ width: 400 }}
-          renderInput={(params) => (
-            <div>
-              <TextField {...params} label="Contact" />
-              <br />
-            </div>
-          )}
-        />
-        <br />
-=======
->>>>>>> d43022a2718752d3469983571cc38bf1f77ffd70
         <TextField
           required
           id="outlined-required"
@@ -193,7 +136,7 @@ export default function UpdateContactForm() {
           variant="contained"
           endIcon={<SendIcon />}
         >
-          Update Supplier
+          Update Product
         </Button>
       </form>
     </div>

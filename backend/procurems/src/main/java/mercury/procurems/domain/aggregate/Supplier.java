@@ -75,6 +75,44 @@ public class Supplier {
     return contacts;
   }
 
+  public void updateContact(Long id, Contact contact) {
+    boolean found = false;
+    for (Contact c : contacts) {
+      if (c.getId().equals(id)) {
+        c.setFname(contact.getName().split(" ")[0]);
+        c.setLname(contact.getName().split(" ")[1]);
+        c.setEmail(contact.getEmail());
+        c.setPhone(contact.getPhone());
+        c.setPosition(contact.getPosition());
+        found = true;
+      }
+    }
+    
+    if (!found) {
+      boolean emailCheck = false;
+      for (Contact c : contacts) {
+        if (c.getEmail().equals(contact.getEmail())) {
+          c.setFname(contact.getName().split(" ")[0]);
+          c.setLname(contact.getName().split(" ")[1]);
+          c.setEmail(contact.getEmail());
+          c.setPhone(contact.getPhone());
+          c.setPosition(contact.getPosition());
+          emailCheck = true;
+        }
+      }
+      if (!emailCheck) {
+        Contact newContact = new Contact();
+        newContact.setFname(contact.getName().split(" ")[0]);
+        newContact.setLname(contact.getName().split(" ")[1]);
+        newContact.setEmail(contact.getEmail());
+        newContact.setPhone(contact.getPhone());
+        newContact.setPosition(contact.getPosition());
+        contact.setSupplier(this);
+        this.contacts.add(contact);        
+      }
+    };
+  }
+
   public void setContacts(Set<Contact> contacts) {
     this.contacts = contacts;
   }

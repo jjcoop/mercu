@@ -50,7 +50,7 @@ public class Contact {
   @JsonIgnore
   private Supplier supplier;
 
-  Contact() {}
+  public Contact() {}
 
   public Contact(String fname,String lname, String phone, String email, String position) {
     this.fname = new Fname(fname);
