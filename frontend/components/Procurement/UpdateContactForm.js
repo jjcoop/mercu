@@ -1,34 +1,56 @@
-import * as React from "react";
 import { useEffect, useState } from "react";
 import { Button } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import SendIcon from "@mui/icons-material/Send";
 
-
 export default function UpdateContactForm() {
+  const [inputValue, setInputValue] = useState("");
+  const [inputId, setInputId] = useState("2386");
   const [keyword, setKeyword] = useState("supplierProcurement");
-  const [inputId, setInputId] = React.useState("");
-  const [data, setData] = useState([]);
-  const fetchData = () => {
-    fetch(`http://localhost:8787/contacts`)
+  const [sData, setSupplierData] = useState([]);
+  const [cData, setContactData] = useState([]);
+
+  const fetchSupplierData = () => {
+    fetch(`http://localhost:8787/${keyword}`)
       .then((response) => response.json())
-      .then((data) => setData(data._embedded.supplierList))
+      .then((sData) => setSupplierData(sData._embedded.supplierList))
       .catch((err) => console.error(err));
+    
   };
 
   useEffect(() => {
-    fetchData();
+    fetchSupplierData();
   }, []);
-  
-  
+
+  const fetchContactData = () => {
+    fetch(`http://localhost:8787/${keyword}/${inputId}`)
+      .then((response) => response.json())
+      .then((cData) => setContactData(cData.contacts))
+      .catch((err) => console.error(err));
+  };
+
+  // useEffect(() => {
+  //   fetchContactData();
+  // }, []);
+
+
   const handleSubmit = async (event) => {
     // Stop the form from submitting and refreshing the page.
     event.preventDefault();
 
+    // Get data from the form.
+    const data = {
+      companyName: event.target.newCpmpanyName.value,
+      base: event.target.newBase.value,
+    };
+
+    // Send the data to the server in JSON format.
+    const JSONdata = JSON.stringify(data);
+
     // API endpoint where we send form data.
 
-    const endpoint = `http://localhost:8787/supplierProcurement/${inputId}/contact`;
+    const endpoint = `http://localhost:8787/supplierProcurement/${inputId}`;
 
     // Form the request for sending data to the server.
     const options = {
@@ -51,18 +73,12 @@ export default function UpdateContactForm() {
 
     if (response.status == 201) {
       alert(
-        "Updated Contact: " +
+        "Updated Supplier: " +
           inputValue +
-          "\nNew Contact First Name: " +
-          event.target.firstName.value +
-          "\nNew Contact Last Name: " +
-          event.target.lastName.value +
-          "\nNew Contact Phone: " +
-          event.target.phone.value +
-          "\nNew Contact Email: " +
-          event.target.email.value +
-          "\nNew Contact Position: " +
-          event.target.position.value +
+          "\nNew Supplier Name: " +
+          event.target.newCpmpanyName.value +
+          "\nNew Supplier Base: " +
+          event.target.newBase.value +
           ".\nRefreshing webpage now..."
       );
       window.location.reload(false);
@@ -73,19 +89,37 @@ export default function UpdateContactForm() {
     <div>
       <form onSubmit={handleSubmit}>
         <Autocomplete
-          getOptionLabel={(option) => `${option.contacts.name}: ${option.id}`}
+          getOptionLabel={(option) => `${option.companyName}: ${option.id}`}
           onInputChange={(event, newInputValue) => {
             setInputValue(newInputValue);
             setInputId(newInputValue.replace(/\D/g, ""));
-            
+            fetchContactData();
           }}
           disablePortal
           id="combo-box-demo"
-          options={data}
+          options={sData}
           sx={{ width: 400 }}
           renderInput={(params) => (
             <div>
               <TextField {...params} label="Supplier" />
+              <br />
+            </div>
+          )}
+        />
+        <br />
+        <Autocomplete
+          getOptionLabel={(option) => `${option.name}: ${option.id}`}
+          // onInputChange={(event, newInputValue) => {
+          //   setInputValue(newInputValue);
+          //   setInputId(newInputValue.replace(/\D/g, ""));
+          // }}
+          disablePortal
+          id="combo-box-demo"
+          options={cData}
+          sx={{ width: 400 }}
+          renderInput={(params) => (
+            <div>
+              <TextField {...params} label="Contact" />
               <br />
             </div>
           )}
