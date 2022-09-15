@@ -1,6 +1,8 @@
 package mercury.salems.domain.entity;
 
 import mercury.salems.domain.aggregate.InStoreSale;
+import mercury.salems.domain.valueObject.StoreAddress;
+import mercury.salems.domain.valueObject.StoreManager;
 
 import java.util.Objects;
 import java.util.Set;
@@ -28,23 +30,22 @@ public class Store {
   @Column(name = "ID", unique = true, nullable = false)
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sto")
   private Long id;
-  @Column(name = "ADDRESS", unique = false, nullable = false, length = 100)
-  private String address;
-  @Column(name = "MANAGER", unique = false, nullable = false, length = 100)
-  private String managerName;
+  @Embedded
+  private StoreAddress address;
+  @Embedded
+  private StoreManager managerName;
 
   @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
   @JoinColumn(name = "SALES")
   @Embedded
   private Set<InStoreSale> sales = Collections.emptySet();
 
-  Store() {
-  }
+  Store() {}
 
   public Store(Long id, String address, String managerName) {
     this.id = id;
-    this.address = address;
-    this.managerName = managerName;
+    this.address = new StoreAddress(address);
+    this.managerName = new StoreManager(managerName);
   }
 
   public Long getId() {
@@ -56,19 +57,19 @@ public class Store {
   }
 
   public String getAddress() {
-    return address;
+    return address.getValue();
   }
 
   public void setAddress(String address) {
-    this.address = address;
+    this.address = new StoreAddress(address);
   }
 
   public String getManagerName() {
-    return managerName;
+    return managerName.getValue();
   }
 
   public void setManagerName(String managerName) {
-    this.managerName = managerName;
+    this.managerName = new StoreManager(managerName);
   }
 
   public Set<InStoreSale> getSales() {

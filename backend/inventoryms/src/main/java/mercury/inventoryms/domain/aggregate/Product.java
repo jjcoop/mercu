@@ -1,5 +1,8 @@
 package mercury.inventoryms.domain.aggregate;
 import mercury.inventoryms.domain.entity.Part;
+import mercury.inventoryms.domain.valueObject.ProductDescription;
+import mercury.inventoryms.domain.valueObject.ProductPrice;
+import mercury.inventoryms.domain.valueObject.ProductName;
 
 import java.util.Collections;
 import java.util.Set;
@@ -25,12 +28,12 @@ public class Product {
   @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="prod")
   @Id Long id;
 
-  @Column(name = "NAME", unique = false, nullable = false, length = 100)
-  private String name;
-  @Column(name = "PRICE", unique = false, nullable = false, length = 100)
-  private double price;
-  @Column(name = "DESCRIPTION", unique = false, nullable = false, length = 100)
-  private String description;
+  @Embedded
+  private ProductName name;
+  @Embedded
+  private ProductPrice price;
+  @Embedded
+  private ProductDescription description;
   @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
   @JoinColumn(name = "PRODUCT")
   @Embedded
@@ -40,9 +43,9 @@ public class Product {
 
   public Product(String name, double price, String description) {
 
-    this.name = name;
-    this.price = price;
-    this.description = description;
+    this.name = new ProductName(name);
+    this.price = new ProductPrice(price);
+    this.description = new ProductDescription(description);
     this.parts = getParts();
 
   }
@@ -56,27 +59,27 @@ public class Product {
   }
 
   public String getName() {
-    return name;
+    return name.getValue();
   }
 
   public void setName(String name) {
-    this.name = name;
+    this.name = new ProductName(name);
   }
 
   public double getPrice() {
-    return price;
+    return price.getValue();
   }
 
   public void setPrice(double price) {
-    this.price = price;
+    this.price = new ProductPrice(price);
   }
 
   public String getDescription() {
-    return description;
+    return description.getValue();
   }
 
   public void setDescription(String description) {
-    this.description = description;
+    this.description = new ProductDescription(description);
   }
 
   public Set<Part> getParts() {
@@ -102,7 +105,7 @@ public class Product {
 
   @Override
   public String toString() {
-    return "Product [name=" + name + ", price=" + price + ", description=" + description + ", parts=" + parts + ", id=" + id + "]";
+    return "Product [name=" + getName() + ", price=" + getPrice() + ", description=" + getDescription() + ", parts=" + parts + ", id=" + id + "]";
   }
   
 }
