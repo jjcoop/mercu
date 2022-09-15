@@ -6,10 +6,11 @@ import SendIcon from "@mui/icons-material/Send";
 
 export default function UpdateContactForm() {
   const [inputValue, setInputValue] = useState("");
-  const [inputId, setInputId] = useState("2386");
+  const [inputId, setInputId] = useState("");
   const [keyword, setKeyword] = useState("supplierProcurement");
   const [sData, setSupplierData] = useState([]);
   const [cData, setContactData] = useState([]);
+
 
   const fetchSupplierData = () => {
     fetch(`http://localhost:8787/${keyword}`)
@@ -33,6 +34,12 @@ export default function UpdateContactForm() {
   // useEffect(() => {
   //   fetchContactData();
   // }, []);
+
+  const twoEvents = e => {
+    setInputValue(e)
+    setInputId(e.id)
+    fetchContactData();
+  }
 
 
   const handleSubmit = async (event) => {
@@ -73,12 +80,16 @@ export default function UpdateContactForm() {
 
     if (response.status == 201) {
       alert(
-        "Updated Supplier: " +
+        "Updated Contact: " +
           inputValue +
-          "\nNew Supplier Name: " +
-          event.target.newCpmpanyName.value +
-          "\nNew Supplier Base: " +
-          event.target.newBase.value +
+          "\nNew Contact Name: " +
+          event.target.firstName.value + event.target.lastName.value +
+          "\nNew Contact Phone: " +
+          event.target.contactPhone.value +
+          "\nNew Contact Email: " +
+          event.target.contactEmail.value +
+          "\nNew Contact Position: " +
+          event.target.contactPosition.value +
           ".\nRefreshing webpage now..."
       );
       window.location.reload(false);
@@ -90,18 +101,28 @@ export default function UpdateContactForm() {
       <form onSubmit={handleSubmit}>
         <Autocomplete
           getOptionLabel={(option) => `${option.companyName}: ${option.id}`}
+          /*
+          onChange={(event, value) => 
+            twoEvents(value)
+          }
+          */
+          
           onInputChange={(event, newInputValue) => {
-            setInputValue(newInputValue);
-            setInputId(newInputValue.replace(/\D/g, ""));
-            fetchContactData();
+            setInputValue(newInputValue)
+            setInputId(newInputValue.replace(/\D/g, ""))
           }}
+
+          onMouseOut={fetchContactData()}
+          
+
           disablePortal
           id="combo-box-demo"
           options={sData}
           sx={{ width: 400 }}
           renderInput={(params) => (
             <div>
-              <TextField {...params} label="Supplier" />
+              <TextField {...params} 
+              label="Supplier" />
               <br />
             </div>
           )}
@@ -109,10 +130,6 @@ export default function UpdateContactForm() {
         <br />
         <Autocomplete
           getOptionLabel={(option) => `${option.name}: ${option.id}`}
-          // onInputChange={(event, newInputValue) => {
-          //   setInputValue(newInputValue);
-          //   setInputId(newInputValue.replace(/\D/g, ""));
-          // }}
           disablePortal
           id="combo-box-demo"
           options={cData}
