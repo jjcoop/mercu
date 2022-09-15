@@ -43,19 +43,24 @@ public Supplier one(@PathVariable Long id){
 
 @GetMapping("/supplierProcurement/{id}/contacts")
 @ResponseBody
-public Set<Contact> getFoos(@PathVariable Long id) {
+public Set<Contact> getContacts(@PathVariable Long id) {
     Set<Contact> name = queryService.findById(id).getContacts();
     return name;
 }
 
 @PutMapping("/supplierProcurement/{id}")
-ResponseEntity<?> updateSupplierContact(@RequestBody Supplier supplier, @PathVariable Long id ) {
+ResponseEntity<?> updateSupplier(@RequestBody Supplier supplier, @PathVariable Long id ) {
     return commandService.updateSupplier(supplier, id);
 }
 
 @PutMapping("/supplierProcurement/{id}/contact")
-ResponseEntity<?> updateSupplierContact(@PathVariable Long id, @RequestBody Contact contact) {
+ResponseEntity<?> addSupplierContact(@PathVariable Long id, @RequestBody Contact contact) {
     return commandService.addSupplierContact(id, contact);
+}
+
+@PutMapping("/supplierProcurement/{id}/contact/{contactId}")
+ResponseEntity<?> updateSupplierContact(@PathVariable Long id, @PathVariable Long contactId, @RequestBody Contact contact) {
+    return commandService.updateSupplierContact(contact, id, contactId);
 }
 
 @DeleteMapping("/supplierProcurement/{id}")

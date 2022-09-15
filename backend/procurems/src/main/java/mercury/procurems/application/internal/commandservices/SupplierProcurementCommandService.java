@@ -62,6 +62,21 @@ public class SupplierProcurementCommandService {
         .body(entityModel);
   }
 
+  public ResponseEntity<?> updateSupplierContact(Contact contact, Long supplierID, Long contactID) {
+
+    Supplier supplier = supplierRepository.findById(supplierID) //
+      .orElseThrow(() -> new SupplierNotFoundException(supplierID));
+
+    supplier.updateContact(contactID, contact);
+    supplierRepository.save(supplier);
+    
+    EntityModel<Supplier> entityModel = assembler.toModel(supplier);
+
+    return ResponseEntity //
+        .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()) //
+        .body(entityModel);
+  }
+
   public ResponseEntity<?> updateSupplier(Supplier newSupplier, Long id) {
 
     Supplier updatedSupplier = supplierRepository.findById(id) //
