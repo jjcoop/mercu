@@ -2,6 +2,8 @@ package mercury.inventoryms.domain.entity;
 
 import mercury.inventoryms.domain.aggregate.Product;
 import mercury.inventoryms.interfaces.rest.ProductController;
+import mercury.inventoryms.domain.valueObject.PartName;
+import mercury.inventoryms.domain.valueObject.PartDescription;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 import org.springframework.hateoas.Link;
@@ -12,6 +14,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -28,10 +31,10 @@ import javax.persistence.Table;
 public class Part {
   @Id @Column(name = "ID", unique = true, nullable = false) @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="par")
   private Long id;
-  @Column(name = "PART_NAME", unique = false, nullable = false, length = 100)
-  private String partName;
-  @Column(name = "PART_DESCRIPTION", unique = false, nullable = false, length = 100)
-  private String partDescription;
+  @Embedded
+  private PartName partName;
+  @Embedded
+  private PartDescription partDescription;
   @ManyToOne(cascade=CascadeType.PERSIST)
   @JoinColumn(name = "PRODUCT_ID")
   @JsonIgnore
@@ -41,8 +44,8 @@ public class Part {
 
   public Part(Long id, String partName, String partDescription) {
     this.id = id;
-    this.partName = partName;
-    this.partDescription = partDescription;
+    this.partName = new PartName(partName);
+    this.partDescription = new PartDescription(partDescription);
   }
 
   @JsonProperty(value = "product")
@@ -59,19 +62,19 @@ public class Part {
   }
 
   public String getPartName() {
-    return partName;
+    return partName.getValue();
   }
 
   public void setPartName(String partName) {
-    this.partName = partName;
+    this.partName = new PartName(partName);
   }
 
   public String getPartDescription() {
-    return partDescription;
+    return partDescription.getValue();
   }
 
   public void setPartDescription(String partDescription) {
-    this.partDescription = partDescription;
+    this.partDescription = new PartDescription(partDescription);
   }
 
   public Product getProduct() {
@@ -102,8 +105,7 @@ public class Part {
 
   @Override
   public String toString() {
-    return "Part [name=" + partName + ", description=" + partDescription + ", id=" + id + ", product=" + product  + "]";
+    return "Part [name=" + getPartName() + ", description=" + getPartDescription() + ", id=" + id + ", product=" + product  + "]";
   }
-  
-  
+
 }

@@ -1,6 +1,12 @@
 package mercury.procurems.domain.entity;
 
 import mercury.procurems.domain.aggregate.Supplier;
+import mercury.procurems.domain.valueObject.Email;
+import mercury.procurems.domain.valueObject.Fname;
+import mercury.procurems.domain.valueObject.Lname;
+import mercury.procurems.domain.valueObject.Phone;
+import mercury.procurems.domain.valueObject.Position;
+
 import mercury.procurems.interfaces.rest.SupplierController;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
@@ -12,6 +18,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -28,16 +35,16 @@ import javax.persistence.Table;
 public class Contact {
   @Id @Column(name = "ID", unique = true, nullable = false) @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="con")
   private Long id;
-  @Column(name = "FNAME", unique = false, nullable = false, length = 100)
-  private String fname;
-  @Column(name = "LNAME", unique = false, nullable = false, length = 100)
-  private String lname;
-  @Column(name = "PHONE", unique = false, nullable = false, length = 100)
-  private String phone;
-  @Column(name = "EMAIL", unique = false, nullable = false, length = 100)
-  private String email;
-  @Column(name = "POSITION", unique = false, nullable = false, length = 100)
-  private String position;
+  @Embedded
+  private Fname fname;
+  @Embedded
+  private Lname lname;
+  @Embedded
+  private Phone phone;
+  @Embedded
+  private Email email;
+  @Embedded
+  private Position position;
   @ManyToOne(cascade=CascadeType.PERSIST)
   @JoinColumn(name = "SUPPLIER_ID")
   @JsonIgnore
@@ -46,11 +53,11 @@ public class Contact {
   Contact() {}
 
   public Contact(String fname,String lname, String phone, String email, String position) {
-    this.fname = fname;
-    this.lname = lname;
-    this.phone = phone;
-    this.email = email;
-    this.position = position;
+    this.fname = new Fname(fname);
+    this.lname = new Lname(lname);
+    this.phone = new Phone(phone);
+    this.email = new Email(email);
+    this.position = new Position(position);
   }
 
   @JsonProperty(value = "supplier")
@@ -67,39 +74,39 @@ public class Contact {
   }
 
   public String getName() {
-    return fname + " " + lname;
+    return fname.getValue() + " " + lname.getValue();
   }
 
   public void setFname(String fname) {
-    this.fname = fname;
+    this.fname = new Fname(fname);
   }
 
   public void setLname(String lname) {
-    this.lname = lname;
+    this.lname = new Lname(lname);
   }
 
   public String getPhone() {
-    return phone;
+    return phone.getValue();
   }
 
   public void setPhone(String phone) {
-    this.phone = phone;
+    this.phone = new Phone(phone);
   }
 
   public String getEmail() {
-    return email;
+    return email.getValue();
   }
 
   public void setEmail(String email) {
-    this.email = email;
+    this.email = new Email(email);
   }
 
   public String getPosition() {
-    return position;
+    return position.getValue();
   }
 
   public void setPosition(String position) {
-    this.position = position;
+    this.position = new Position(position);
   }
 
   public Supplier getSupplier() {
@@ -125,13 +132,13 @@ public class Contact {
 
   @Override
   public int hashCode() {
-    return Objects.hash(this.id, this.fname, this.lname, this.phone);
+    return Objects.hash(this.id, this.fname.getValue(), this.lname.getValue(), this.phone.getValue());
   }
 
   @Override
   public String toString() {
-    return "Contact [email=" + email + ", fname=" + fname + ", id=" + id + ", lname=" + lname + ", phone=" + phone
-        + ", position=" + position + ", supplier=" + supplier + "]";
+    return "Contact [email=" + email.getValue() + ", fname=" + fname.getValue() + ", id=" + id + ", lname=" + lname.getValue() + ", phone=" + phone.getValue()
+        + ", position=" + position.getValue() + ", supplier=" + supplier + "]";
   }
 
   // @Override

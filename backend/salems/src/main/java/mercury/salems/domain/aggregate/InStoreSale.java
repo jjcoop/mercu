@@ -2,7 +2,7 @@ package mercury.salems.domain.aggregate;
 
 import javax.persistence.InheritanceType;
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.JoinColumn;
@@ -15,6 +15,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import mercury.salems.domain.entity.Store;
+import mercury.salems.domain.valueObject.SaleReceipt;
 import mercury.salems.interfaces.rest.SaleController;
 import net.bytebuddy.utility.RandomString;
 
@@ -25,8 +26,8 @@ public class InStoreSale extends Sale{
     @JoinColumn(name = "STORE_ID")
     @JsonIgnore
     private Store store;
-    @Column(name = "RECEIPT", unique = false, nullable = true, length = 100)
-    private String receipt = RandomString.make();
+    @Embedded
+    private SaleReceipt receipt = new SaleReceipt(RandomString.make());
   
     @JsonProperty(value = "store")
     public Link getStoreName(){
@@ -42,10 +43,10 @@ public class InStoreSale extends Sale{
     }
 
     public String getReceipt() {
-      return receipt;
+      return receipt.getValue();
     }
 
     public void setReceipt(String receipt) {
-      this.receipt = receipt;
+      this.receipt = new SaleReceipt(receipt);
     }
   }
