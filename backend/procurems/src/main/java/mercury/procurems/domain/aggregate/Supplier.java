@@ -132,7 +132,7 @@ public class Supplier {
 
   @Override
   public String toString() {
-    return "Supplier [base=" + base.getValue() + ", companyName=" + companyName.getValue() + ", contacts=" + contacts + ", id=" + id + "]";
+    return "Supplier [testeroni=" + base.getValue() + ", companyName=" + companyName.getValue() + ", contacts=" + contacts + ", id=" + id + "]";
   }
 
 }

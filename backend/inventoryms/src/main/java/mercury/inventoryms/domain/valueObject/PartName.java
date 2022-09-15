@@ -12,7 +12,6 @@ public class PartName {
     name = "PART_NAME",
     unique = false,
     nullable = false,
-    updatable = false,
     length = 100
   )
   private String value;

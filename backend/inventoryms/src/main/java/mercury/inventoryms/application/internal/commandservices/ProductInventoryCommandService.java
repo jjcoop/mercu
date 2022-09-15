@@ -68,6 +68,7 @@ public class ProductInventoryCommandService {
       Product updatedProduct = productRepository.findById(id) //
       .map(product -> {
         product.setName(newProduct.getName());
+        product.setPrice(newProduct.getPrice());
         product.setDescription(newProduct.getDescription());
         return productRepository.save(product);
       }) //
