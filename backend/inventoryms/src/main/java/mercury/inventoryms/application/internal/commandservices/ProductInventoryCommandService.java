@@ -76,7 +76,7 @@ public class ProductInventoryCommandService {
         return productRepository.save(newProduct);
       });
   
-      EntityModel<Product> entityModel = assembler.toModel(productRepository.save(updatedProduct));
+      EntityModel<Product> entityModel = assembler.toModel(updatedProduct);
   
       return ResponseEntity //
           .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()) //

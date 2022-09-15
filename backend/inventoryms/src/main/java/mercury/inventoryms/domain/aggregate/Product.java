@@ -59,7 +59,7 @@ public class Product {
   }
 
   public String getName() {
-    return name.getValue();
+    return this.name.getValue();
   }
 
   public void setName(String name) {
@@ -67,7 +67,7 @@ public class Product {
   }
 
   public double getPrice() {
-    return price.getValue();
+    return this.price.getValue();
   }
 
   public void setPrice(double price) {
@@ -75,7 +75,7 @@ public class Product {
   }
 
   public String getDescription() {
-    return description.getValue();
+    return this.description.getValue();
   }
 
   public void setDescription(String description) {
@@ -83,7 +83,7 @@ public class Product {
   }
 
   public Set<Part> getParts() {
-    return parts;
+    return this.parts;
   }
 
   public void setParts(Set<Part> parts) {
