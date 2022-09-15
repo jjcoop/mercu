@@ -136,7 +136,7 @@ export default function UpdateContactForm() {
           variant="contained"
           endIcon={<SendIcon />}
         >
-          Update Supplier
+          Update Product
         </Button>
       </form>
     </div>

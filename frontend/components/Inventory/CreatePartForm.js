@@ -4,14 +4,15 @@ import { Button } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import SendIcon from "@mui/icons-material/Send";
+import Box from "@mui/material";
 
-
-export default function UpdateContactForm() {
-  const [keyword, setKeyword] = useState("supplierProcurement");
+export default function UpdateSupplierForm() {
+  const [inputValue, setInputValue] = React.useState("");
   const [inputId, setInputId] = React.useState("");
+  const [keyword, setKeyword] = useState("supplierProcurement");
   const [data, setData] = useState([]);
   const fetchData = () => {
-    fetch(`http://localhost:8787/contacts`)
+    fetch(`http://localhost:8787/${keyword}`)
       .then((response) => response.json())
       .then((data) => setData(data._embedded.supplierList))
       .catch((err) => console.error(err));
@@ -20,11 +21,22 @@ export default function UpdateContactForm() {
   useEffect(() => {
     fetchData();
   }, []);
-  
-  
+
   const handleSubmit = async (event) => {
     // Stop the form from submitting and refreshing the page.
     event.preventDefault();
+
+    // Get data from the form.
+    const data = {
+      fname: event.target.partName.value,
+      lname: event.target.lastName.value,
+      phone: event.target.partID.value,
+      email: event.target.partDescription.value,
+      position: event.target.contactPosition.value,
+    };
+
+    // Send the data to the server in JSON format.
+    const JSONdata = JSON.stringify(data);
 
     // API endpoint where we send form data.
 
@@ -51,18 +63,12 @@ export default function UpdateContactForm() {
 
     if (response.status == 201) {
       alert(
-        "Updated Contact: " +
+        "Created Contact for Supplier: " +
           inputValue +
-          "\nNew Contact First Name: " +
-          event.target.firstName.value +
-          "\nNew Contact Last Name: " +
-          event.target.lastName.value +
-          "\nNew Contact Phone: " +
-          event.target.phone.value +
-          "\nNew Contact Email: " +
-          event.target.email.value +
-          "\nNew Contact Position: " +
-          event.target.position.value +
+          "\nContact Name: " +
+          event.target.partName.value + event.target.lastName.value +
+          "\nContact Email: " + event.target.partDescription.value +
+          "\nContact Position: " + event.target.contactPosition.value +
           ".\nRefreshing webpage now..."
       );
       window.location.reload(false);
@@ -73,11 +79,10 @@ export default function UpdateContactForm() {
     <div>
       <form onSubmit={handleSubmit}>
         <Autocomplete
-          getOptionLabel={(option) => `${option.contacts.name}: ${option.id}`}
+          getOptionLabel={(option) => `${option.companyName}: ${option.id}`}
           onInputChange={(event, newInputValue) => {
             setInputValue(newInputValue);
             setInputId(newInputValue.replace(/\D/g, ""));
-            
           }}
           disablePortal
           id="combo-box-demo"
@@ -85,7 +90,7 @@ export default function UpdateContactForm() {
           sx={{ width: 400 }}
           renderInput={(params) => (
             <div>
-              <TextField {...params} label="Supplier" />
+              <TextField {...params} label="Select Supplier To Add Part" />
               <br />
             </div>
           )}
@@ -94,49 +99,26 @@ export default function UpdateContactForm() {
         <TextField
           required
           id="outlined-required"
-          label="First Name"
-          name="firstName"
-        />
-        <TextField
-          required
-          id="outlined-required"
-          label="Last Name"
-          name="lastName"
-        />
-        <br />
-        <TextField
-          fullWidth
-          margin="normal"
-          required
-          id="outlined-required"
-          label="Phone"
-          name="contactPhone"
+          label="Part Name"
+          name="partName"
         />
         <TextField
           fullWidth
           margin="normal"
           required
           id="outlined-required"
-          label="Email"
-          name="contactEmail"
-        />
-        <TextField
-          fullWidth
-          margin="normal"
-          required
-          id="outlined-required"
-          label="Position"
-          name="contactPosition"
+          label="Description"
+          name="partDescription"
         />
         <br />
         <Button
-          color="warning"
+          color="success"
           sx={{ width: 250, marginTop: 2 }}
           type="submit"
           variant="contained"
           endIcon={<SendIcon />}
         >
-          Update Supplier
+          Create Part
         </Button>
       </form>
     </div>

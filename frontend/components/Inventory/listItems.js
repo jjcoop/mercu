@@ -31,7 +31,7 @@ export const mainListItems = (
       </ListItemButton>
     </Link>
 
-    <Link href="/inventory">
+    <Link href="/procurement">
       <ListItemButton>
         <ListItemIcon>
           <InventoryIcon />
