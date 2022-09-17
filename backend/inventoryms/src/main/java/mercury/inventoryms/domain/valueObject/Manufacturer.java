@@ -9,7 +9,7 @@ import javax.persistence.Embeddable;
 public class Manufacturer {
     @Column(name = "SUPPLIER", unique = false, nullable = false, length = 100)
     private String value;
-    @Column(name = "SUPPLIER_URI", unique = false, nullable = false, length = 100)
+    @Column(name = "SUPPLIER_URI", unique = false, nullable = false, length = 10000)
     private URI uri = URI.create("");
 
 
@@ -19,9 +19,9 @@ public class Manufacturer {
         this.value = value;
     }
 
-    public Manufacturer(String uri, String value) {
-        this.uri = URI.create(uri);
+    public Manufacturer(String value, String uri) {
         this.value = value;
+        this.uri = URI.create(uri);
     }
 
     public String getValue() {
@@ -30,6 +30,10 @@ public class Manufacturer {
 
     public URI getURI(){
         return this.uri;
+    }
+
+    public void setURI(URI uri) {
+        this.uri = uri;
     }
 
 }
