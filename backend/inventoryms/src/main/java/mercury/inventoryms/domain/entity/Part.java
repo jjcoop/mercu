@@ -56,6 +56,12 @@ public class Part {
     return linkTo(methodOn(ProductController.class).getProduct(product.getId())).toUri();
   }
 
+  public void updatePart(Part newPart) {
+    this.partName = newPart.partName;
+    this.partDescription = newPart.partDescription;
+    this.manufacturer = newPart.manufacturer;
+  }  
+
   public Long getId() {
     return id;
   }

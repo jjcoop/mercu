@@ -64,7 +64,15 @@ public String soldProducts(){
     return queryService.findByProductName();
 }
 
+@GetMapping("/productInventory/parts/{id}")
+public Part getPart(@PathVariable Long id){
+    return queryService.findPartById(id);
 }
 
+@GetMapping("/productInventory/parts")
+public CollectionModel<EntityModel<Part>> getParts(){
+    return queryService.allParts();
+}
 
+}
     
