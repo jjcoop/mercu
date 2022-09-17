@@ -5,6 +5,7 @@ import mercury.procurems.application.internal.queryservices.SupplierProcurementQ
 import mercury.procurems.domain.aggregate.Supplier;
 import mercury.procurems.domain.entity.Contact;
 
+import java.net.URI;
 import java.util.Set;
 
 import org.springframework.hateoas.CollectionModel;
@@ -68,6 +69,11 @@ String delete(@PathVariable Long id){
     return commandService.deleteSupplier(id);
 }
 
+@GetMapping("/supplierProcurement/lookup/")
+@ResponseBody
+public URI lookup(@RequestParam String name){
+    return queryService.findByName(name);
+}
 }
 
 

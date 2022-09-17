@@ -3,12 +3,12 @@ package mercury.inventoryms.domain.entity;
 import mercury.inventoryms.domain.aggregate.Product;
 import mercury.inventoryms.interfaces.rest.ProductController;
 import mercury.inventoryms.domain.valueObject.PartName;
+import mercury.inventoryms.domain.valueObject.Manufacturer;
 import mercury.inventoryms.domain.valueObject.PartDescription;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
-import org.springframework.hateoas.Link;
 
-import java.util.Objects;
+import java.net.URI;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -35,23 +35,32 @@ public class Part {
   private PartName partName;
   @Embedded
   private PartDescription partDescription;
+  @Embedded
+  private Manufacturer manufacturer;
   @ManyToOne(cascade=CascadeType.PERSIST)
   @JoinColumn(name = "PRODUCT_ID")
   @JsonIgnore
   private Product product;
 
-  Part() {}
+  public Part() {}
 
-  public Part(Long id, String partName, String partDescription) {
+  public Part(Long id, String partName, String partDescription, String supplierName) {
     this.id = id;
     this.partName = new PartName(partName);
     this.partDescription = new PartDescription(partDescription);
+    this.manufacturer = new Manufacturer(supplierName);
   }
 
-  @JsonProperty(value = "product")
-  public Link getProductName(){
-    return linkTo(methodOn(ProductController.class).one(product.getId())).withSelfRel();
+  @JsonProperty(value = "productURI")
+  public URI getProductName(){
+    return linkTo(methodOn(ProductController.class).getProduct(product.getId())).toUri();
   }
+
+  public void updatePart(Part newPart) {
+    this.partName = newPart.partName;
+    this.partDescription = newPart.partDescription;
+    this.manufacturer = newPart.manufacturer;
+  }  
 
   public Long getId() {
     return id;
@@ -85,27 +94,67 @@ public class Part {
     this.product = product;
   }
 
-  @Override
-  public boolean equals(Object o) {
+  public String getManufacturer() {
+    return manufacturer.getValue();
+  }
 
-    if (this == o)
-      return true;
-    if (!(o instanceof Part))
-      return false;
-    Part Part = (Part) o;
-    return Objects.equals(this.id, Part.id)
-        && Objects.equals(this.partName, Part.partName)
-        && Objects.equals(this.partDescription, Part.partDescription);
+  public void setManufacturer(Manufacturer manufacturer) {
+    this.manufacturer = manufacturer;
+  }
+
+  public URI getManufacturerURI() {
+    return this.manufacturer.getURI();
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(this.id, this.partName, this.partDescription);
+    final int prime = 31;
+    int result = 1;
+    result = prime * result + ((id == null) ? 0 : id.hashCode());
+    result = prime * result + ((partDescription == null) ? 0 : partDescription.hashCode());
+    result = prime * result + ((partName == null) ? 0 : partName.hashCode());
+    result = prime * result + ((product == null) ? 0 : product.hashCode());
+    return result;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj)
+      return true;
+    if (obj == null)
+      return false;
+    if (getClass() != obj.getClass())
+      return false;
+    Part other = (Part) obj;
+    if (id == null) {
+      if (other.id != null)
+        return false;
+    } else if (!id.equals(other.id))
+      return false;
+    if (partDescription == null) {
+      if (other.partDescription != null)
+        return false;
+    } else if (!partDescription.equals(other.partDescription))
+      return false;
+    if (partName == null) {
+      if (other.partName != null)
+        return false;
+    } else if (!partName.equals(other.partName))
+      return false;
+    if (product == null) {
+      if (other.product != null)
+        return false;
+    } else if (!product.equals(other.product))
+      return false;
+    return true;
   }
 
   @Override
   public String toString() {
-    return "Part [name=" + getPartName() + ", description=" + getPartDescription() + ", id=" + id + ", product=" + product  + "]";
+    return "Part [id=" + id +  ", partDescription=" + partDescription + ", partName="
+        + partName + ", product=" + product + "]";
   }
 
+
+  
 }

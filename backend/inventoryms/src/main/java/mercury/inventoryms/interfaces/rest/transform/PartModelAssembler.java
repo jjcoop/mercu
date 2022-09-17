@@ -8,18 +8,18 @@ import org.springframework.stereotype.Component;
 
 
 
-import mercury.inventoryms.domain.aggregate.Product;
+import mercury.inventoryms.domain.entity.Part;
 import mercury.inventoryms.interfaces.rest.ProductController;
 
 // use this default constructor, when autowired, use that constructor instead.
 @Component // tells the app there is something you need to pay attention to.
 public
-class ProductModelAssembler implements RepresentationModelAssembler<Product, EntityModel<Product>> {
+class PartModelAssembler implements RepresentationModelAssembler<Part, EntityModel<Part>> {
 
     @Override
-    public EntityModel<Product> toModel(Product entity) {
+    public EntityModel<Part> toModel(Part entity) {
         return EntityModel.of(entity, //
-        linkTo(methodOn(ProductController.class).getProduct(entity.getId())).withSelfRel(),
-        linkTo(methodOn(ProductController.class).getProducts()).withRel("products"));
+        linkTo(methodOn(ProductController.class).getPart(entity.getId())).withSelfRel(),
+        linkTo(methodOn(ProductController.class).getParts()).withRel("parts"));
     }
 }

@@ -15,6 +15,16 @@
 
 
 ###
+https://www.url-encode-decode.com/
+curl -v 'http://localhost:8787/supplierProcurement/lookup' \
+    -H 'application/x-www-form-urlencoded' \
+    -d 'name=Parsons-Glass'
+
+curl -v 'http://localhost:8787/supplierProcurement/lookup/?name=Martinez+Ltd'
+###
+
+GET http://{{host}}/{{api}}/lookup/?name=Parsons-Glass HTTP/1.1
+###
 curl -X POST http://localhost:8787/supplierProcurement \
  -H 'Content-type:application/json' \
  -d '{"companyName": "Bent Spokes", "base": "Melbourne"}'

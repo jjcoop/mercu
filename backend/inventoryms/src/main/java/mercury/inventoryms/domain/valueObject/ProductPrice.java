@@ -12,7 +12,6 @@ public class ProductPrice {
     name = "PRICE",
     unique = false,
     nullable = false,
-    updatable = false,
     length = 100
   )
   private double value;

@@ -36,7 +36,7 @@ public class Supplier {
   @Embedded
   private Set<Contact> contacts =  Collections.emptySet();
 
-  Supplier() {
+  public Supplier() {
   }
 
   public Supplier(String companyName, String base) {
@@ -132,7 +132,7 @@ public class Supplier {
 
   @Override
   public String toString() {
-    return "Supplier [base=" + base.getValue() + ", companyName=" + companyName.getValue() + ", contacts=" + contacts + ", id=" + id + "]";
+    return "Supplier [testeroni=" + base.getValue() + ", companyName=" + companyName.getValue() + ", contacts=" + contacts + ", id=" + id + "]";
   }
 
 }
