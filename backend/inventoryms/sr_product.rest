@@ -31,7 +31,7 @@ curl -X PUT http://{{host}}/{{api}}/777677/part \
  -d '{
     "partName": "Crank",
     "partDescription": "metal oxide",
-    "manufacturer": "Bent Spoke"
+    "manufacturer": "Anderson-Herrera"
 }'
 
 ###

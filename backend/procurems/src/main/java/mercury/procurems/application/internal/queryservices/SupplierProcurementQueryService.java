@@ -3,6 +3,7 @@ package mercury.procurems.application.internal.queryservices;
 import mercury.procurems.interfaces.rest.SupplierController;
 import mercury.procurems.interfaces.rest.transform.SupplierModelAssembler;
 
+import java.io.FileNotFoundException;
 import java.net.URI;
 import java.util.List;
 import java.util.Set;
@@ -11,6 +12,8 @@ import java.util.stream.Collectors;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpStatusCodeException;
+
 import mercury.procurems.domain.aggregate.Supplier;
 import mercury.procurems.infrastructure.repository.SupplierRepository;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
@@ -50,8 +53,12 @@ public class SupplierProcurementQueryService {
                 tmpSupplier = s;
             }
         }
+        try {
+            return linkTo(methodOn(SupplierController.class).one(tmpSupplier.getId())).toUri();
+        } catch (Exception e) {
+            return URI.create("error:supplierMS");
+        }
         
-        return linkTo(methodOn(SupplierController.class).one(tmpSupplier.getId())).toUri();
     }
 
 }

@@ -21,7 +21,7 @@ public class SalemsApplication {
 		return new WebMvcConfigurer() {
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
-				registry.addMapping("/sales").allowedOrigins("http://localhost:3000");
+				registry.addMapping("/sales/**").allowedOrigins("*").allowedMethods("GET", "POST","PUT", "DELETE");
 			}
 		};
 	}

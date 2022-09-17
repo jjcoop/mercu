@@ -1,15 +1,14 @@
-package mercury.inventoryms.antiCorruptionLayer.sharedModel;
-
+package mercury.shareDomain;
 import java.util.Date;
 
-public class SaleTemplate {
+public class SaleSchema {
 
   private Long id;
   private String productName;
   private int quantity;
   private Date dateTime;
 
-  public SaleTemplate(Long id, String productName, int quantity, Date dateTime) {
+  public SaleSchema(Long id, String productName, int quantity, Date dateTime) {
     this.id = id;
     this.productName = productName;
     this.quantity = quantity;
@@ -32,3 +31,4 @@ public class SaleTemplate {
     return dateTime;
   }
 }
+
