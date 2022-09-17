@@ -1,6 +1,7 @@
 package mercury.inventoryms.application.internal.commandservices;
 
 import mercury.inventoryms.interfaces.rest.transform.ProductModelAssembler;
+import mercury.inventoryms.interfaces.rest.transform.PartModelAssembler;
 
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.IanaLinkRelations;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import mercury.inventoryms.domain.aggregate.Product;
 import mercury.inventoryms.domain.entity.Part;
+import mercury.inventoryms.infrastructure.repository.PartRepository;
 import mercury.inventoryms.infrastructure.repository.ProductRepository;
 import mercury.inventoryms.application.internal.queryservices.ProductNotFoundException;
 
@@ -16,11 +18,16 @@ import mercury.inventoryms.application.internal.queryservices.ProductNotFoundExc
 @Service
 public class ProductInventoryCommandService {
     private ProductRepository productRepository;
+    private PartRepository partRepository;
     private ProductModelAssembler assembler;
+    private PartModelAssembler partAssembler;
 
-    public ProductInventoryCommandService(ProductRepository productRepository, ProductModelAssembler assembler) {
+
+    public ProductInventoryCommandService(ProductRepository productRepository, PartRepository partRepository, ProductModelAssembler assembler, PartModelAssembler partAssembler) {
         this.productRepository = productRepository;
+        this.partRepository = partRepository;
         this.assembler = assembler;
+        this.partAssembler = partAssembler;
     }
 
     public ResponseEntity<?> addProduct(Product newProduct) {
@@ -36,8 +43,9 @@ public class ProductInventoryCommandService {
       
       Product product = productRepository.findById(id)
           .orElseThrow(() -> new ProductNotFoundException(id));
-  
+      
       part.setProduct(product);
+      partRepository.save(part);
       product.addPart(part);
       productRepository.save(product);
   
@@ -71,12 +79,21 @@ public class ProductInventoryCommandService {
 
     public ResponseEntity<?> updatePart(Long productId, Long partId, Part newPart) {
       
-      Product updatedProduct = productRepository.findById(productId)
-        .orElseThrow(() -> new ProductNotFoundException(productId));
-  
-      updatedProduct.updatePart(partId, newPart);
+      Product product = productRepository.findById(productId)
+          .orElseThrow(() -> new ProductNotFoundException(productId));
 
-      EntityModel<Product> entityModel = assembler.toModel(productRepository.save(updatedProduct));
+      Part updatedPart = partRepository.findById(partId) //
+      .map(part -> {
+        part.updatePart(newPart);
+        return partRepository.save(part);
+      }) //
+      .orElseGet(() -> {
+        newPart.setId(partId);
+        return partRepository.save(newPart);
+      });
+      updatedPart.setProduct(product);
+
+      EntityModel<Part> entityModel = partAssembler.toModel(partRepository.save(updatedPart));
   
       return ResponseEntity //
           .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()) //

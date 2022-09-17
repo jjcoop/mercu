@@ -90,26 +90,6 @@ public class Product {
     this.parts = parts;
   }
 
-  public void updatePart(Long id, Part part) {
-    boolean found = false;
-    for (Part p : parts) {
-      if (p.getId().equals(id)) {
-        p.setPartName(part.getPartName());
-        p.setPartDescription(part.getPartDescription());
-        found = true;
-      }
-    }
-    
-    if (!found) {
-      Part newPart = new Part();
-      newPart.setId(id);
-      newPart.setPartName(part.getPartName());
-      newPart.setPartDescription(part.getPartDescription());
-      part.setProduct(this);
-      this.parts.add(part);        
-    };
-  }
-
   public void addPart(Part part){
     this.parts.add(part);
   }
