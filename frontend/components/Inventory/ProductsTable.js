@@ -4,7 +4,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import Title from "./Title";
 
 //GET LINK: http://localhost:8788/productInventory/parts
-export default function PartsTable() {
+export default function ProductsTable() {
   const [keyword, setKeyword] = useState("productInventory");
   const [data, setData] = useState([]);
   const fetchData = () => {
@@ -20,24 +20,22 @@ export default function PartsTable() {
   }, []);
 
   const columns = [
-    { field: "productID", headerName: "Product ID", width: 125, minWidth: 150, maxWidth: 200 },
     { field: "id", headerName: "ID", width: 125, minWidth: 150, maxWidth: 200 },
-    { field: "partName", headerName: "Product Name", width: 125, minWidth: 150, maxWidth: 200},
-    { field: "partDescription", headerName: "Part Description", width: 125, minWidth: 150, maxWidth: 200},
-    { field: "manufacturer", headerName: "manufacturer", width: 125, minWidth: 150, maxWidth: 200},
+    { field: "name", headerName: "Product Name", width: 125, minWidth: 150, maxWidth: 200},
+    { field: "price", headerName: "Price", width: 125, minWidth: 150, maxWidth: 200},
+    { field: "description", headerName: "Description", width: 125, minWidth: 150, maxWidth: 200},
     { field: "quantity", headerName: "Quantity", width: 125, minWidth: 150, maxWidth: 200},
+    { field: "parts", headerName: "Parts #", width: 125, minWidth: 150, maxWidth: 200},
   ];
 
   const rows = [];
-  function createData(productID, id, partName, partDescription, manufacturer, quantity) {
-    return {productID, id, partName, partDescription, manufacturer, quantity};
+  function createData(id, name, price, description, quantity, parts) {
+    return {id, name, price, description, quantity, parts};
   }
 
   data.map((product) =>
-      product.parts.map((c) =>
-        rows.push(
-          createData(product.id, c.id, c.partName, c.partDescription, c.manufacturer, c.quantity)
-        )
+      rows.push(
+        createData(product.id, product.name, product.price, product.description, product.quantity, product.parts.length)
       )
   );
 

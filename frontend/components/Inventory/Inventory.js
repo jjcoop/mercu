@@ -26,22 +26,14 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Title from "./Title";
-import BasicForm from "../Dashboard/BasicForm";
-import ContactsForm from "./ContactsForm";
-import UpdatePartForm from "./UpdatePartForm"
-import UpdateProductForm from "./UpdateProductForm"
-import CreatePartForm from "./CreatePartForm"
-import CreateContact from "./CreateContact"
-import RemoveSupplierForm from "./RemoveSupplierForm"
-import RemoveContactForm from "./RemoveContactForm"
-import TextField from "@mui/material/TextField";
-
-import SendIcon from '@mui/icons-material/Send';
-
-import SuppliersTable from "./SuppliersTable";
-import { Button } from "@mui/material";
-
+import UpdatePartForm from "./UpdatePartForm";
+import UpdateProductForm from "./UpdateProductForm";
+import CreatePartForm from "./CreatePartForm";
+import CreateProductForm from "./CreateProductForm";
+import ProductsTable from "./ProductsTable";
 import PartsTable from "./PartsTable";
+
+
 
 const drawerWidth = 240;
 
@@ -225,8 +217,8 @@ function Inventory() {
           <Grid container spacing={3}>
             <Grid item xs={12}>
               <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
-                <Title>Current Suppliers</Title>
-                <SuppliersTable />
+                <Title>Current Products</Title>
+                <ProductsTable />
               </Paper>
             </Grid>
             <Grid item xs={12}>
@@ -241,11 +233,11 @@ function Inventory() {
                   p: 2,
                   display: "flex",
                   flexDirection: "column",
-                  height: 350,
+                  height: 550
                 }}
               >
-                <Title>Create Part</Title>
-                <CreatePartForm />
+                <Title>Create Product</Title>
+                <CreateProductForm />
               </Paper>
             </Grid>
             <Grid item xs={12}>
@@ -254,13 +246,14 @@ function Inventory() {
                   p: 2,
                   display: "flex",
                   flexDirection: "column",
-                  height: 450
+                  height: 500,
                 }}
               >
-                <Title>Create Product</Title>
-                <CreateContact />
+                <Title>Create Part</Title>
+                <CreatePartForm />
               </Paper>
             </Grid>
+            
             {/* Recent Deposits */}
             <Grid item xs={12} md={12} lg={12}>
               <Paper
@@ -268,7 +261,7 @@ function Inventory() {
                   p: 2,
                   display: "flex",
                   flexDirection: "column",
-                  height: 400,
+                  height: 450,
                 }}
               >
                 <Title>Update Part</Title>

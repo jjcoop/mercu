@@ -7,19 +7,33 @@ import SendIcon from "@mui/icons-material/Send";
 import Box from "@mui/material";
 
 export default function UpdateSupplierForm() {
-  const [inputValue, setInputValue] = React.useState("");
-  const [inputId, setInputId] = React.useState("");
-  const [keyword, setKeyword] = useState("supplierProcurement");
-  const [data, setData] = useState([]);
-  const fetchData = () => {
-    fetch(`http://localhost:8787/${keyword}`)
+  const [productValue, setProductValue] = React.useState("");
+  const [productId, setProductId] = React.useState("");
+
+  const [manufacturerValue, setManufacturerValue] = React.useState("");
+  const [manufacturerId, setManufacturerId] = React.useState("");
+
+  const [pKeyword] = useState("productInventory");
+  const [sKeyword] = useState("supplierProcurement");
+  const [pData, setProductData] = useState([]);
+  const [mData, setManufacturerData] = useState([]);
+  const fetchProductData = () => {
+    fetch(`http://localhost:8788/${pKeyword}`)
       .then((response) => response.json())
-      .then((data) => setData(data._embedded.supplierList))
+      .then((pData) => setProductData(pData._embedded.productList))
+      .catch((err) => console.error(err));
+  };
+
+  const fetchManufacturerData = () => {
+    fetch(`http://localhost:8787/${sKeyword}`)
+      .then((response) => response.json())
+      .then((data) => setManufacturerData(data._embedded.supplierList))
       .catch((err) => console.error(err));
   };
 
   useEffect(() => {
-    fetchData();
+    fetchProductData(),
+    fetchManufacturerData()
   }, []);
 
   const handleSubmit = async (event) => {
@@ -27,20 +41,21 @@ export default function UpdateSupplierForm() {
     event.preventDefault();
 
     // Get data from the form.
-    const data = {
-      fname: event.target.partName.value,
-      lname: event.target.lastName.value,
-      phone: event.target.partID.value,
-      email: event.target.partDescription.value,
-      position: event.target.contactPosition.value,
+    const returnData = {
+      name: event.target.partName.value,
+      description: event.target.partDescription.value,
+      manufacturer: manufacturerValue,
+      quantity: event.target.quantity.value,
     };
 
     // Send the data to the server in JSON format.
-    const JSONdata = JSON.stringify(data);
+    const JSONdata = JSON.stringify(returnData);
+
+    console.log(JSONdata);
 
     // API endpoint where we send form data.
 
-    const endpoint = `http://localhost:8787/supplierProcurement/${inputId}/contact`;
+    const endpoint = `http://localhost:8788/productInventory/${productId}/part`;
 
     // Form the request for sending data to the server.
     const options = {
@@ -63,15 +78,16 @@ export default function UpdateSupplierForm() {
 
     if (response.status == 201) {
       alert(
-        "Created Contact for Supplier: " +
-          inputValue +
-          "\nContact Name: " +
-          event.target.partName.value + event.target.lastName.value +
-          "\nContact Email: " + event.target.partDescription.value +
-          "\nContact Position: " + event.target.contactPosition.value +
+        "Created Part:" +
+          "\nPart Name: " + event.target.partName.value + event.target.description.value +
+          "\nPart Description: " + event.target.partDescription.value +
+          "\nQuantity: " + event.target.quantity.value +
           ".\nRefreshing webpage now..."
       );
       window.location.reload(false);
+    }
+    else{
+      alert("An error occurred: ", result)
     }
   };
 
@@ -79,18 +95,19 @@ export default function UpdateSupplierForm() {
     <div>
       <form onSubmit={handleSubmit}>
         <Autocomplete
-          getOptionLabel={(option) => `${option.companyName}: ${option.id}`}
-          onInputChange={(event, newInputValue) => {
-            setInputValue(newInputValue);
-            setInputId(newInputValue.replace(/\D/g, ""));
+          getOptionLabel={(x) => `${x.name}: ${x.id}`}
+          onInputChange={(event, newproductValue) => {
+            setProductValue(newproductValue);
+            setProductId(newproductValue.replace(/\D/g, ""));
+
           }}
           disablePortal
           id="combo-box-demo"
-          options={data}
+          options={pData}
           sx={{ width: 400 }}
           renderInput={(params) => (
             <div>
-              <TextField {...params} label="Select Supplier To Add Part" />
+              <TextField {...params} label="Select Product To Add Part To" />
               <br />
             </div>
           )}
@@ -102,13 +119,40 @@ export default function UpdateSupplierForm() {
           label="Part Name"
           name="partName"
         />
+        <br /><br />
         <TextField
           fullWidth
-          margin="normal"
           required
           id="outlined-required"
           label="Description"
           name="partDescription"
+        />
+        <br /><br />
+        <Autocomplete
+          getOptionLabel={(option) => `${option.companyName}: ${option.id}`}
+          onInputChange={(event, newManufacturerValue) => {
+            setManufacturerId(newManufacturerValue.replace(/\W/g, ''));
+            setManufacturerValue(newManufacturerValue.substring(0, newManufacturerValue.indexOf(':')));
+            console.log("Manufacturer value after split: ", manufacturerValue)
+          }}
+          disablePortal
+          id="combo-box-demo"
+          options={mData}
+          sx={{ width: 400 }}
+          renderInput={(params) => (
+            <div>
+              <TextField {...params} label="Select Manufacturer" />
+              <br />
+            </div>
+          )}
+        />
+        
+        <TextField
+          margin="normal"
+          required
+          id="outlined-required"
+          label="Quantity"
+          name="quantity"
         />
         <br />
         <Button

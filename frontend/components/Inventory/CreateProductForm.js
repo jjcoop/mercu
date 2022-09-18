@@ -6,15 +6,17 @@ import Autocomplete from "@mui/material/Autocomplete";
 import SendIcon from "@mui/icons-material/Send";
 import Box from "@mui/material";
 
-export default function UpdateSupplierForm() {
+//GET LINK: http://localhost:8788/productInventory/parts
+
+export default function CreateProductForm() {
   const [inputValue, setInputValue] = React.useState("");
   const [inputId, setInputId] = React.useState("");
-  const [keyword, setKeyword] = useState("supplierProcurement");
+  const [keyword, setKeyword] = useState("productInventory");
   const [data, setData] = useState([]);
   const fetchData = () => {
-    fetch(`http://localhost:8787/${keyword}`)
+    fetch(`http://localhost:8788/${keyword}/parts`)
       .then((response) => response.json())
-      .then((data) => setData(data._embedded.supplierList))
+      .then((data) => setData(data._embedded.partList))
       .catch((err) => console.error(err));
   };
 
@@ -28,11 +30,10 @@ export default function UpdateSupplierForm() {
 
     // Get data from the form.
     const data = {
-      fname: event.target.productName.value,
-      lname: event.target.productPrice.value,
-      phone: event.target.comment.value,
-      email: event.target.contactEmail.value,
-      position: event.target.contactPosition.value,
+      name: event.target.productName.value,
+      price: event.target.productPrice.value,
+      description: event.target.productDescription.value,
+      quantity: event.target.productQuantity.value,
     };
 
     // Send the data to the server in JSON format.
@@ -40,12 +41,12 @@ export default function UpdateSupplierForm() {
 
     // API endpoint where we send form data.
 
-    const endpoint = `http://localhost:8787/supplierProcurement/${inputId}/contact`;
+    const endpoint = `http://localhost:8788/productInventory`;
 
     // Form the request for sending data to the server.
     const options = {
       // The method is POST because we are sending data.
-      method: "PUT",
+      method: "POST",
       // Tell the server we're sending JSON.
       headers: {
         "Content-Type": "application/json",
@@ -63,12 +64,11 @@ export default function UpdateSupplierForm() {
 
     if (response.status == 201) {
       alert(
-        "Created Contact for Supplier: " +
-          inputValue +
-          "\nContact Name: " +
-          event.target.productName.value + event.target.productPrice.value +
-          "\nContact Email: " + event.target.contactEmail.value +
-          "\nContact Position: " + event.target.contactPosition.value +
+        "Created Product: " +
+          "\nProduct Name: " + event.target.productName.value + 
+          "\nProduct Price: " + event.target.productPrice.value +
+          "\nProduct Description: " + event.target.productDescription.value +
+          "\nQuantity: " + event.target.productQuantity.value +
           ".\nRefreshing webpage now..."
       );
       window.location.reload(false);
@@ -78,23 +78,6 @@ export default function UpdateSupplierForm() {
   return (
     <div>
       <form onSubmit={handleSubmit}>
-        <Autocomplete
-          getOptionLabel={(option) => `${option.companyName}: ${option.id}`}
-          onInputChange={(event, newInputValue) => {
-            setInputValue(newInputValue);
-            setInputId(newInputValue.replace(/\D/g, ""));
-          }}
-          disablePortal
-          id="combo-box-demo"
-          options={data}
-          sx={{ width: 400 }}
-          renderInput={(params) => (
-            <div>
-              <TextField {...params} label="Select Parts to Add to Product" />
-              <br />
-            </div>
-          )}
-        />
         <br />
         <TextField
           required
@@ -116,10 +99,36 @@ export default function UpdateSupplierForm() {
           margin="normal"
           required
           id="outlined-required"
-          label="Comment"
-          name="comment"
+          label="Product Description"
+          name="productDescription"
         />
         <br />
+        <TextField
+          fullWidth
+          margin="normal"
+          required
+          id="outlined-required"
+          label="Quantity"
+          name="productQuantity"
+        />
+        <br /><br />
+        {/* <Autocomplete
+          getOptionLabel={(option) => `${option.partName}: ${option.id}`}
+          onInputChange={(event, newInputValue) => {
+            setInputValue(newInputValue);
+            setInputId(newInputValue.replace(/\D/g, ""));
+          }}
+          disablePortal
+          id="combo-box-demo"
+          options={data}
+          sx={{ width: 400 }}
+          renderInput={(params) => (
+            <div>
+              <TextField {...params} label="Select Part to Add to Product" />
+              <br />
+            </div>
+          )}
+        /> */}
         <Button
           color="success"
           sx={{ width: 250, marginTop: 2 }}

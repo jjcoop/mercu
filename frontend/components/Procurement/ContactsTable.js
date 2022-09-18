@@ -9,6 +9,7 @@ export default function contacts() {
   const fetchData = () => {
     fetch(`http://localhost:8787/${keyword}`)
       .then((response) => response.json())
+      .then(alert(data))
       .then((data) => setData(data._embedded.supplierList))
       .catch((err) => console.error(err));
   };

@@ -33,7 +33,7 @@ import UpdateContactForm from "./UpdateContactForm"
 import CreateSupplierForm from "./CreateSupplierForm"
 import CreateContact from "./CreateContact"
 import RemoveSupplierForm from "./RemoveSupplierForm"
-import RemoveContactForm from "./RemoveContactForm"
+
 import TextField from "@mui/material/TextField";
 
 import SendIcon from '@mui/icons-material/Send';
@@ -301,20 +301,6 @@ function Procurements() {
               >
                 <Title>Remove Supplier</Title>
                 <RemoveSupplierForm />
-              </Paper>
-            </Grid>
-            <Grid item xs={12}>
-              
-              <Paper
-                sx={{
-                  p: 2,
-                  display: "flex",
-                  flexDirection: "column",
-                  height: 300,
-                }}
-              >
-                <Title>Remove Contact</Title>
-                <RemoveContactForm />
               </Paper>
             </Grid>
           </Grid>
