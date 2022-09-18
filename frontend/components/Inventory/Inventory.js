@@ -233,11 +233,11 @@ function Inventory() {
                   p: 2,
                   display: "flex",
                   flexDirection: "column",
-                  height: 500,
+                  height: 550
                 }}
               >
-                <Title>Create Part</Title>
-                <CreatePartForm />
+                <Title>Create Product</Title>
+                <CreateProductForm />
               </Paper>
             </Grid>
             <Grid item xs={12}>
@@ -246,13 +246,14 @@ function Inventory() {
                   p: 2,
                   display: "flex",
                   flexDirection: "column",
-                  height: 450
+                  height: 500,
                 }}
               >
-                <Title>Create Product</Title>
-                <CreateProductForm />
+                <Title>Create Part</Title>
+                <CreatePartForm />
               </Paper>
             </Grid>
+            
             {/* Recent Deposits */}
             <Grid item xs={12} md={12} lg={12}>
               <Paper

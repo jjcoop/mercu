@@ -30,11 +30,10 @@ export default function CreateProductForm() {
 
     // Get data from the form.
     const data = {
-      fname: event.target.productName.value,
-      lname: event.target.productPrice.value,
-      phone: event.target.comment.value,
-      email: event.target.contactEmail.value,
-      position: event.target.contactPosition.value,
+      name: event.target.productName.value,
+      price: event.target.productPrice.value,
+      description: event.target.productDescription.value,
+      quantity: event.target.productQuantity.value,
     };
 
     // Send the data to the server in JSON format.
@@ -42,12 +41,12 @@ export default function CreateProductForm() {
 
     // API endpoint where we send form data.
 
-    const endpoint = `http://localhost:8787/supplierProcurement/${inputId}/contact`;
+    const endpoint = `http://localhost:8788/productInventory`;
 
     // Form the request for sending data to the server.
     const options = {
       // The method is POST because we are sending data.
-      method: "PUT",
+      method: "POST",
       // Tell the server we're sending JSON.
       headers: {
         "Content-Type": "application/json",
@@ -65,12 +64,11 @@ export default function CreateProductForm() {
 
     if (response.status == 201) {
       alert(
-        "Created Contact for Supplier: " +
-          inputValue +
-          "\nContact Name: " +
-          event.target.productName.value + event.target.productPrice.value +
-          "\nContact Email: " + event.target.contactEmail.value +
-          "\nContact Position: " + event.target.contactPosition.value +
+        "Created Product: " +
+          "\nProduct Name: " + event.target.productName.value + 
+          "\nProduct Price: " + event.target.productPrice.value +
+          "\nProduct Description: " + event.target.productDescription.value +
+          "\nQuantity: " + event.target.productQuantity.value +
           ".\nRefreshing webpage now..."
       );
       window.location.reload(false);
@@ -80,23 +78,6 @@ export default function CreateProductForm() {
   return (
     <div>
       <form onSubmit={handleSubmit}>
-        <Autocomplete
-          getOptionLabel={(option) => `${option.partName}: ${option.id}`}
-          onInputChange={(event, newInputValue) => {
-            setInputValue(newInputValue);
-            setInputId(newInputValue.replace(/\D/g, ""));
-          }}
-          disablePortal
-          id="combo-box-demo"
-          options={data}
-          sx={{ width: 400 }}
-          renderInput={(params) => (
-            <div>
-              <TextField {...params} label="Select Part to Add to Product" />
-              <br />
-            </div>
-          )}
-        />
         <br />
         <TextField
           required
@@ -118,10 +99,36 @@ export default function CreateProductForm() {
           margin="normal"
           required
           id="outlined-required"
-          label="Comment"
-          name="comment"
+          label="Product Description"
+          name="productDescription"
         />
         <br />
+        <TextField
+          fullWidth
+          margin="normal"
+          required
+          id="outlined-required"
+          label="Quantity"
+          name="productQuantity"
+        />
+        <br /><br />
+        {/* <Autocomplete
+          getOptionLabel={(option) => `${option.partName}: ${option.id}`}
+          onInputChange={(event, newInputValue) => {
+            setInputValue(newInputValue);
+            setInputId(newInputValue.replace(/\D/g, ""));
+          }}
+          disablePortal
+          id="combo-box-demo"
+          options={data}
+          sx={{ width: 400 }}
+          renderInput={(params) => (
+            <div>
+              <TextField {...params} label="Select Part to Add to Product" />
+              <br />
+            </div>
+          )}
+        /> */}
         <Button
           color="success"
           sx={{ width: 250, marginTop: 2 }}
