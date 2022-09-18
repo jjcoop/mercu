@@ -12,7 +12,6 @@ public class StoreManager {
     name = "MANAGER",
     unique = false,
     nullable = false,
-    updatable = false,
     length = 100
   )
   private String value;

@@ -2,14 +2,14 @@ package mercury.salems.antiCorruptionLayer.sharedModel;
 
 import java.util.Date;
 
-public class SaleSimple {
+public class SaleTemplate {
 
   private Long id;
   private String productName;
   private int quantity;
   private Date dateTime;
 
-  public SaleSimple(Long id, String productName, int quantity, Date dateTime) {
+  public SaleTemplate(Long id, String productName, int quantity, Date dateTime) {
     this.id = id;
     this.productName = productName;
     this.quantity = quantity;

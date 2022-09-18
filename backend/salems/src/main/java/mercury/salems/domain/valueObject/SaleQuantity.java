@@ -12,7 +12,6 @@ public class SaleQuantity {
     name = "ADDRESS",
     unique = false,
     nullable = false,
-    updatable = false,
     length = 100
   )
   private int value;

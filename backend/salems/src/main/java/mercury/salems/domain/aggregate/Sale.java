@@ -2,6 +2,8 @@ package mercury.salems.domain.aggregate;
 
 import java.util.Date;
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.DiscriminatorType;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,6 +13,8 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+
+import mercury.salems.domain.valueObject.ProductId;
 import mercury.salems.domain.valueObject.SaleDate;
 import mercury.salems.domain.valueObject.SaleProductName;
 import mercury.salems.domain.valueObject.SaleQuantity;
@@ -19,6 +23,7 @@ import mercury.salems.domain.valueObject.SaleQuantity;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @Table(name = "Tbl_Sale")
 @SequenceGenerator(name = "sal", initialValue = 9999900, allocationSize = 100)
+@DiscriminatorColumn(name = "type", discriminatorType = DiscriminatorType.STRING)
 public class Sale {
 
   @Column(name = "ID", unique = true, nullable = false)
@@ -30,6 +35,9 @@ public class Sale {
   private SaleProductName productName;
 
   @Embedded
+  private ProductId productId;
+
+  @Embedded
   private SaleQuantity quantity;
 
   @Embedded
@@ -37,9 +45,10 @@ public class Sale {
 
   public Sale() {}
 
-  public Sale(Long id, String productName, int quantity) {
+  public Sale(Long id, String productName, int productId, int quantity) {
     this.id = id;
     this.productName = new SaleProductName(productName);
+    this.productId = new ProductId(productId);
     this.quantity = new SaleQuantity(quantity);
   }
 
@@ -57,6 +66,14 @@ public class Sale {
 
   public void setProductName(String productName) {
     this.productName = new SaleProductName(productName);
+  }
+
+  public int getProductId() {
+    return productId.getValue();
+  }
+
+  public void setProductId(int productId) {
+    this.productId = new ProductId(productId);
   }
 
   public int getQuantity() {

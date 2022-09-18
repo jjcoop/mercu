@@ -51,7 +51,7 @@ public class SupplierProcurementQueryService {
     public URI findByName(String name){
         List<Supplier> suppliers = supplierRepository.findAll();
         Supplier tmpSupplier = new Supplier();
-        String searchName = URLDecoder.decode(name, StandardCharsets.UTF_8);
+        String searchName = URLDecoder.decode(name);//, StandardCharsets.UTF_8);
         System.out.println(searchName);
         for (Supplier s : suppliers){
             if (s.getCompanyName().equals(searchName)){

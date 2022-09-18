@@ -2,6 +2,7 @@ package mercury.salems.domain.aggregate;
 
 import javax.persistence.InheritanceType;
 import javax.persistence.CascadeType;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
@@ -21,32 +22,48 @@ import net.bytebuddy.utility.RandomString;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public class InStoreSale extends Sale{
-    @ManyToOne(cascade=CascadeType.PERSIST)
-    @JoinColumn(name = "STORE_ID")
-    @JsonIgnore
-    private Store store;
-    @Embedded
-    private SaleReceipt receipt = new SaleReceipt(RandomString.make());
-  
-    @JsonProperty(value = "store")
-    public Link getStoreName(){
-      return linkTo(methodOn(SaleController.class).getStore(this.store.getId())).withSelfRel();
-    }
+@DiscriminatorValue(value = "instore")
+public class InStoreSale extends Sale {
+  @ManyToOne(cascade = CascadeType.PERSIST)
+  @JoinColumn(name = "STORE_ID")
+  @JsonIgnore
+  private Store store;
 
-    public Store getStore() {
-      return store;
-    }
+  @Embedded
+  private SaleReceipt receipt = new SaleReceipt(RandomString.make());
 
-    public void setStore(Store store) {
-      this.store = store;
-    }
-
-    public String getReceipt() {
-      return receipt.getValue();
-    }
-
-    public void setReceipt(String receipt) {
-      this.receipt = new SaleReceipt(receipt);
-    }
+  public InStoreSale() {
+    // to satisfy all of the requirements of each variable having a value
+    this(new Long(1), "default", 1, 1, "default");
   }
+
+  public InStoreSale(Long id, String productName, int productId, int quantity, String receipt) {
+    super(id, productName, productId, quantity);
+    this.receipt = new SaleReceipt(receipt);
+  }
+
+  @JsonProperty(value = "store")
+  public Link getStoreName() {
+    return linkTo(methodOn(SaleController.class).getStore(this.store.getId())).withSelfRel();
+  }
+
+  public Store getStore() {
+    return store;
+  }
+
+  public void setStore(Store store) {
+    this.store = store;
+  }
+
+  public Long getStoreId() {
+    return store.getId();
+  }
+
+  public String getReceipt() {
+    return receipt.getValue();
+  }
+
+  public void setReceipt(String receipt) {
+    this.receipt = new SaleReceipt(receipt);
+  }
+}

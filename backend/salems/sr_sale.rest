@@ -13,26 +13,49 @@
 # ./mvnw clean install
 # java -jar target/Procurement*
 
-###
-curl -X POST http://{{host}}/{{api}} \
+
+
+### Adding Part to Part repo
+curl -X POST http://localhost:8788/partInventory \
  -H 'Content-type:application/json' \
- -d '{"customerName": "Bill Murray", "address": "13 The Farm, Adelaide, 4321", "productName": "Handlebars", "quantity": "2"}'
+ -d '{"partName":"Handle Bars", "partDescription":"Straight bar handle bars for kids mountain bike", "quantity":10, "manufacturer":"Illawarra Biking Foundry"}'
 
-###
-
-###
-curl -X POST http://{{host}}/{{api}} \
+### Adding product containing above part
+curl -X POST http://localhost:8788/productInventory/withPart/30423 \
  -H 'Content-type:application/json' \
- -d '{"productName": "crank", "quantity": 12, "customerName": "bob", "address": "14 wallaby way"}'
+ -d '{"name": "Partial Bike", "price": 122.3, "description": "Just handlebars tbh", "quantity":2}'
+
+### Checking all products
+GET http://localhost:8788/productInventory/
 
 ###
 
+GET http://localhost:8788/productInventory/777677
 
+# ### Sample product (with no parts)
+# curl -X POST http://localhost:8788/productInventory \
+#  -H 'Content-type:application/json' \
+#  -d '{"name": "crank", "price": 122.3, "description": "sample description", "quantity":20}'
+
+### Create store
 curl -X POST http://{{host}}/{{api}}/store \
  -H 'Content-type:application/json' \
  -d '{"address": "fake address", "managerName": "steve"}'
 
+### InStoreSale
+curl -X POST http://{{host}}/{{api}}/store/33333200 \
+ -H 'Content-type:application/json' \
+ -d '{"productName": "crank", "productId":777677, "quantity": 1}'
+
 ###
+
+### Online Sale
+curl -X POST http://{{host}}/{{api}}/online \
+ -H 'Content-type:application/json' \
+ -d '{"customerName": "Bill Murray", "address": "13 The Farm, Adelaide, 4321", "productName": "crank", "productId":777677, "quantity": "2"}'
+
+### Get all OnlineSale
+GET http://{{host}}/onlinesales HTTP/1.1 
 
 # curl -v localhost:8789/sale | json_pp
 GET http://{{host}}/{{api}} HTTP/1.1

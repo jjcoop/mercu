@@ -12,7 +12,6 @@ public class SaleDate {
     name = "DATE",
     unique = false,
     nullable = false,
-    updatable = false,
     length = 100
   )
   private Date value;
