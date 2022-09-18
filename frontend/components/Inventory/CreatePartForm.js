@@ -8,7 +8,6 @@ import Box from "@mui/material";
 
 export default function UpdateSupplierForm() {
   const [inputValue, setInputValue] = React.useState("");
-  const [inputId, setInputId] = React.useState("");
   const [keyword, setKeyword] = useState("supplierProcurement");
   const [data, setData] = useState([]);
   const fetchData = () => {
@@ -28,19 +27,20 @@ export default function UpdateSupplierForm() {
 
     // Get data from the form.
     const data = {
-      fname: event.target.partName.value,
-      lname: event.target.lastName.value,
-      phone: event.target.partID.value,
-      email: event.target.partDescription.value,
-      position: event.target.contactPosition.value,
+      name: event.target.partName.value,
+      description: event.target.partDescription.value,
+      manufacturer: inputValue,
+      quantity: event.target.quantity.value,
     };
 
     // Send the data to the server in JSON format.
     const JSONdata = JSON.stringify(data);
 
+    console.log(JSONdata);
+
     // API endpoint where we send form data.
 
-    const endpoint = `http://localhost:8787/supplierProcurement/${inputId}/contact`;
+    const endpoint = `http://localhost:8788/productInventory`;
 
     // Form the request for sending data to the server.
     const options = {
@@ -63,45 +63,30 @@ export default function UpdateSupplierForm() {
 
     if (response.status == 201) {
       alert(
-        "Created Contact for Supplier: " +
-          inputValue +
-          "\nContact Name: " +
-          event.target.partName.value + event.target.lastName.value +
-          "\nContact Email: " + event.target.partDescription.value +
-          "\nContact Position: " + event.target.contactPosition.value +
+        "Created Part:" +
+          "\Part Name: " + event.target.partName.value + event.target.description.value +
+          "\Part Description: " + event.target.partDescription.value +
+          "\nManufacturer: " + inputValue +
+          "\Quantity: " + event.target.quantity.value +
           ".\nRefreshing webpage now..."
       );
       window.location.reload(false);
+    }
+    else{
+      alert("An error occurred: ", result)
     }
   };
 
   return (
     <div>
       <form onSubmit={handleSubmit}>
-        <Autocomplete
-          getOptionLabel={(option) => `${option.companyName}: ${option.id}`}
-          onInputChange={(event, newInputValue) => {
-            setInputValue(newInputValue);
-            setInputId(newInputValue.replace(/\D/g, ""));
-          }}
-          disablePortal
-          id="combo-box-demo"
-          options={data}
-          sx={{ width: 400 }}
-          renderInput={(params) => (
-            <div>
-              <TextField {...params} label="Select Supplier To Add Part" />
-              <br />
-            </div>
-          )}
-        />
-        <br />
         <TextField
           required
           id="outlined-required"
           label="Part Name"
           name="partName"
         />
+        <br />
         <TextField
           fullWidth
           margin="normal"
@@ -109,6 +94,32 @@ export default function UpdateSupplierForm() {
           id="outlined-required"
           label="Description"
           name="partDescription"
+        />
+        <br />
+        <br />
+        <Autocomplete
+          getOptionLabel={(option) => `${option.companyName}`}
+          onInputChange={(event, newInputValue) => {
+            setInputValue(newInputValue);
+          }}
+          disablePortal
+          id="combo-box-demo"
+          options={data}
+          sx={{ width: 400 }}
+          renderInput={(params) => (
+            <div>
+              <TextField {...params} label="Select Manufacturer To Add Part" />
+              <br />
+            </div>
+          )}
+        />
+        <br />
+        <TextField
+          margin="normal"
+          required
+          id="outlined-required"
+          label="Quantity"
+          name="quantity"
         />
         <br />
         <Button

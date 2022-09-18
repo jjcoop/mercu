@@ -29,7 +29,7 @@ import Title from "./Title";
 import UpdatePartForm from "./UpdatePartForm";
 import UpdateProductForm from "./UpdateProductForm";
 import CreatePartForm from "./CreatePartForm";
-import CreateContact from "./CreateContact";
+import CreateProductForm from "./CreateProductForm";
 import ProductsTable from "./ProductsTable";
 import PartsTable from "./PartsTable";
 
@@ -217,14 +217,14 @@ function Inventory() {
           <Grid container spacing={3}>
             <Grid item xs={12}>
               <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
-                <Title>Current Parts</Title>
-                <PartsTable />
+                <Title>Current Products</Title>
+                <ProductsTable />
               </Paper>
             </Grid>
             <Grid item xs={12}>
               <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
-                <Title>Current Products</Title>
-                <ProductsTable />
+                <Title>Current Parts</Title>
+                <PartsTable />
               </Paper>
             </Grid>
             <Grid item xs={12}>
@@ -233,7 +233,7 @@ function Inventory() {
                   p: 2,
                   display: "flex",
                   flexDirection: "column",
-                  height: 350,
+                  height: 500,
                 }}
               >
                 <Title>Create Part</Title>
@@ -250,7 +250,7 @@ function Inventory() {
                 }}
               >
                 <Title>Create Product</Title>
-                <CreateContact />
+                <CreateProductForm />
               </Paper>
             </Grid>
             {/* Recent Deposits */}

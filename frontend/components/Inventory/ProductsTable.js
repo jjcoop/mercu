@@ -4,13 +4,13 @@ import { DataGrid } from "@mui/x-data-grid";
 import Title from "./Title";
 
 //GET LINK: http://localhost:8788/productInventory/parts
-export default function products() {
+export default function ProductsTable() {
   const [keyword, setKeyword] = useState("productInventory");
   const [data, setData] = useState([]);
   const fetchData = () => {
-    fetch(`http://localhost:8788/${keyword}/parts`)
+    fetch(`http://localhost:8788/${keyword}`)
       .then((response) => response.json())
-      .then((data) => setData(data._embedded.partList))
+      .then((data) => setData(data._embedded.productList))
       .catch((err) => console.error(err));
   };
   
@@ -21,20 +21,21 @@ export default function products() {
 
   const columns = [
     { field: "id", headerName: "ID", width: 125, minWidth: 150, maxWidth: 200 },
-    { field: "partName", headerName: "Product Name", width: 125, minWidth: 150, maxWidth: 200},
-    { field: "partDescription", headerName: "Part Description", width: 125, minWidth: 150, maxWidth: 200},
-    { field: "manufacturer", headerName: "manufacturer", width: 125, minWidth: 150, maxWidth: 200},
+    { field: "name", headerName: "Product Name", width: 125, minWidth: 150, maxWidth: 200},
+    { field: "price", headerName: "Price", width: 125, minWidth: 150, maxWidth: 200},
+    { field: "description", headerName: "Description", width: 125, minWidth: 150, maxWidth: 200},
     { field: "quantity", headerName: "Quantity", width: 125, minWidth: 150, maxWidth: 200},
+    { field: "parts", headerName: "Parts #", width: 125, minWidth: 150, maxWidth: 200},
   ];
 
   const rows = [];
-  function createData(id, partName, partDescription, manufacturer, quantity) {
-    return {id, partName, partDescription, manufacturer, quantity};
+  function createData(id, name, price, description, quantity, parts) {
+    return {id, name, price, description, quantity, parts};
   }
 
   data.map((product) =>
       rows.push(
-        createData(product.id, product.partName, product.partDescription, product.manufacturer, product.quantity)
+        createData(product.id, product.name, product.price, product.description, product.quantity, product.parts.length)
       )
   );
 

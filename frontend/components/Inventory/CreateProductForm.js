@@ -6,15 +6,17 @@ import Autocomplete from "@mui/material/Autocomplete";
 import SendIcon from "@mui/icons-material/Send";
 import Box from "@mui/material";
 
-export default function UpdateSupplierForm() {
+//GET LINK: http://localhost:8788/productInventory/parts
+
+export default function CreateProductForm() {
   const [inputValue, setInputValue] = React.useState("");
   const [inputId, setInputId] = React.useState("");
-  const [keyword, setKeyword] = useState("supplierProcurement");
+  const [keyword, setKeyword] = useState("productInventory");
   const [data, setData] = useState([]);
   const fetchData = () => {
-    fetch(`http://localhost:8787/${keyword}`)
+    fetch(`http://localhost:8788/${keyword}/parts`)
       .then((response) => response.json())
-      .then((data) => setData(data._embedded.supplierList))
+      .then((data) => setData(data._embedded.partList))
       .catch((err) => console.error(err));
   };
 
@@ -79,7 +81,7 @@ export default function UpdateSupplierForm() {
     <div>
       <form onSubmit={handleSubmit}>
         <Autocomplete
-          getOptionLabel={(option) => `${option.companyName}: ${option.id}`}
+          getOptionLabel={(option) => `${option.partName}: ${option.id}`}
           onInputChange={(event, newInputValue) => {
             setInputValue(newInputValue);
             setInputId(newInputValue.replace(/\D/g, ""));
@@ -90,7 +92,7 @@ export default function UpdateSupplierForm() {
           sx={{ width: 400 }}
           renderInput={(params) => (
             <div>
-              <TextField {...params} label="Select Parts to Add to Product" />
+              <TextField {...params} label="Select Part to Add to Product" />
               <br />
             </div>
           )}
