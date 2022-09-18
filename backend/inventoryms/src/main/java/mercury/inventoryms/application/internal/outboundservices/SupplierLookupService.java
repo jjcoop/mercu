@@ -14,7 +14,7 @@ public class SupplierLookupService {
     public URI fetchSupplierURI(String supplier) {
 
         RestTemplate restTemplate = new RestTemplate();
-        String param = URLEncoder.encode(supplier, StandardCharsets.UTF_8);
+        String param = URLEncoder.encode(supplier);//, StandardCharsets.UTF_8);
 
         try {
             return restTemplate.getForObject("http://localhost:8787/supplierProcurement/lookup/?name={supplier}",

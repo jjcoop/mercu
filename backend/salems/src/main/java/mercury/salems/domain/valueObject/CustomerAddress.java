@@ -11,9 +11,7 @@ public class CustomerAddress {
   @Column(
     name = "CUST_ADDRESS",
     unique = false,
-    nullable = false,
-    //insertable = false,
-    updatable = false,
+    nullable = true,
     length = 100
   )
   private String value;

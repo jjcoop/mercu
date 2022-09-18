@@ -12,7 +12,6 @@ public class SaleReceipt {
     name = "RECEIPT",
     unique = false,
     nullable = true,
-    updatable = false,
     length = 100
   )
   private String value;

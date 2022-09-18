@@ -3,42 +3,35 @@ package mercury.salems.domain.valueObject;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
-import mercury.salems.domain.exceptions.EmptyStringException;
 
 @Embeddable
-public class CustomerName {
+public class ProductId {
 
   @Column(
-    name = "CUSTOMER",
+    name = "PRODUCT_ID",
     unique = false,
-    nullable = true,
+    nullable = false,
     length = 100
   )
-  private String value;
+  private int value;
 
-  public CustomerName() {}
+  public ProductId() {}
 
-  public CustomerName(String value) {
-    try {
-      if (value.length() == 0) {
-        throw new EmptyStringException("Customer name");
-      }
+  public ProductId(int value) {
       this.value = value;
-    } catch (EmptyStringException e) {
-      System.out.println(e.getMessage());
-    }
+
   }
 
-  public String getValue() {
+  public int getValue() {
     return value;
   }
 
   @Override
   public boolean equals(Object o) {
-    if (!(o instanceof CustomerName)) {
+    if (!(o instanceof SaleQuantity)) {
       return false;
     } else {
-      CustomerName pp = (CustomerName) o;
+      SaleQuantity pp = (SaleQuantity) o;
       if (this.value == pp.getValue()) {
         return true;
       } else {
