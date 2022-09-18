@@ -1,4 +1,4 @@
-package mercury.salems.antiCorruptionLayer.sharedModel;
+package mercury.shareDomain;
 
 public class PartTemplate {
 
@@ -40,5 +40,14 @@ public class PartTemplate {
 
   public String getManufacturer() {
     return manufacturer;
+  }
+
+  public String toString() {
+    String retString = "part[ id=" + getId();
+    retString += "part[ partName=" + getPartName();
+    retString += "part[ description=" + getDescription();
+    retString += "part[ quantity=" + getQuantity();
+    retString += "part[ manufacturer=" + getManufacturer();
+    return retString;
   }
 }

@@ -1,6 +1,5 @@
 package mercury.salems.application.internal.queryservices;
 
-import mercury.salems.antiCorruptionLayer.sharedModel.ProductTemplate;
 import mercury.salems.domain.aggregate.InStoreSale;
 import mercury.salems.domain.aggregate.OnlineSale;
 import mercury.salems.domain.aggregate.Sale;
@@ -9,6 +8,8 @@ import mercury.salems.infrastructure.repository.SaleRepository;
 import mercury.salems.infrastructure.repository.StoreRepository;
 import mercury.salems.interfaces.rest.SaleController;
 import mercury.salems.interfaces.rest.transform.SaleModelAssembler;
+import mercury.shareDomain.ProductTemplate;
+import mercury.shareDomain.PartTemplate;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -17,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -30,8 +32,10 @@ public class SaleQueryService {
     @Autowired
     private final StoreRepository storeRepository;
     @Autowired
-
     private SaleModelAssembler assembler;
+@Autowired
+  private RestTemplate restTemplate;
+
 
     // ---------------------
     // Sale
@@ -58,17 +62,6 @@ public class SaleQueryService {
                 .orElseThrow(() -> new SaleNotFoundException(id));
     }
 
-    public ProductTemplate getProductByOnlineSaleId(Long saleId) {
-        OnlineSale sale = (OnlineSale) onlineSaleRepository.findById(saleId)
-                .orElseThrow(() -> new SaleNotFoundException(saleId));
-        
-        // TODO get product info from product repo via REST
-
-
-        // TODO remove this
-        return null;
-    }
-
     // ---------------------
     // OnlineSale
     // ---------------------
@@ -88,6 +81,15 @@ public class SaleQueryService {
         return assembler.toModel(sale);
     }
 
+    public ProductTemplate getProductByOnlineSaleId(Long saleId) {
+        OnlineSale sale = (OnlineSale)onlineSaleRepository.findById(saleId).orElseThrow(() -> new SaleNotFoundException(saleId));
+        
+        // get product info from product repo via REST
+        String productURL = "http://localhost:8788/templateInventory/" + sale.getProductId();
+        ProductTemplate prodTemp = restTemplate.getForObject(productURL, ProductTemplate.class);
+        return prodTemp;
+    }
+
     // ---------------------
     // InStoreSale
     // ---------------------
@@ -105,6 +107,15 @@ public class SaleQueryService {
                 .orElseThrow(() -> new SaleNotFoundException(id));
 
         return assembler.toModel(sale);
+    }
+
+    public ProductTemplate getProductByInStoreSaleId(Long saleId) {
+        InStoreSale sale = (InStoreSale)inStoreSaleRepository.findById(saleId).orElseThrow(() -> new SaleNotFoundException(saleId));
+        
+        // get product info from product repo via REST
+        String productURL = "http://localhost:8788/templateInventory/" + sale.getProductId();
+        ProductTemplate prodTemp = restTemplate.getForObject(productURL, ProductTemplate.class);
+        return prodTemp;
     }
 
     // ---------------------

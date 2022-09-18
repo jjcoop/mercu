@@ -1,12 +1,13 @@
 package mercury.salems.interfaces.rest;
 
-import mercury.salems.antiCorruptionLayer.sharedModel.ProductTemplate;
 import mercury.salems.application.internal.commandservices.SaleCommandService;
 import mercury.salems.application.internal.queryservices.SaleQueryService;
 import mercury.salems.domain.aggregate.InStoreSale;
 import mercury.salems.domain.aggregate.OnlineSale;
 import mercury.salems.domain.aggregate.Sale;
 import mercury.salems.domain.entity.Store;
+import mercury.shareDomain.ProductTemplate;
+import mercury.shareDomain.PartTemplate;
 
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
@@ -69,10 +70,14 @@ public ProductTemplate getProductByOnlineSaleId(@PathVariable Long id){
 }
 
 // InStoreSale
-@PostMapping("/sales/store/{id}")
-ResponseEntity<?> addInStoreSale(@PathVariable Long id, @RequestBody InStoreSale sale) {
+@PostMapping("/sales/store/{storeId}")
+ResponseEntity<?> addInStoreSale(@PathVariable Long storeId, @RequestBody InStoreSale sale) {
     System.out.println("**** InStore Sale Added ****");
-    return commandService.addInStoreSale(id, sale);
+    return commandService.addInStoreSale(storeId, sale);
+}
+@GetMapping("/sales/store/{id}/product")
+public ProductTemplate getProductByInStoreSaleId(@PathVariable Long id){
+    return queryService.getProductByInStoreSaleId(id);
 }
 
 // Store

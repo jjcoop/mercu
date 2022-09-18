@@ -13,16 +13,16 @@ public class ProductId {
     nullable = false,
     length = 100
   )
-  private int value;
+  private Long value;
 
   public ProductId() {}
 
-  public ProductId(int value) {
+  public ProductId(Long value) {
       this.value = value;
 
   }
 
-  public int getValue() {
+  public Long getValue() {
     return value;
   }
 
