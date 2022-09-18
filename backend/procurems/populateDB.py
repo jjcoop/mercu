@@ -12,8 +12,11 @@ headers = {
 def getSuppliers():
     response = requests.get(ROOT_AGG_PRO)
     response.raise_for_status()
-    data = json.dumps(response.json(), indent=2)
-    print(data)
+    # data = json.dumps(response.json(), indent=2)
+    data = response.json()
+    supplierList = data['_embedded']['supplierList']
+    for s in supplierList:
+        print(s['companyName'])
     return data
 
 def postSupplier(supplier):

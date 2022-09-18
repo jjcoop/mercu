@@ -3,6 +3,7 @@ package mercury.inventoryms.domain.entity;
 import mercury.inventoryms.domain.aggregate.Product;
 import mercury.inventoryms.interfaces.rest.ProductController;
 import mercury.inventoryms.domain.valueObject.PartName;
+import mercury.inventoryms.domain.valueObject.Quantity;
 import mercury.inventoryms.domain.valueObject.Manufacturer;
 import mercury.inventoryms.domain.valueObject.PartDescription;
 
@@ -24,12 +25,13 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-
 @Entity
 @Table(name = "Tbl_Part")
-@SequenceGenerator(name="par", initialValue=30423, allocationSize=100)
+@SequenceGenerator(name = "par", initialValue = 30423, allocationSize = 100)
 public class Part {
-  @Id @Column(name = "ID", unique = true, nullable = false) @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="par")
+  @Id
+  @Column(name = "ID", unique = true, nullable = false)
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "par")
   private Long id;
   @Embedded
   private PartName partName;
@@ -37,22 +39,26 @@ public class Part {
   private PartDescription partDescription;
   @Embedded
   private Manufacturer manufacturer;
-  @ManyToOne(cascade=CascadeType.PERSIST)
+  @Embedded
+  private Quantity quantity;
+  @ManyToOne(cascade = CascadeType.PERSIST)
   @JoinColumn(name = "PRODUCT_ID")
   @JsonIgnore
   private Product product;
 
-  public Part() {}
+  public Part() {
+  }
 
-  public Part(Long id, String partName, String partDescription, String supplierName) {
+  public Part(Long id, String partName, String partDescription, String supplierName, Integer quantity) {
     this.id = id;
     this.partName = new PartName(partName);
     this.partDescription = new PartDescription(partDescription);
     this.manufacturer = new Manufacturer(supplierName);
+    this.quantity = new Quantity(quantity);
   }
 
   @JsonProperty(value = "productURI")
-  public URI getProductName(){
+  public URI getProductName() {
     return linkTo(methodOn(ProductController.class).getProduct(product.getId())).toUri();
   }
 
@@ -60,7 +66,7 @@ public class Part {
     this.partName = newPart.partName;
     this.partDescription = newPart.partDescription;
     this.manufacturer = newPart.manufacturer;
-  }  
+  }
 
   public Long getId() {
     return id;
@@ -106,14 +112,24 @@ public class Part {
     return this.manufacturer.getURI();
   }
 
+  public Integer getQuantity() {
+    return this.quantity.getValue();
+  }
+
+  public void setQuantity(Integer quantity) {
+    this.quantity = new Quantity(quantity);
+  }
+
   @Override
   public int hashCode() {
     final int prime = 31;
     int result = 1;
     result = prime * result + ((id == null) ? 0 : id.hashCode());
+    result = prime * result + ((manufacturer == null) ? 0 : manufacturer.hashCode());
     result = prime * result + ((partDescription == null) ? 0 : partDescription.hashCode());
     result = prime * result + ((partName == null) ? 0 : partName.hashCode());
     result = prime * result + ((product == null) ? 0 : product.hashCode());
+    result = prime * result + ((quantity == null) ? 0 : quantity.hashCode());
     return result;
   }
 
@@ -131,6 +147,11 @@ public class Part {
         return false;
     } else if (!id.equals(other.id))
       return false;
+    if (manufacturer == null) {
+      if (other.manufacturer != null)
+        return false;
+    } else if (!manufacturer.equals(other.manufacturer))
+      return false;
     if (partDescription == null) {
       if (other.partDescription != null)
         return false;
@@ -146,15 +167,18 @@ public class Part {
         return false;
     } else if (!product.equals(other.product))
       return false;
+    if (quantity == null) {
+      if (other.quantity != null)
+        return false;
+    } else if (!quantity.equals(other.quantity))
+      return false;
     return true;
   }
 
   @Override
   public String toString() {
-    return "Part [id=" + id +  ", partDescription=" + partDescription + ", partName="
-        + partName + ", product=" + product + "]";
+    return "Part [id=" + id + ", manufacturer=" + manufacturer + ", partDescription=" + partDescription + ", partName="
+        + partName + ", product=" + product + ", quantity=" + quantity + "]";
   }
 
-
-  
 }
