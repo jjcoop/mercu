@@ -21,7 +21,7 @@ public class InventorymsApplication {
 		return new WebMvcConfigurer() {
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
-				registry.addMapping("/supplierProcurement/**").allowedOrigins("*").allowedMethods("GET", "POST","PUT", "DELETE");
+				registry.addMapping("/productInventory/**").allowedOrigins("*").allowedMethods("GET", "POST","PUT", "DELETE");
 
 			}
 		};
