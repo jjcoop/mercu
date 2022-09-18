@@ -6,10 +6,13 @@ import SendIcon from "@mui/icons-material/Send";
 
 export default function UpdateContactForm() {
   const [inputValue, setInputValue] = useState("");
-  const [inputId, setInputId] = useState("2386");
+  const [inputId, setInputId] = useState("");
+  const [contactID, setContactID] = useState("");
+  const [contactName, setContactName] = useState("");
   const [keyword, setKeyword] = useState("supplierProcurement");
   const [sData, setSupplierData] = useState([]);
   const [cData, setContactData] = useState([]);
+
 
   const fetchSupplierData = () => {
     fetch(`http://localhost:8787/${keyword}`)
@@ -30,19 +33,17 @@ export default function UpdateContactForm() {
       .catch((err) => console.error(err));
   };
 
-  // useEffect(() => {
-  //   fetchContactData();
-  // }, []);
-
-
   const handleSubmit = async (event) => {
     // Stop the form from submitting and refreshing the page.
     event.preventDefault();
 
     // Get data from the form.
     const data = {
-      companyName: event.target.newCpmpanyName.value,
-      base: event.target.newBase.value,
+      fname: event.target.firstName.value,
+      lname: event.target.lastName.value,
+      phone: event.target.contactPhone.value,
+      email: event.target.contactEmail.value,
+      position: event.target.contactPosition.value
     };
 
     // Send the data to the server in JSON format.
@@ -50,7 +51,7 @@ export default function UpdateContactForm() {
 
     // API endpoint where we send form data.
 
-    const endpoint = `http://localhost:8787/supplierProcurement/${inputId}`;
+    const endpoint = `http://localhost:8787/supplierProcurement/${inputId}/contact/${contactID}`;
 
     // Form the request for sending data to the server.
     const options = {
@@ -73,12 +74,16 @@ export default function UpdateContactForm() {
 
     if (response.status == 201) {
       alert(
-        "Updated Supplier: " +
-          inputValue +
-          "\nNew Supplier Name: " +
-          event.target.newCpmpanyName.value +
-          "\nNew Supplier Base: " +
-          event.target.newBase.value +
+        "Updated Contact: " +
+          contactName +
+          "\nNew Contact Name: " +
+          event.target.firstName.value + event.target.lastName.value +
+          "\nNew Contact Phone: " +
+          event.target.contactPhone.value +
+          "\nNew Contact Email: " +
+          event.target.contactEmail.value +
+          "\nNew Contact Position: " +
+          event.target.contactPosition.value +
           ".\nRefreshing webpage now..."
       );
       window.location.reload(false);
@@ -91,28 +96,32 @@ export default function UpdateContactForm() {
         <Autocomplete
           getOptionLabel={(option) => `${option.companyName}: ${option.id}`}
           onInputChange={(event, newInputValue) => {
-            setInputValue(newInputValue);
-            setInputId(newInputValue.replace(/\D/g, ""));
-            fetchContactData();
+            setInputValue(newInputValue)
+            setInputId(newInputValue.replace(/\D/g, ""))
           }}
+          //onMouseOut is crucial to the fetching of contact data
+          //don't delete this line
+          onMouseOut={fetchContactData()}
           disablePortal
           id="combo-box-demo"
           options={sData}
           sx={{ width: 400 }}
           renderInput={(params) => (
             <div>
-              <TextField {...params} label="Supplier" />
+              <TextField {...params} 
+              label="Supplier" />
               <br />
             </div>
           )}
         />
         <br />
         <Autocomplete
+          isOptionEqualToValue={(option, value) => option.id === value.id}
           getOptionLabel={(option) => `${option.name}: ${option.id}`}
-          // onInputChange={(event, newInputValue) => {
-          //   setInputValue(newInputValue);
-          //   setInputId(newInputValue.replace(/\D/g, ""));
-          // }}
+          onInputChange={(event, value) => {
+            setContactName(value)
+            setContactID(value.replace(/\D/g, ""))
+          }}
           disablePortal
           id="combo-box-demo"
           options={cData}
@@ -170,7 +179,7 @@ export default function UpdateContactForm() {
           variant="contained"
           endIcon={<SendIcon />}
         >
-          Update Supplier
+          Update Contact
         </Button>
       </form>
     </div>
