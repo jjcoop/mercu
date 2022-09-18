@@ -17,13 +17,23 @@
 ###
 curl -X POST http://{{host}}/{{api}} \
  -H 'Content-type:application/json' \
- -d '{"name": "crank", "price": 122.3, "description": "sample description"}'
+ -d '{
+        "name": "crank",
+        "price": 122.3,
+        "description": "sample description",
+        "quantity": 12
+    }'
 
 ###
 
 curl -X PUT http://{{host}}/{{api}}/777678 \
  -H 'Content-type:application/json' \
- -d '{"name": "dssfgdsfg", "price": 33.3, "description": "sample description"}'
+ -d '{
+        "name": "dssfgdsfg",
+        "price": 33.3,
+        "description": "sample description",
+        "quantity": 11
+    }'
 
 ###
 curl -X PUT http://{{host}}/{{api}}/777677/part \
@@ -31,8 +41,9 @@ curl -X PUT http://{{host}}/{{api}}/777677/part \
  -d '{
     "partName": "Crank",
     "partDescription": "metal oxide",
-    "manufacturer": "Anderson-Herrera"
-}'
+    "manufacturer": "Fisher, Richardson and Buchanan",
+    "quantity": 30
+    }'
 
 ###
 curl -X PUT http://{{host}}/{{api}}/777677/part/30423 \

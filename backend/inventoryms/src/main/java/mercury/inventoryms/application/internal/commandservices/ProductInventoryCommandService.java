@@ -14,9 +14,12 @@ import mercury.inventoryms.domain.valueObject.Manufacturer;
 import mercury.inventoryms.infrastructure.repository.PartRepository;
 import mercury.inventoryms.infrastructure.repository.ProductRepository;
 import mercury.inventoryms.application.internal.outboundservices.SupplierLookupService;
-import mercury.inventoryms.application.internal.queryservices.PartNotFoundException;
 import mercury.inventoryms.application.internal.queryservices.ProductNotFoundException;
 
+// **********************************************************************
+// COMMAND SERVICE
+// called from the root aggregate in Product controller
+// **********************************************************************
 @Service
 public class ProductInventoryCommandService {
   private ProductRepository productRepository;
@@ -34,8 +37,10 @@ public class ProductInventoryCommandService {
     this.supplierLookup = supplierLookup;
   }
 
+  // **********************************************************************
+  // ADD PRODUCT
+  // **********************************************************************
   public ResponseEntity<?> addProduct(Product newProduct) {
-
     EntityModel<Product> entityModel = assembler.toModel(productRepository.save(newProduct));
 
     return ResponseEntity
@@ -43,14 +48,17 @@ public class ProductInventoryCommandService {
         .body(entityModel);
   }
 
+  // **********************************************************************
+  // ADD PRODUCT'S PART
+  // **********************************************************************  
   public ResponseEntity<?> addProductPart(Long id, Part part) {
-
     Product product = productRepository.findById(id)
         .orElseThrow(() -> new ProductNotFoundException(id));
 
-    part.setProduct(product);
+    part.setProduct(product); // find the product in order to add it to part, bidirectional
 
-    Manufacturer manufacturer = new Manufacturer(part.getManufacturer(), supplierLookup.fetchSupplierURI(part.getManufacturer()).toString());
+    Manufacturer manufacturer = new Manufacturer(part.getManufacturer(),
+        supplierLookup.fetchSupplierURI(part.getManufacturer()).toString());
 
     String check = manufacturer.getURI().toString().split(":")[0];
     System.out.println(check);
@@ -58,9 +66,7 @@ public class ProductInventoryCommandService {
     part.setManufacturer(manufacturer);
     partRepository.save(part);
     product.addPart(part);
-    productRepository.save(product); 
-
-
+    productRepository.save(product);
 
     EntityModel<Product> entityModel = assembler.toModel(product);
 
@@ -69,13 +75,16 @@ public class ProductInventoryCommandService {
         .body(entityModel);
   }
 
+  // **********************************************************************
+  // UPDATE PRODUCT
+  // **********************************************************************
   public ResponseEntity<?> updateProduct(Product newProduct, Long id) {
-
     Product updatedProduct = productRepository.findById(id) //
         .map(product -> {
           product.setName(newProduct.getName());
           product.setPrice(newProduct.getPrice());
           product.setDescription(newProduct.getDescription());
+          product.setQuantity(newProduct.getQuantity());
           return productRepository.save(product);
         }) //
         .orElseGet(() -> {
@@ -90,11 +99,14 @@ public class ProductInventoryCommandService {
         .body(entityModel);
   }
 
+  // **********************************************************************
+  // UPDATE PART
+  // **********************************************************************
   public ResponseEntity<?> updatePart(Long productId, Long partId, Part newPart) {
-
     Product product = productRepository.findById(productId)
         .orElseThrow(() -> new ProductNotFoundException(productId));
 
+    // after product is found, update the part then add product to part.
     Part updatedPart = partRepository.findById(partId) //
         .map(part -> {
           part.updatePart(newPart);

@@ -2,6 +2,7 @@ package mercury.inventoryms.domain.aggregate;
 import mercury.inventoryms.domain.entity.Part;
 import mercury.inventoryms.domain.valueObject.ProductDescription;
 import mercury.inventoryms.domain.valueObject.ProductPrice;
+import mercury.inventoryms.domain.valueObject.Quantity;
 import mercury.inventoryms.domain.valueObject.ProductName;
 
 import java.util.Collections;
@@ -34,6 +35,8 @@ public class Product {
   private ProductPrice price;
   @Embedded
   private ProductDescription description;
+  @Embedded
+  private Quantity quantity;
   @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
   @JoinColumn(name = "PRODUCT")
   @Embedded
@@ -41,11 +44,12 @@ public class Product {
 
   public Product(){}
 
-  public Product(String name, double price, String description) {
+  public Product(String name, double price, String description, Integer quantity) {
 
     this.name = new ProductName(name);
     this.price = new ProductPrice(price);
     this.description = new ProductDescription(description);
+    this.quantity = new Quantity(quantity);
     this.parts = getParts();
 
   }
@@ -80,6 +84,14 @@ public class Product {
 
   public void setDescription(String description) {
     this.description = new ProductDescription(description);
+  }
+  
+  public Integer getQuantity() {
+    return this.quantity.getValue();
+  }
+
+  public void setQuantity(Integer quantity) {
+    this.quantity = new Quantity(quantity);
   }
 
   public Set<Part> getParts() {
