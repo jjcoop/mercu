@@ -26,22 +26,14 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Title from "./Title";
-import BasicForm from "../Dashboard/BasicForm";
-import ContactsForm from "./ContactsForm";
-import UpdatePartForm from "./UpdatePartForm"
-import UpdateProductForm from "./UpdateProductForm"
-import CreatePartForm from "./CreatePartForm"
-import CreateContact from "./CreateContact"
-import RemoveSupplierForm from "./RemoveSupplierForm"
-import RemoveContactForm from "./RemoveContactForm"
-import TextField from "@mui/material/TextField";
-
-import SendIcon from '@mui/icons-material/Send';
-
-import SuppliersTable from "./SuppliersTable";
-import { Button } from "@mui/material";
-
+import UpdatePartForm from "./UpdatePartForm";
+import UpdateProductForm from "./UpdateProductForm";
+import CreatePartForm from "./CreatePartForm";
+import CreateContact from "./CreateContact";
+import ProductsTable from "./ProductsTable";
 import PartsTable from "./PartsTable";
+
+
 
 const drawerWidth = 240;
 
@@ -225,14 +217,14 @@ function Inventory() {
           <Grid container spacing={3}>
             <Grid item xs={12}>
               <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
-                <Title>Current Suppliers</Title>
-                <SuppliersTable />
+                <Title>Current Parts</Title>
+                <PartsTable />
               </Paper>
             </Grid>
             <Grid item xs={12}>
               <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
-                <Title>Current Parts</Title>
-                <PartsTable />
+                <Title>Current Products</Title>
+                <ProductsTable />
               </Paper>
             </Grid>
             <Grid item xs={12}>
