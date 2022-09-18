@@ -46,10 +46,10 @@ public class ProductInventoryQueryService {
                 .orElseThrow(() -> new ProductNotFoundException(id));
     }
 
-    public Product checkStock(Product product) {
-        Product p = productRepository.findByName(product.getName());
-        return p != null ? p : null;
-    }
+    // public Product checkProductStock(Product product) {
+    //     Product p = productRepository.findByName(product.getName());
+    //     return p != null ? p : null;
+    // }
 
     public String findByProductName() {
         // String rootUrl = "http://localhost:8788/sales";
@@ -74,4 +74,9 @@ public class ProductInventoryQueryService {
         return partRepository.findById(id)
         .orElseThrow(() -> new PartNotFoundException(id));
     }
+
+    // public Part checkPartStock(Part part) {
+    //     Part p = partRepository.findByPartName(part.getPartName());
+    //     return p != null ? p : null;
+    // }
 }

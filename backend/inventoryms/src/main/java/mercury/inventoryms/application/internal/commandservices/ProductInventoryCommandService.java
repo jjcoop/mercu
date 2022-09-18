@@ -118,6 +118,16 @@ public class ProductInventoryCommandService {
         });
     updatedPart.setProduct(product);
 
+    Manufacturer manufacturer = new Manufacturer(updatedPart.getManufacturer(),
+        supplierLookup.fetchSupplierURI(updatedPart.getManufacturer()).toString());
+
+    String check = manufacturer.getURI().toString().split(":")[0];
+    System.out.println(check);
+
+    updatedPart.setManufacturer(manufacturer);
+
+
+
     EntityModel<Part> entityModel = partAssembler.toModel(partRepository.save(updatedPart));
 
     return ResponseEntity //
