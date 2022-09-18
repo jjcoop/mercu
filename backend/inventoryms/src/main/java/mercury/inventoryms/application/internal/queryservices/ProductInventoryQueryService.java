@@ -3,8 +3,13 @@ package mercury.inventoryms.application.internal.queryservices;
 import mercury.inventoryms.interfaces.rest.ProductController;
 import mercury.inventoryms.interfaces.rest.transform.PartModelAssembler;
 import mercury.inventoryms.interfaces.rest.transform.ProductModelAssembler;
+import mercury.shareDomain.AvailabilityReply;
+import mercury.shareDomain.ProductTemplate;
+import mercury.shareDomain.PartTemplate;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.hateoas.CollectionModel;
@@ -73,6 +78,49 @@ public class ProductInventoryQueryService {
     public Part findPartById(Long id) {
         return partRepository.findById(id)
         .orElseThrow(() -> new PartNotFoundException(id));
+    }
+
+    public AvailabilityReply checkProductAvailability(Long productId, int quantity) {
+        System.out.println("Actually made it to availability check!");  // TODO remove later
+        Product product = productRepository.findById(productId).orElseThrow(() -> new ProductNotFoundException(productId));;
+
+        // check for insufficient product quantity
+        if(product.getQuantity() < quantity) {
+            // for each part check for insufficient parts
+            for (Part part : product.getParts()) {
+                // get updated part quantity
+                Part foundPart = partRepository.findById(part.getId()).orElseThrow(() -> new PartNotFoundException(part.getId()));
+                int partQuantitiy = foundPart.getQuantity();
+                // return false if part quantity insufficient
+                if(partQuantitiy < quantity)
+                    return new AvailabilityReply(false);
+            }
+        }
+
+        return new AvailabilityReply(true);
+    }
+
+    public ProductTemplate findTemplateById(Long id) {
+        Product prod = productRepository.findById(id).orElseThrow(() -> new ProductNotFoundException(id));
+        //System.out.println(prod.toString());
+
+        Set<PartTemplate> partTemps = Collections.emptySet();
+
+        if (prod.getParts().size() > 0) {
+            for (Part part : prod.getParts()) {
+                Part savedPart = partRepository.findById(part.getId()).orElse(new Part());
+                PartTemplate tempPart = new PartTemplate(savedPart.getId(), savedPart.getPartName(), savedPart.getPartDescription(), savedPart.getQuantity(), savedPart.getManufacturer());
+                partTemps.add(tempPart);
+            }
+        } else {
+            System.out.println("Order " + prod.getId() + " has no parts added");
+        }
+
+        ProductTemplate prodTemp = new ProductTemplate(prod.getId(), prod.getName(), prod.getPrice(), prod.getDescription(), prod.getQuantity(), partTemps);
+
+        //System.out.println(prodTemp.toString());
+
+        return prodTemp;
     }
 
     // public Part checkPartStock(Part part) {

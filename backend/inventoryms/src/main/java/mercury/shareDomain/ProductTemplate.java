@@ -1,4 +1,4 @@
-package mercury.salems.antiCorruptionLayer.sharedModel;
+package mercury.shareDomain;
 
 import java.util.Date;
 import java.util.Collections;
@@ -51,5 +51,18 @@ public class ProductTemplate {
 
   public Set<PartTemplate> getParts() {
     return parts;
+  }
+
+  public String toString() {
+    String retString = "product[ id=" + getId();
+    retString += " productName = " + getProductName();
+    retString += " description = " + getDescription();
+    retString += " quantity = " + getQuantity();
+    retString += " parts[ ";
+    for (PartTemplate partTemp : getParts()) {
+      retString += partTemp.toString();
+    }
+    retString += "]";
+    return retString;
   }
 }

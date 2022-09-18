@@ -4,6 +4,8 @@ import mercury.inventoryms.application.internal.commandservices.ProductInventory
 import mercury.inventoryms.application.internal.queryservices.ProductInventoryQueryService;
 import mercury.inventoryms.domain.aggregate.Product;
 import mercury.inventoryms.domain.entity.Part;
+import mercury.shareDomain.AvailabilityReply;
+import mercury.shareDomain.ProductTemplate;
 
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
@@ -49,6 +51,11 @@ public Product getProduct(@PathVariable Long id){
     return queryService.findById(id);
 }
 
+@GetMapping("/templateInventory/{id}")
+public ProductTemplate getProductTemplate(@PathVariable Long id){
+    return queryService.findTemplateById(id);
+}
+
 @PutMapping("/productInventory/{id}")
 ResponseEntity<?> updateProduct(@RequestBody Product product, @PathVariable Long id ) {
     return commandService.updateProduct(product, id);
@@ -77,6 +84,14 @@ public Part getPart(@PathVariable Long id){
 @GetMapping("/productInventory/parts")
 public CollectionModel<EntityModel<Part>> getParts(){
     return queryService.allParts();
+}
+
+// checking for availability of product
+// Needs to be one level deep, when it was productInventory/check it kept complaining that
+// String /check/ couldn't be converted to a Long
+@GetMapping("/check/{productId}/{quantity}")
+public AvailabilityReply checkAvailability(@PathVariable Long productId, @PathVariable int quantity) {
+    return queryService.checkProductAvailability(productId, quantity);
 }
 
 }
