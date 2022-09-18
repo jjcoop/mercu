@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 import requests
-import json
+import json, time
 from faker import Faker
 
 ROOT_AGG_PRO = "http://localhost:8787/supplierProcurement"
@@ -12,12 +12,16 @@ headers = {
 def getSuppliers():
     response = requests.get(ROOT_AGG_PRO)
     response.raise_for_status()
-    # data = json.dumps(response.json(), indent=2)
     data = response.json()
-    supplierList = data['_embedded']['supplierList']
-    for s in supplierList:
+    strData = json.dumps(response.json(), indent=2)
+    print(strData)
+
+    for s in data['_embedded']['supplierList']:
         print(s['companyName'])
-    return data
+
+
+    
+
 
 def postSupplier(supplier):
     response = requests.post(f"{ROOT_AGG_PRO}", data=json.dumps(supplier), headers=headers)

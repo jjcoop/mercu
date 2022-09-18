@@ -28,11 +28,16 @@ ResponseEntity<?> addProduct(@RequestBody Product product){
     return commandService.addProduct(product);
 }
 
-@PostMapping("/productInventory/check")
-Product createSale(@RequestBody Product product){
-    System.out.println("**** Checking Inventory ****");
-    return queryService.checkStock(product);
-}
+// @PostMapping("/productInventory/check")
+// Product createSale(@RequestBody Product product){
+//     System.out.println("**** Checking Inventory ****");
+//     return queryService.checkProductStock(product);
+// }
+// @PostMapping("/productInventory/part/check")
+// Part createSale(@RequestBody Part part){
+//     System.out.println("**** Checking Inventory ****");
+//     return queryService.checkPartStock(part);
+// }
 
 @GetMapping("/productInventory")
 public CollectionModel<EntityModel<Product>> getProducts(){

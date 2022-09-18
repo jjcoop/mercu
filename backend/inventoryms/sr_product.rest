@@ -41,7 +41,7 @@ curl -X PUT http://{{host}}/{{api}}/777677/part \
  -d '{
     "partName": "Crank",
     "partDescription": "metal oxide",
-    "manufacturer": "Fisher, Richardson and Buchanan",
+    "manufacturer": "Fuller, Allen and Smith",
     "quantity": 30
     }'
 
@@ -51,11 +51,22 @@ curl -X PUT http://{{host}}/{{api}}/777677/part/30423 \
  -d '{
     "partName": "dank",
     "partDescription": "shafted",
-    "manufacturer": "bent"
+    "manufacturer": "Long, Ellis and Lara"
 }'
 
 ###
 GET http://{{host}}/{{api}}/parts HTTP/1.1
+###
+
+curl -X POST http://{{host}}/{{api}}/check \
+ -H 'Content-type:application/json' \
+ -d '{
+        "name": "crank",
+        "price": 122.3,
+        "description": "sample description",
+        "quantity": 12
+    }'
+
 ###
 
 GET http://{{host}}/{{api}}/parts/30423 HTTP/1.1
