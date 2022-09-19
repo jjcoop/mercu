@@ -111,24 +111,7 @@ export default function CreateProductForm() {
           label="Quantity"
           name="productQuantity"
         />
-        <br /><br />
-        {/* <Autocomplete
-          getOptionLabel={(option) => `${option.partName}: ${option.id}`}
-          onInputChange={(event, newInputValue) => {
-            setInputValue(newInputValue);
-            setInputId(newInputValue.replace(/\D/g, ""));
-          }}
-          disablePortal
-          id="combo-box-demo"
-          options={data}
-          sx={{ width: 400 }}
-          renderInput={(params) => (
-            <div>
-              <TextField {...params} label="Select Part to Add to Product" />
-              <br />
-            </div>
-          )}
-        /> */}
+        <br />
         <Button
           color="success"
           sx={{ width: 250, marginTop: 2 }}

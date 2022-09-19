@@ -119,7 +119,6 @@ export default function UpdatePartForm() {
           renderInput={(params) => (
             <div>
               <TextField {...params} label="Select Part" />
-              <br />
             </div>
           )}
         />
@@ -152,11 +151,9 @@ export default function UpdatePartForm() {
           renderInput={(params) => (
             <div>
               <TextField {...params} label="Select Manufacturer" />
-              <br />
             </div>
           )}
         />
-        <br />
         <TextField
           fullWidth
           margin="normal"

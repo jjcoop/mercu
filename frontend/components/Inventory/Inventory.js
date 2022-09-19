@@ -233,7 +233,7 @@ function Inventory() {
                   p: 2,
                   display: "flex",
                   flexDirection: "column",
-                  height: 550
+                  height: 450
                 }}
               >
                 <Title>Create Product</Title>
@@ -261,7 +261,7 @@ function Inventory() {
                   p: 2,
                   display: "flex",
                   flexDirection: "column",
-                  height: 550,
+                  height: 500,
                 }}
               >
                 <Title>Update Part</Title>
@@ -274,7 +274,7 @@ function Inventory() {
                   p: 2,
                   display: "flex",
                   flexDirection: "column",
-                  height: 600,
+                  height: 500,
                 }}
               >
                 <Title>Update Product</Title>
