@@ -6,7 +6,6 @@ import mercury.procurems.interfaces.rest.transform.SupplierModelAssembler;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URLDecoder;
-import java.net.URLEncoder;
 import java.util.List;
 import java.util.stream.Collectors;
 
