@@ -29,6 +29,8 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import SuppliersTable from "./SuppliersTable";
 import Title from "./Title";
+import ProductsTable from "../Inventory/ProductsTable";
+import PartsTable from "../Inventory/PartsTable";
 
 const drawerWidth = 240;
 
@@ -239,21 +241,27 @@ function DashboardContent() {
             {/* Recent Orders */}
             <Grid item xs={12}>
               <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
-                <Title>Contacts</Title>
-                <ContactsTable />
+                <Title>Suppliers</Title>
+                <SuppliersTable />
               </Paper>
             </Grid>
             {/* Suppliers */}
             <Grid item xs={12}>
               <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
-                <Title>Suppliers</Title>
-                <SuppliersTable />
+                <Title>Contacts</Title>
+                <ContactsTable />
               </Paper>
             </Grid>
             <Grid item xs={12}>
               <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
-                <Title>Beans</Title>
-                <SuppliersTable />
+                <Title>Products</Title>
+                <ProductsTable />
+              </Paper>
+            </Grid>
+            <Grid item xs={12}>
+              <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
+                <Title>Parts</Title>
+                <PartsTable />
               </Paper>
             </Grid>
             {/* orders */}
