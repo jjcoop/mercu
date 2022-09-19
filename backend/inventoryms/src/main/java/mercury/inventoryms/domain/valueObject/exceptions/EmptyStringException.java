@@ -1,4 +1,4 @@
-package mercury.inventoryms.domain.exceptions;
+package mercury.inventoryms.domain.valueObject.exceptions;
 
 public class EmptyStringException  extends Exception {
     public EmptyStringException(String objectDescription) {

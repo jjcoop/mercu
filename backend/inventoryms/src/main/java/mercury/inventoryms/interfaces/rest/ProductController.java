@@ -4,8 +4,9 @@ import mercury.inventoryms.application.internal.commandservices.ProductInventory
 import mercury.inventoryms.application.internal.queryservices.ProductInventoryQueryService;
 import mercury.inventoryms.domain.aggregate.Product;
 import mercury.inventoryms.domain.entity.Part;
-import mercury.shareDomain.AvailabilityReply;
-import mercury.shareDomain.ProductTemplate;
+import mercury.shareDomain.Order;
+
+import java.util.List;
 
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
@@ -13,86 +14,67 @@ import org.springframework.http.ResponseEntity;
 
 import org.springframework.web.bind.annotation.*;
 
-@RestController    // This means that this class is a Controller
+@RestController
 public class ProductController {
-   private final ProductInventoryCommandService commandService; //application service dependency
-   private final ProductInventoryQueryService queryService;
+    private final ProductInventoryCommandService commandService;
+    private final ProductInventoryQueryService queryService;
 
+    public ProductController(ProductInventoryCommandService commandService, ProductInventoryQueryService queryService) {
+        this.commandService = commandService;
+        this.queryService = queryService;
+    }
 
-public ProductController(ProductInventoryCommandService commandService, ProductInventoryQueryService queryService) {
-    this.commandService = commandService;
-    this.queryService = queryService;
-}
+    @PostMapping("/productInventory")
+    ResponseEntity<?> addProduct(@RequestBody Product product) {
+        System.out.println("**** Product Added ****");
+        return commandService.addProduct(product);
+    }
 
-@PostMapping("/productInventory")
-ResponseEntity<?> addProduct(@RequestBody Product product){
-    System.out.println("**** Product Added ****");
-    return commandService.addProduct(product);
-}
+    @GetMapping("/productInventory")
+    public CollectionModel<EntityModel<Product>> getProducts() {
+        return queryService.all();
+    }
 
-// @PostMapping("/productInventory/check")
-// Product createSale(@RequestBody Product product){
-//     System.out.println("**** Checking Inventory ****");
-//     return queryService.checkProductStock(product);
-// }
-// @PostMapping("/productInventory/part/check")
-// Part createSale(@RequestBody Part part){
-//     System.out.println("**** Checking Inventory ****");
-//     return queryService.checkPartStock(part);
-// }
+    @GetMapping("/productInventory/{id}")
+    public Product getProduct(@PathVariable Long id) {
+        return queryService.findById(id);
+    }
 
-@GetMapping("/productInventory")
-public CollectionModel<EntityModel<Product>> getProducts(){
-    return queryService.all();
-}
+    @PutMapping("/productInventory/{id}")
+    ResponseEntity<?> updateProduct(@RequestBody Product product, @PathVariable Long id) {
+        return commandService.updateProduct(product, id);
+    }
 
-@GetMapping("/productInventory/{id}")
-public Product getProduct(@PathVariable Long id){
-    return queryService.findById(id);
-}
+    @PutMapping("/productInventory/{id}/part")
+    ResponseEntity<?> addProductPart(@PathVariable Long id, @RequestBody Part part) {
+        return commandService.addProductPart(id, part);
+    }
 
-@GetMapping("/templateInventory/{id}")
-public ProductTemplate getProductTemplate(@PathVariable Long id){
-    return queryService.findTemplateById(id);
-}
+    @PutMapping("/productInventory/{productId}/part/{partId}")
+    ResponseEntity<?> updateProductPart(@PathVariable Long productId, @PathVariable Long partId,
+            @RequestBody Part part) {
+        return commandService.updatePart(productId, partId, part);
+    }
 
-@PutMapping("/productInventory/{id}")
-ResponseEntity<?> updateProduct(@RequestBody Product product, @PathVariable Long id ) {
-    return commandService.updateProduct(product, id);
-}
+    @GetMapping("/productInventory/parts/{id}")
+    public Part getPart(@PathVariable Long id) {
+        return queryService.findPartById(id);
+    }
 
-@PutMapping("/productInventory/{id}/part")
-ResponseEntity<?> addProductPart(@PathVariable Long id, @RequestBody Part part) {
-    return commandService.addProductPart(id, part);
-}
+    @GetMapping("/productInventory/parts")
+    public CollectionModel<EntityModel<Part>> getParts() {
+        return queryService.allParts();
+    }
 
-@PutMapping("/productInventory/{productId}/part/{partId}")
-ResponseEntity<?> updateProductPart(@PathVariable Long productId, @PathVariable Long partId, @RequestBody Part part) {
-    return commandService.updatePart(productId, partId, part);
-}
+    @GetMapping("/productInventory/parts/bysupplier/")
+    @ResponseBody
+    public List<Part> getSupplierParts(@RequestParam String name) {
+        return queryService.supplierParts(name);
+    }
 
-@GetMapping("/productInventory/sales")
-public String soldProducts(){
-    return queryService.findByProductName();
-}
-
-@GetMapping("/productInventory/parts/{id}")
-public Part getPart(@PathVariable Long id){
-    return queryService.findPartById(id);
-}
-
-@GetMapping("/productInventory/parts")
-public CollectionModel<EntityModel<Part>> getParts(){
-    return queryService.allParts();
-}
-
-// checking for availability of product
-// Needs to be one level deep, when it was productInventory/check it kept complaining that
-// String /check/ couldn't be converted to a Long
-@GetMapping("/check/{productId}/{quantity}")
-public AvailabilityReply checkAvailability(@PathVariable Long productId, @PathVariable int quantity) {
-    return queryService.checkProductAvailability(productId, quantity);
-}
+    @PostMapping("/productInventory/orders/")
+    public Order processOrder(@RequestBody Order order) {
+        return commandService.processOrder(order);
+    }
 
 }
-    

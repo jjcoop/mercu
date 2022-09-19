@@ -1,6 +1,7 @@
 package mercury.inventoryms.application.internal.commandservices;
 
 import mercury.inventoryms.interfaces.rest.transform.ProductModelAssembler;
+import mercury.shareDomain.Order;
 import mercury.inventoryms.interfaces.rest.transform.PartModelAssembler;
 
 import org.springframework.hateoas.EntityModel;
@@ -26,7 +27,7 @@ public class ProductInventoryCommandService {
   private PartRepository partRepository;
   private ProductModelAssembler assembler;
   private PartModelAssembler partAssembler;
-  SupplierLookupService supplierLookup;
+  private SupplierLookupService supplierLookup;
 
   public ProductInventoryCommandService(ProductRepository productRepository, PartRepository partRepository,
       ProductModelAssembler assembler, PartModelAssembler partAssembler, SupplierLookupService supplierLookup) {
@@ -50,7 +51,7 @@ public class ProductInventoryCommandService {
 
   // **********************************************************************
   // ADD PRODUCT'S PART
-  // **********************************************************************  
+  // **********************************************************************
   public ResponseEntity<?> addProductPart(Long id, Part part) {
     Product product = productRepository.findById(id)
         .orElseThrow(() -> new ProductNotFoundException(id));
@@ -59,9 +60,6 @@ public class ProductInventoryCommandService {
 
     Manufacturer manufacturer = new Manufacturer(part.getManufacturer(),
         supplierLookup.fetchSupplierURI(part.getManufacturer()).toString());
-
-    String check = manufacturer.getURI().toString().split(":")[0];
-    System.out.println(check);
 
     part.setManufacturer(manufacturer);
     partRepository.save(part);
@@ -121,18 +119,17 @@ public class ProductInventoryCommandService {
     Manufacturer manufacturer = new Manufacturer(updatedPart.getManufacturer(),
         supplierLookup.fetchSupplierURI(updatedPart.getManufacturer()).toString());
 
-    String check = manufacturer.getURI().toString().split(":")[0];
-    System.out.println(check);
-
     updatedPart.setManufacturer(manufacturer);
-
-
 
     EntityModel<Part> entityModel = partAssembler.toModel(partRepository.save(updatedPart));
 
     return ResponseEntity //
         .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()) //
         .body(entityModel);
+  }
+
+  public Order processOrder(Order order) {
+    return null;
   }
 
 }

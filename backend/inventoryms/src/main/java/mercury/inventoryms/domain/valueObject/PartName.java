@@ -3,7 +3,8 @@ package mercury.inventoryms.domain.valueObject;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
-import mercury.inventoryms.domain.exceptions.EmptyStringException;
+
+import mercury.inventoryms.domain.valueObject.exceptions.EmptyStringException;
 
 @Embeddable
 public class PartName {

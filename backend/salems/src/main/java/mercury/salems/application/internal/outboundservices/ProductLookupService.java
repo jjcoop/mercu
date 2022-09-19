@@ -1,4 +1,4 @@
-package mercury.inventoryms.application.internal.outboundservices;
+package mercury.salems.application.internal.outboundservices;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
@@ -9,20 +9,20 @@ import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
 
 @Service
-public class SupplierLookupService {
+public class ProductLookupService {
     
-    public URI fetchSupplierURI(String supplier) {
+    public URI fetchProductURI(String productName) {
 
         String param;
-        RestTemplate restTemplate = new RestTemplate();
         try {
-            param = URLEncoder.encode(supplier, "UTF-8");
+            param = URLEncoder.encode(productName, "UTF-8");
         } catch (UnsupportedEncodingException e) {
             throw new AssertionError("UTF-8 is unknown");
         }
-
+        
+        RestTemplate restTemplate = new RestTemplate();
         try {
-            return restTemplate.getForObject("http://localhost:8787/supplierProcurement/lookup/?name={param}",
+            return restTemplate.getForObject("http://localhost:8788/productInventory/lookup/?productName={param}",
         URI.class, param);
         } catch(HttpStatusCodeException e) {
             return URI.create("error:" + e.getRawStatusCode());

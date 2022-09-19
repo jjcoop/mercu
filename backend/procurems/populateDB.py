@@ -35,7 +35,6 @@ def putSupplierContact(contact, supplierID):
     data = json.dumps(response.json(), indent=2)
     return data
 
-getSuppliers()
 
 fake = Faker("en-AU")
 for x in range(20):

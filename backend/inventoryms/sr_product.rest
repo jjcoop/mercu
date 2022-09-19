@@ -1,21 +1,15 @@
-@hostname = localhost
-@port = 8788
-@host = {{hostname}}:{{port}}
-@api = productInventory
-@contentType = application/json
-@createdAt = {{$datetime iso8601}}
-@modifiedBy = {{$processEnv USERNAME}}
-@ID = 2
-
+###
 
 # expert user interface
 # ./mvnw clean spring-boot:run
 # ./mvnw clean install
 # java -jar target/Procurement*
 
-
 ###
-curl -X POST http://{{host}}/{{api}} \
+#****************************************************
+#                   CREATE A PRODUCT
+#****************************************************
+curl -X POST http://localhost:8788/productInventory \
  -H 'Content-type:application/json' \
  -d '{
         "name": "crank",
@@ -25,8 +19,10 @@ curl -X POST http://{{host}}/{{api}} \
     }'
 
 ###
-
-curl -X PUT http://{{host}}/{{api}}/777678 \
+#****************************************************
+#                   UPDATE A PRODUCT
+#****************************************************
+curl -X PUT http://localhost:8788/productInventory/777678 \
  -H 'Content-type:application/json' \
  -d '{
         "name": "dssfgdsfg",
@@ -36,17 +32,23 @@ curl -X PUT http://{{host}}/{{api}}/777678 \
     }'
 
 ###
-curl -X PUT http://{{host}}/{{api}}/777677/part \
+#****************************************************
+#                   ADD PRODUCT PART
+#****************************************************
+curl -X PUT http://localhost:8788/productInventory/777677/part \
  -H 'Content-type:application/json' \
  -d '{
     "partName": "Crank",
     "partDescription": "metal oxide",
-    "manufacturer": "Fuller, Allen and Smith",
+    "manufacturer": "Stafford, Ward and Haley",
     "quantity": 30
     }'
 
 ###
-curl -X PUT http://{{host}}/{{api}}/777677/part/30423 \
+#****************************************************
+#              UPDATE A PRODUCT'S PART
+#****************************************************
+curl -X PUT http://localhost:8788/productInventory/777677/part/30423 \
  -H 'Content-type:application/json' \
  -d '{
     "partName": "dank",
@@ -55,10 +57,37 @@ curl -X PUT http://{{host}}/{{api}}/777677/part/30423 \
 }'
 
 ###
-GET http://{{host}}/{{api}}/parts HTTP/1.1
-###
+#****************************************************
+#                   GET ALL PARTS
+#****************************************************
+GET http://localhost:8788/productInventory/parts HTTP/1.1
 
-curl -X POST http://{{host}}/{{api}}/check \
+###
+#****************************************************
+#                GET A SPECIFIC PART
+#****************************************************
+# curl -v http://localhost:8788/productInventory/parts/30423 | json_pp
+GET http://localhost:8788/productInventory/parts/30423 HTTP/1.1
+
+###
+#****************************************************
+#                 GET ALL PRODUCTS
+#****************************************************
+# curl -v http://localhost:8788/productInventory | json_pp
+GET http://localhost:8788/productInventory HTTP/1.1
+
+###
+#****************************************************
+#               GET SPECIFIC PRODUCT
+#****************************************************
+# curl -v http://localhost:8788/productInventory | json_pp
+GET http://localhost:8788/productInventory/777677 HTTP/1.1
+
+###
+#****************************************************
+#           CHECK IF PRODUCT IS AVAILABLE
+#****************************************************
+curl -X POST http://localhost:8788/productInventory/check \
  -H 'Content-type:application/json' \
  -d '{
         "name": "crank",
@@ -68,17 +97,20 @@ curl -X POST http://{{host}}/{{api}}/check \
     }'
 
 ###
+#****************************************************
+#         LOOKUP A SUPPLIERS BY NAME FOR PARTS
+#****************************************************
+# encode supplier name first.
+# https://www.url-encode-decode.com/
+# curl -v http://localhost:8788/productInventory/parts/bysupplier/?name=Stafford%2C+Ward+and+Haley | json_pp
+GET http://localhost:8788/productInventory/parts/bysupplier/?name=Stafford%2C+Ward+and+Haley HTTP/1.1
 
-GET http://{{host}}/{{api}}/parts/30423 HTTP/1.1
 ###
-
-# curl -v localhost:8080/suppliers | json_pp
-GET http://{{host}}/{{api}} HTTP/1.1
-
-###
-
-
-# curl -v localhost:8080/suppliers/1
-GET http://{{host}}/{{api}}/777677 HTTP/1.1
-
+#****************************************************
+#           LOOKUP A SUPPLIER BY NAME FOR URI
+#****************************************************
+# encode supplier name first.
+# https://www.url-encode-decode.com/
+# curl -v http://localhost:8787/supplierProcurement/lookup/?name=Stafford%2C+Ward+and+Haley | json_pp
+GET http://localhost:8787/supplierProcurement/lookup/?name=Stafford%2C+Ward+and+Haley HTTP/1.1
 ###
