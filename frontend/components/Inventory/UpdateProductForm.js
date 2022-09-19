@@ -95,7 +95,7 @@ export default function UpdateContactForm() {
             sx={{ width: 400 }}
             renderInput={(params) => (
               <div>
-                <TextField {...params} label="Select Product To Add Part To" />
+                <TextField {...params} label="Select Product to Update" />
               </div>
             )}
           />

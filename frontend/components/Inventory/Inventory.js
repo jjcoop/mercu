@@ -264,8 +264,8 @@ function Inventory() {
                   height: 500,
                 }}
               >
-                <Title>Update Part</Title>
-                <UpdatePartForm/>
+                <Title>Update Product</Title>
+                <UpdateProductForm/>
               </Paper>
             </Grid>
             <Grid item xs={12} md={12} lg={12}>
@@ -277,8 +277,8 @@ function Inventory() {
                   height: 500,
                 }}
               >
-                <Title>Update Product</Title>
-                <UpdateProductForm/>
+                <Title>Update Part</Title>
+                <UpdatePartForm/>
               </Paper>
             </Grid>
             {/* Chart */}
