@@ -1,34 +1,49 @@
 package mercury.shareDomain;
 
+import java.net.URI;
 import java.util.Date;
 
 public class Order {
     private Long saleID;
-    private Integer statusCode;
+    private String statusCode;
     private String productName;
+    private URI productURI = URI.create("");
     private Integer quantity;
     private Date dateTime = new Date();
 
     public Order() {
     }
 
-    public Order(Long saleID, Integer statusCode, String productName, Integer quantity) {
+    public Order(Long saleID, String statusCode, String productName, Integer quantity) {
         this.saleID = saleID;
         this.statusCode = statusCode;
         this.productName = productName;
         this.quantity = quantity;
     }
 
+    public Order(Long saleID, String statusCode, String productName, URI productURI, Integer quantity, Date dateTime) {
+        this.saleID = saleID;
+        this.statusCode = statusCode;
+        this.productName = productName;
+        this.productURI = productURI;
+        this.quantity = quantity;
+        this.dateTime = dateTime;
+    }
+
     public Long getSaleID() {
         return saleID;
     }
 
-    public Integer getStatusCode() {
+    public String getStatusCode() {
         return statusCode;
     }
 
     public String getProductName() {
         return productName;
+    }
+
+    public URI getProductURI() {
+        return productURI;
     }
 
     public Integer getQuantity() {

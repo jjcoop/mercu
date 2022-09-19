@@ -2,7 +2,11 @@ package mercury.inventoryms.application.internal.commandservices;
 
 import mercury.inventoryms.interfaces.rest.transform.ProductModelAssembler;
 import mercury.shareDomain.Order;
+import mercury.inventoryms.interfaces.rest.ProductController;
 import mercury.inventoryms.interfaces.rest.transform.PartModelAssembler;
+
+import java.util.Date;
+import java.util.List;
 
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.IanaLinkRelations;
@@ -16,6 +20,8 @@ import mercury.inventoryms.infrastructure.repository.PartRepository;
 import mercury.inventoryms.infrastructure.repository.ProductRepository;
 import mercury.inventoryms.application.internal.outboundservices.SupplierLookupService;
 import mercury.inventoryms.application.internal.queryservices.ProductNotFoundException;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 // **********************************************************************
 // COMMAND SERVICE
@@ -43,6 +49,7 @@ public class ProductInventoryCommandService {
   // **********************************************************************
   public ResponseEntity<?> addProduct(Product newProduct) {
     EntityModel<Product> entityModel = assembler.toModel(productRepository.save(newProduct));
+    System.out.println("**** PRODUCT ADDED ****");
 
     return ResponseEntity
         .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
@@ -65,6 +72,8 @@ public class ProductInventoryCommandService {
     partRepository.save(part);
     product.addPart(part);
     productRepository.save(product);
+
+    System.out.println("**** PRODUCT PART ADDED ****");
 
     EntityModel<Product> entityModel = assembler.toModel(product);
 
@@ -90,6 +99,7 @@ public class ProductInventoryCommandService {
           return productRepository.save(newProduct);
         });
 
+    System.out.println("**** PRODUCT UPDATED ****");
     EntityModel<Product> entityModel = assembler.toModel(updatedProduct);
 
     return ResponseEntity //
@@ -114,12 +124,15 @@ public class ProductInventoryCommandService {
           newPart.setId(partId);
           return partRepository.save(newPart);
         });
-    updatedPart.setProduct(product);
+
 
     Manufacturer manufacturer = new Manufacturer(updatedPart.getManufacturer(),
         supplierLookup.fetchSupplierURI(updatedPart.getManufacturer()).toString());
 
     updatedPart.setManufacturer(manufacturer);
+    updatedPart.setProduct(product);
+    product.addPart(updatedPart);
+    System.out.println("**** PRODUCT PART UPDATED ****");
 
     EntityModel<Part> entityModel = partAssembler.toModel(partRepository.save(updatedPart));
 
@@ -128,12 +141,63 @@ public class ProductInventoryCommandService {
         .body(entityModel);
   }
 
+  // **********************************************************************
+  // CHECK AVAILABILITY ON SALE ORDER
+  // **********************************************************************
   public Order processOrder(Order order) {
-    System.out.println(order.getSaleID());
-    System.out.println(order.getStatusCode());
-    System.out.println(order.getProductName());
-    System.out.println(order.getQuantity());
-    System.out.println(order.getDateTime());
+
+    List<Product> products = productRepository.findAll();
+
+    Boolean productNameCheck = false;
+    Boolean productQuantityCheck = false;
+    Boolean partQuantityCheck = true;
+    Product updateProduct = new Product();
+    for (Product p : products) {
+      if (order.getProductName().equals(p.getName())) {
+        productNameCheck = true;
+        updateProduct = p;
+        if (order.getQuantity() <= p.getQuantity()) {
+          productQuantityCheck = true;
+          for (Part part : updateProduct.getParts()) {
+            if (order.getQuantity() > part.getQuantity()) {
+              partQuantityCheck = false;
+              break;
+            }
+          }
+        }
+
+      }
+    }
+    if (!productNameCheck) {
+      return new Order(
+          order.getSaleID(),
+          "PRODUCT NOT FOUND",
+          order.getProductName(),
+          order.getQuantity());
+    }
+    else if (productNameCheck && productQuantityCheck && partQuantityCheck) {
+      updateProduct.setQuantity(updateProduct.getQuantity() - order.getQuantity());
+      for (Part updatePart : updateProduct.getParts()) {
+        updatePart.setQuantity(updatePart.getQuantity() - order.getQuantity());
+      }
+      productRepository.save(updateProduct);
+
+      return new Order(
+          order.getSaleID(),
+          "COMPLETE",
+          order.getProductName(),
+          linkTo(methodOn(ProductController.class).getProduct(updateProduct.getId())).toUri(),
+          order.getQuantity(), new Date());
+    }
+    else if (productNameCheck && (!productQuantityCheck || !partQuantityCheck)) {
+      return new Order(
+          order.getSaleID(),
+          "UNAVAILABLE",
+          order.getProductName(),
+          linkTo(methodOn(ProductController.class).getProduct(updateProduct.getId())).toUri(),
+          order.getQuantity(), new Date());
+    }
+
     return order;
   }
 

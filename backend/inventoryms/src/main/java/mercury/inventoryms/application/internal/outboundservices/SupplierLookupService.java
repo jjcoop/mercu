@@ -25,7 +25,7 @@ public class SupplierLookupService {
             return restTemplate.getForObject("http://localhost:8787/supplierProcurement/lookup/?name={param}",
         URI.class, param);
         } catch(HttpStatusCodeException e) {
-            return URI.create("error:" + e.getRawStatusCode());
+            return URI.create("error:supplierNotExist");
         }
 
     }

@@ -50,6 +50,9 @@ public class SaleCommandService {
   public ResponseEntity<?> addStore(Store newStore) {
     EntityModel<Store> entityModel = assembler.toModel(
         storeRepository.save(newStore));
+    
+    System.out.println("**** STORE ADDED ****");
+    
 
     return ResponseEntity
         .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
@@ -72,6 +75,8 @@ public class SaleCommandService {
     store.addSale(newSale);
 
     EntityModel<InStoreSale> entityModel = assembler.toModel(inStoreSaleRepository.save(newSale));
+    System.out.println("**** STORE SALE ADDED ****");
+
 
     return ResponseEntity
         .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
@@ -85,11 +90,13 @@ public class SaleCommandService {
     Date date = new Date();
     newSale.setDateTime(date);
 
-    Order newOrder = new Order(newSale.getId(), 3, newSale.getProductName(), newSale.getQuantity());
+    Order newOrder = new Order(newSale.getId(), "PENDING", newSale.getProductName(), newSale.getQuantity());
     Order returnOrder = orderingService.send(newOrder);
-    System.out.println(returnOrder.getStatusCode());
 
     EntityModel<OnlineSale> entityModel = assembler.toModel(onlineSaleRepository.save(newSale));
+    System.out.println("**** ONLINE SALE ADDED ****");
+    System.out.println("**** ORDER " + returnOrder.getStatusCode() + " ****");
+
 
     return ResponseEntity
         .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri())

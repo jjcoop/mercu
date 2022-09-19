@@ -27,7 +27,6 @@ public class SupplierController {
 
     @PostMapping("/supplierProcurement")
     ResponseEntity<?> newSupplier(@RequestBody Supplier supplier) {
-        System.out.println("**** Supplier Added ****");
         return commandService.addSupplier(supplier);
     }
 

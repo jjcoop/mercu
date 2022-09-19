@@ -66,6 +66,7 @@ public class Part {
     this.partName = newPart.partName;
     this.partDescription = newPart.partDescription;
     this.manufacturer = newPart.manufacturer;
+    this.quantity = newPart.quantity;
   }
 
   public Long getId() {
