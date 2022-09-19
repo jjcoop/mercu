@@ -28,7 +28,7 @@ curl -X PUT http://localhost:8788/productInventory/777677 \
         "name": "2022 Polygon Siskiu D5 - Dual Suspension Mountain Bike",
         "price": 1274.00,
         "description": "The D5 is an entry point into MTB and will show the path of exploration.",
-        "quantity": 12
+        "quantity": 30
     }'
 ###
 #****************************************************
@@ -52,13 +52,14 @@ curl -X PUT http://localhost:8788/productInventory/777677/part/30423 \
     "partName": "SR SUNTOUR XCM HLO COIL FORK",
     "partDescription": "The Suntour Suspension package continues the theme of quality components for a great price.",
     "manufacturer": "Rhodes, Davies and Mann",
-    "quantity": 30
+    "quantity": 1
     }'
 
 ###
 #****************************************************
 #                   GET ALL PARTS
 #****************************************************
+# curl -v http://localhost:8788/productInventory/parts/ | json_pp
 GET http://localhost:8788/productInventory/parts HTTP/1.1
 
 ###
@@ -88,8 +89,8 @@ GET http://localhost:8788/productInventory/777677 HTTP/1.1
 #****************************************************
 # encode supplier name first.
 # https://www.url-encode-decode.com/
-# curl -v http://localhost:8788/productInventory/parts/bysupplier/?name=Stafford%2C+Ward+and+Haley | json_pp
-GET http://localhost:8788/productInventory/parts/bysupplier/?name=Stafford%2C+Ward+and+Haley HTTP/1.1
+# curl -v http://localhost:8788/productInventory/parts/bysupplier/?name=Rhodes%2C+Davies+and+Mann | json_pp
+GET http://localhost:8788/productInventory/parts/bysupplier/?name=Rhodes%2C+Davies+and+Mann HTTP/1.1
 
 ###
 #****************************************************
@@ -97,19 +98,19 @@ GET http://localhost:8788/productInventory/parts/bysupplier/?name=Stafford%2C+Wa
 #****************************************************
 # encode supplier name first.
 # https://www.url-encode-decode.com/
-# curl -v http://localhost:8787/supplierProcurement/lookup/?name=Stafford%2C+Ward+and+Haley | json_pp
-GET http://localhost:8787/supplierProcurement/lookup/?name=Stafford%2C+Ward+and+Haley HTTP/1.1
+# curl -v http://localhost:8787/supplierProcurement/lookup/?name=Rhodes%2C+Davies+and+Mann | json_pp
+GET http://localhost:8787/supplierProcurement/lookup/?name=Rhodes%2C+Davies+and+Mann HTTP/1.1
 
 ###
 #****************************************************
 #           CHECK IF PRODUCT IS AVAILABLE
 #****************************************************
-curl -X POST http://localhost:8788/productInventory/check \
+curl -X POST http://localhost:8788/productInventory/orders/ \
  -H 'Content-type:application/json' \
  -d '{
-        "name": "crank",
-        "price": 122.3,
-        "description": "sample description",
-        "quantity": 12
+        "saleID": "9999900",
+        "statusCode": "PROCESSING",
+        "productName": "2022 Polygon Siskiu D5 - Dual Suspension Mountain Bike",
+        "quantity": 1
     }'
 ###

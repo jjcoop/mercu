@@ -26,7 +26,6 @@ public class ProductController {
 
     @PostMapping("/productInventory")
     ResponseEntity<?> addProduct(@RequestBody Product product) {
-        System.out.println("**** Product Added ****");
         return commandService.addProduct(product);
     }
 

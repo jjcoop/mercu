@@ -62,7 +62,6 @@ public class SupplierProcurementQueryService {
             throw new AssertionError("UTF-8 is unknown");
         }
 
-        System.out.println(searchName);
         for (Supplier s : suppliers) {
             if (s.getCompanyName().equals(searchName)) {
                 tmpSupplier = s;
@@ -71,7 +70,7 @@ public class SupplierProcurementQueryService {
         try {
             return linkTo(methodOn(SupplierController.class).one(tmpSupplier.getId())).toUri();
         } catch (Exception e) {
-            return URI.create("error:supplierMS");
+            return URI.create("error:supplierNotExist");
         }
 
     }

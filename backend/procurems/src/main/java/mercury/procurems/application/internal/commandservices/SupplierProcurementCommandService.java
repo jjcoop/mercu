@@ -28,14 +28,14 @@ public class SupplierProcurementCommandService {
   public ResponseEntity<?> addSupplier(Supplier newSupplier) {
 
     EntityModel<Supplier> entityModel = assembler.toModel(supplierRepository.save(newSupplier));
-
+    System.out.println("**** SUPPLIER ADDED ****");
     return ResponseEntity
         .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
         .body(entityModel);
   }
 
   // **********************************************************************
-  //                        GET SUPPLIER CONTACTS
+  //                        ADD SUPPLIER CONTACTS
   // **********************************************************************
   public ResponseEntity<?> addSupplierContact(Long id, Contact contact) {
 
@@ -45,6 +45,8 @@ public class SupplierProcurementCommandService {
     contact.setSupplier(supplier);
     supplier.addContact(contact);
     supplierRepository.save(supplier);
+    System.out.println("**** SUPPLIER CONTACT ADDED ****");
+
 
     EntityModel<Supplier> entityModel = assembler.toModel(supplier);
 
@@ -68,7 +70,7 @@ public class SupplierProcurementCommandService {
           newSupplier.setId(id);
           return supplierRepository.save(newSupplier);
         });
-
+    System.out.println("**** SUPPLIER UPDATED ****");
     EntityModel<Supplier> entityModel = assembler.toModel(updatedSupplier);
 
     return ResponseEntity //
@@ -87,6 +89,7 @@ public class SupplierProcurementCommandService {
     supplier.updateContact(contactID, contact);
     supplierRepository.save(supplier);
 
+    System.out.println("**** SUPPLIER CONTACT UPDATED ****");
     EntityModel<Supplier> entityModel = assembler.toModel(supplier);
 
     return ResponseEntity //
@@ -101,8 +104,10 @@ public class SupplierProcurementCommandService {
     Supplier supplier = supplierRepository.findById(id)
         .orElseThrow(() -> new SupplierNotFoundException(id));
     supplierRepository.delete(supplier);
+    System.out.println("**** SUPPLIER DELETED ****");
 
-    return supplier.getCompanyName() + " was removed";
+
+    return supplier.getCompanyName() + " REMOVED";
   }
 
 }

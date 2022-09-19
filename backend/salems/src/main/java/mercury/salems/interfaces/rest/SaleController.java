@@ -43,7 +43,6 @@ public class SaleController {
     // **********************************************************************
     @PostMapping("/sales/online")
     ResponseEntity<?> addOnlineSale(@RequestBody OnlineSale sale) {
-        System.out.println("**** Online Sale Added ****");
         return commandService.addOnlineSale(sale);
     }
 
@@ -62,7 +61,6 @@ public class SaleController {
     // **********************************************************************
     @PostMapping("/sales/store")
     ResponseEntity<?> addStore(@RequestBody Store store) {
-        System.out.println("**** Store Added ****");
         return commandService.addStore(store);
     }
 
@@ -81,7 +79,6 @@ public class SaleController {
     // **********************************************************************
     @PostMapping("/sales/store/{storeId}")
     ResponseEntity<?> addInStoreSale(@PathVariable Long storeId, @RequestBody InStoreSale sale) {
-        System.out.println("**** InStore Sale Added ****");
         return commandService.addInStoreSale(storeId, sale);
     }
 
