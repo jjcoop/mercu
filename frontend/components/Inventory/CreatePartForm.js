@@ -42,8 +42,8 @@ export default function UpdateSupplierForm() {
 
     // Get data from the form.
     const returnData = {
-      name: event.target.partName.value,
-      description: event.target.partDescription.value,
+      partName: event.target.partName.value,
+      partDescription: event.target.partDescription.value,
       manufacturer: manufacturerValue,
       quantity: event.target.quantity.value,
     };
@@ -79,7 +79,7 @@ export default function UpdateSupplierForm() {
     if (response.status == 201) {
       alert(
         "Created Part:" +
-          "\nPart Name: " + event.target.partName.value + event.target.description.value +
+          "\nPart Name: " + event.target.partName.value +
           "\nPart Description: " + event.target.partDescription.value +
           "\nQuantity: " + event.target.quantity.value +
           ".\nRefreshing webpage now..."
