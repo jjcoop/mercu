@@ -1,9 +1,8 @@
 package mercury.salems.application.internal.commandservices;
 
-import java.net.URI;
 import java.util.Date;
 
-import mercury.salems.application.internal.outboundservices.ProductLookupService;
+import mercury.salems.application.internal.outboundservices.OrderingService;
 import mercury.salems.application.internal.queryservices.StoreNotFoundException;
 import mercury.salems.domain.aggregate.InStoreSale;
 import mercury.salems.domain.aggregate.OnlineSale;
@@ -11,6 +10,8 @@ import mercury.salems.domain.entity.Store;
 import mercury.salems.infrastructure.repository.SaleRepository;
 import mercury.salems.infrastructure.repository.StoreRepository;
 import mercury.salems.interfaces.rest.transform.SaleModelAssembler;
+import mercury.shareDomain.Order;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.IanaLinkRelations;
@@ -28,19 +29,19 @@ public class SaleCommandService {
 
   private StoreRepository storeRepository;
   private SaleModelAssembler assembler;
-  private ProductLookupService productLookup;
+  private OrderingService orderingService;
 
   public SaleCommandService(
       SaleRepository<OnlineSale> onlineSaleRepository,
       SaleRepository<InStoreSale> inStoreSaleRepository,
       StoreRepository storeRepository,
       SaleModelAssembler assembler,
-      ProductLookupService productLookup) {
+      OrderingService orderingService) {
     this.onlineSaleRepository = onlineSaleRepository;
     this.inStoreSaleRepository = inStoreSaleRepository;
     this.storeRepository = storeRepository;
     this.assembler = assembler;
-    this.productLookup = productLookup;
+    this.orderingService = orderingService;
   }
 
   // **********************************************************************
@@ -62,8 +63,7 @@ public class SaleCommandService {
     Date date = new Date();
     newSale.setDateTime(date);
 
-    URI productURI = productLookup.fetchProductURI(newSale.getProductName());
-    System.out.println(productURI.toString());
+    // TODO: send off an order.
 
     Store store = storeRepository
         .findById(id)
@@ -85,8 +85,9 @@ public class SaleCommandService {
     Date date = new Date();
     newSale.setDateTime(date);
 
-    URI productURI = productLookup.fetchProductURI(newSale.getProductName());
-    System.out.println(productURI.toString());
+    Order newOrder = new Order(newSale.getId(), 3, newSale.getProductName(), newSale.getQuantity());
+    Order returnOrder = orderingService.send(newOrder);
+    System.out.println(returnOrder.getStatusCode());
 
     EntityModel<OnlineSale> entityModel = assembler.toModel(onlineSaleRepository.save(newSale));
 

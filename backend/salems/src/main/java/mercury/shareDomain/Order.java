@@ -9,6 +9,9 @@ public class Order {
     private Integer quantity;
     private Date dateTime = new Date();
 
+    public Order() {
+    }
+
     public Order(Long saleID, Integer statusCode, String productName, Integer quantity) {
         this.saleID = saleID;
         this.statusCode = statusCode;

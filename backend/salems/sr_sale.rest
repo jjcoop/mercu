@@ -53,7 +53,7 @@ GET http://{{host}}/{{api}}/store/33333200/purchases
 #****************************************************
 curl -X POST http://{{host}}/{{api}}/online \
  -H 'Content-type:application/json' \
- -d '{"customerName": "Bill Murray", "address": "13 The Farm, Adelaide, 4321", "productName": "crank", "productId":777677, "quantity": "2"}'
+ -d '{"customerName": "Bill Murray", "address": "13 The Farm, Adelaide, 4321", "productName": "2022 Polygon Siskiu D5 - Dual Suspension Mountain Bike", "quantity": "2"}'
 
 ###
 #****************************************************

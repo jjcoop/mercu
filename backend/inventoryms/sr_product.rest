@@ -12,19 +12,6 @@
 curl -X POST http://localhost:8788/productInventory \
  -H 'Content-type:application/json' \
  -d '{
-        "name": "crank",
-        "price": 122.3,
-        "description": "sample description",
-        "quantity": 12
-    }'
-
-###
-#****************************************************
-#                   UPDATE A PRODUCT
-#****************************************************
-curl -X PUT http://localhost:8788/productInventory/777678 \
- -H 'Content-type:application/json' \
- -d '{
         "name": "dssfgdsfg",
         "price": 33.3,
         "description": "sample description",
@@ -33,17 +20,28 @@ curl -X PUT http://localhost:8788/productInventory/777678 \
 
 ###
 #****************************************************
+#                   UPDATE A PRODUCT
+#****************************************************
+curl -X PUT http://localhost:8788/productInventory/777677 \
+ -H 'Content-type:application/json' \
+ -d '{
+        "name": "2022 Polygon Siskiu D5 - Dual Suspension Mountain Bike",
+        "price": 1274.00,
+        "description": "The D5 is an entry point into MTB and will show the path of exploration.",
+        "quantity": 12
+    }'
+###
+#****************************************************
 #                   ADD PRODUCT PART
 #****************************************************
 curl -X PUT http://localhost:8788/productInventory/777677/part \
  -H 'Content-type:application/json' \
  -d '{
-    "partName": "Crank",
-    "partDescription": "metal oxide",
-    "manufacturer": "Stafford, Ward and Haley",
-    "quantity": 30
+    "partName": "XCM HLO COIL FORK",
+    "partDescription": "The Suntour Suspension package continues the theme of quality components for a great price.",
+    "manufacturer": "Rhodes, Davies and M",
+    "quantity": 3
     }'
-
 ###
 #****************************************************
 #              UPDATE A PRODUCT'S PART
@@ -51,10 +49,11 @@ curl -X PUT http://localhost:8788/productInventory/777677/part \
 curl -X PUT http://localhost:8788/productInventory/777677/part/30423 \
  -H 'Content-type:application/json' \
  -d '{
-    "partName": "dank",
-    "partDescription": "shafted",
-    "manufacturer": "Long, Ellis and Lara"
-}'
+    "partName": "SR SUNTOUR XCM HLO COIL FORK",
+    "partDescription": "The Suntour Suspension package continues the theme of quality components for a great price.",
+    "manufacturer": "Rhodes, Davies and Mann",
+    "quantity": 30
+    }'
 
 ###
 #****************************************************
@@ -85,19 +84,6 @@ GET http://localhost:8788/productInventory/777677 HTTP/1.1
 
 ###
 #****************************************************
-#           CHECK IF PRODUCT IS AVAILABLE
-#****************************************************
-curl -X POST http://localhost:8788/productInventory/check \
- -H 'Content-type:application/json' \
- -d '{
-        "name": "crank",
-        "price": 122.3,
-        "description": "sample description",
-        "quantity": 12
-    }'
-
-###
-#****************************************************
 #         LOOKUP A SUPPLIERS BY NAME FOR PARTS
 #****************************************************
 # encode supplier name first.
@@ -113,4 +99,17 @@ GET http://localhost:8788/productInventory/parts/bysupplier/?name=Stafford%2C+Wa
 # https://www.url-encode-decode.com/
 # curl -v http://localhost:8787/supplierProcurement/lookup/?name=Stafford%2C+Ward+and+Haley | json_pp
 GET http://localhost:8787/supplierProcurement/lookup/?name=Stafford%2C+Ward+and+Haley HTTP/1.1
+
+###
+#****************************************************
+#           CHECK IF PRODUCT IS AVAILABLE
+#****************************************************
+curl -X POST http://localhost:8788/productInventory/check \
+ -H 'Content-type:application/json' \
+ -d '{
+        "name": "crank",
+        "price": 122.3,
+        "description": "sample description",
+        "quantity": 12
+    }'
 ###

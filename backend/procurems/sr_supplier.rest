@@ -9,7 +9,7 @@
 #****************************************************
 curl -X POST http://localhost:8787/supplierProcurement \
  -H 'Content-type:application/json' \
- -d '{"companyName": "Bent Spokes", "base": "Melbourne"}'
+ -d '{"companyName": "Rhodes, Davies and Mann", "base": "Sydney"}'
 
 ###
 #****************************************************

@@ -129,7 +129,12 @@ public class ProductInventoryCommandService {
   }
 
   public Order processOrder(Order order) {
-    return null;
+    System.out.println(order.getSaleID());
+    System.out.println(order.getStatusCode());
+    System.out.println(order.getProductName());
+    System.out.println(order.getQuantity());
+    System.out.println(order.getDateTime());
+    return order;
   }
 
 }
