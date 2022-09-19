@@ -1,57 +1,67 @@
+import * as React from "react";
 import { useEffect, useState } from "react";
 import { Button } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import SendIcon from "@mui/icons-material/Send";
 
-export default function UpdateContactForm() {
-  const [inputValue, setInputValue] = useState("");
-  const [inputId, setInputId] = useState("");
-  const [contactID, setContactID] = useState("");
-  const [contactName, setContactName] = useState("");
+
+export default function UpdatePartForm() {
   const [keyword, setKeyword] = useState("productInventory");
-  const [sData, setSupplierData] = useState([]);
-  const [cData, setContactData] = useState([]);
+  const [sKeyword] = useState("supplierProcurement");
+
+  const [inputId, setInputId] = React.useState("");
+  const [input, setInput] = React.useState("");
+
+  const [data, setData] = useState([]);
+  const [productId, setProductId] = useState([]);
+
+  const [mData, setManufacturerData] = useState([]);
+  const [manufacturerValue, setManufacturerValue] = React.useState("");
+  const [manufacturerId, setManufacturerId] = React.useState("");
 
 
-  const fetchSupplierData = () => {
-    fetch(`http://localhost:8788/${keyword}`)
+  const fetchData = () => {
+    fetch(`http://localhost:8788/productInventory/parts`)
       .then((response) => response.json())
-      .then((sData) => setSupplierData(sData._embedded.productList))
+      .then((data) => setData(data._embedded.partList))
       .catch((err) => console.error(err));
-    
+  };
+
+  const fetchProductData = () => {
+    fetch(`http://localhost:8788/productInventory/parts/${inputId}`)
+      .then((response) => response.json())
+      .then((p) => setProductId(p.productURI.split("/").pop()))
+      .then(console.log(productId))
+      .catch((err) => console.log(err));
+  };
+
+  const fetchManufacturerData = () => {
+    fetch(`http://localhost:8787/${sKeyword}`)
+      .then((response) => response.json())
+      .then((data) => setManufacturerData(data._embedded.supplierList))
+      .catch((err) => console.error(err));
   };
 
   useEffect(() => {
-    fetchSupplierData();
+    fetchData();
+    fetchManufacturerData();
   }, []);
-
-  const fetchContactData = () => {
-    fetch(`http://localhost:8788/${keyword}/${inputId}`)
-      .then((response) => response.json())
-      .then((cData) => setContactData(cData.parts))
-      .catch((err) => console.error(err));
-  };
-
+  
   const handleSubmit = async (event) => {
     // Stop the form from submitting and refreshing the page.
     event.preventDefault();
 
-    // Get data from the form.
-    const data = {
-      fname: event.target.firstName.value,
-      lname: event.target.lastName.value,
-      phone: event.target.contactPhone.value,
-      email: event.target.contactEmail.value,
-      position: event.target.contactPosition.value
+    const returnData = {
+      partName: event.target.name.value,
+      partDescription: event.target.description.value,
+      manufacturer: manufacturerValue,
+      quantity: event.target.quantity.value,
     };
 
-    // Send the data to the server in JSON format.
-    const JSONdata = JSON.stringify(data);
+    const JSONdata = JSON.stringify(returnData);
 
-    // API endpoint where we send form data.
-
-    const endpoint = `http://localhost:8787/supplierProcurement/${inputId}/contact/${contactID}`;
+    const endpoint = `http://localhost:8788/productInventory/${productId}/part/${inputId}`
 
     // Form the request for sending data to the server.
     const options = {
@@ -74,16 +84,16 @@ export default function UpdateContactForm() {
 
     if (response.status == 201) {
       alert(
-        "Updated Contact: " +
-          contactName +
-          "\nNew Contact Name: " +
-          event.target.firstName.value + event.target.lastName.value +
-          "\nNew Contact Phone: " +
-          event.target.contactPhone.value +
-          "\nNew Contact Email: " +
-          event.target.contactEmail.value +
-          "\nNew Contact Position: " +
-          event.target.contactPosition.value +
+        "Updated Part: " +
+          input +
+          "\nNew Part Name: " +
+          event.target.name.value +
+          "\nNew Part Description: " +
+          event.target.description.value +
+          "\nNew Manufacturer: " +
+          manufacturerValue +
+          "\nNew Quantity: " +
+          event.target.quantity.value +
           ".\nRefreshing webpage now..."
       );
       window.location.reload(false);
@@ -94,47 +104,67 @@ export default function UpdateContactForm() {
     <div>
       <form onSubmit={handleSubmit}>
         <Autocomplete
-          getOptionLabel={(option) => `${option.id}: ${option.name}`}
+          getOptionLabel={(option) => `${option.partName}: ${option.id}`}
           onInputChange={(event, newInputValue) => {
-            setInputValue(newInputValue)
-            setInputId(newInputValue.replace(/\D/g, ""))
+            setInput(newInputValue);
+            setInputId(newInputValue.replace(/\D/g, ""));
+            console.log(data.name)
           }}
-          //onMouseOut is crucial to the fetching of contact data
-          //don't delete this line
-          onClick={fetchContactData()}
+
+          onChange={fetchProductData()}
           disablePortal
           id="combo-box-demo"
-          options={sData}
+          options={data}
           sx={{ width: 400 }}
           renderInput={(params) => (
             <div>
-              <TextField {...params} 
-              label="Supplier" />
+              <TextField {...params} label="Select Part" />
               <br />
             </div>
           )}
         />
         <br />
+        <TextField
+          required
+          id="outlined-required"
+          label="Part Name"
+          name="name"
+        />
+        <br /><br />
+        <TextField
+          required
+          id="outlined-required"
+          label="Part Description"
+          name="description"
+        />
+        <br /><br />
         <Autocomplete
-          isOptionEqualToValue={(option, value) => option.id === value.id}
-          getOptionLabel={(option) => `${option.id}: ${option.partName}`}
-          onInputChange={(event, value) => {
-            setContactName(value)
-            setContactID(value.replace(/\D/g, ""))
+          getOptionLabel={(option) => `${option.companyName}: ${option.id}`}
+          onInputChange={(event, newManufacturerValue) => {
+            setManufacturerId(newManufacturerValue.replace(/\W/g, ''));
+            setManufacturerValue(newManufacturerValue.substring(0, newManufacturerValue.indexOf(':')));
+
           }}
           disablePortal
           id="combo-box-demo"
-          options={cData}
+          options={mData}
           sx={{ width: 400 }}
           renderInput={(params) => (
             <div>
-              <TextField {...params} label="Contact" />
+              <TextField {...params} label="Select Manufacturer" />
               <br />
             </div>
           )}
         />
-
-        
+        <br />
+        <TextField
+          fullWidth
+          margin="normal"
+          required
+          id="outlined-required"
+          label="Quantity"
+          name="quantity"
+        />
         <br />
         <Button
           color="warning"
@@ -143,7 +173,7 @@ export default function UpdateContactForm() {
           variant="contained"
           endIcon={<SendIcon />}
         >
-          Update Contact
+          Update Part
         </Button>
       </form>
     </div>

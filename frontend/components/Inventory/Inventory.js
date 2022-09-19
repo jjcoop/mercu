@@ -261,7 +261,7 @@ function Inventory() {
                   p: 2,
                   display: "flex",
                   flexDirection: "column",
-                  height: 450,
+                  height: 550,
                 }}
               >
                 <Title>Update Part</Title>
