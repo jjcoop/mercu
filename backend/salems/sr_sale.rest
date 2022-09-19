@@ -17,7 +17,7 @@
 #****************************************************
 #                   CREATE A STORE
 #****************************************************
-curl -X POST http://{{host}}/{{api}}/store \
+curl -X POST http://localhost:8789/sales/store \
  -H 'Content-type:application/json' \
  -d '{"address": "fake address", "managerName": "steve"}'
 
@@ -25,7 +25,7 @@ curl -X POST http://{{host}}/{{api}}/store \
 #****************************************************
 #                CREATE A STORE SALE
 #****************************************************
-curl -X POST http://{{host}}/{{api}}/store/33333200 \
+curl -X POST http://localhost:8789/sales/store/33333200 \
  -H 'Content-type:application/json' \
  -d '{"productName": "crank", "quantity": 1}'
 
@@ -33,36 +33,46 @@ curl -X POST http://{{host}}/{{api}}/store/33333200 \
 #****************************************************
 #                   GET ALL STORES
 #****************************************************
-GET http://{{host}}/{{api}}/store
+# curl -v http://localhost:8789/sales/store | json_pp
+GET http://localhost:8789/sales/store
 
 ###
 #****************************************************
 #                   GET ONE STORE
 #****************************************************
-GET http://{{host}}/{{api}}/store/33333200
+# curl -v http://localhost:8789/sales/store/33333200 | json_pp
+GET http://localhost:8789/sales/store/33333200
 
 ###
 #****************************************************
 #               GET ONE STORES SALES
 #****************************************************
-GET http://{{host}}/{{api}}/store/33333200/purchases
+# curl -v http://localhost:8789/sales/store/33333200/purchases | json_pp
+GET http://localhost:8789/sales/store/33333200/purchases
 
 ###
 #****************************************************
 #                 CREATE ONLINE SALE
 #****************************************************
-curl -X POST http://{{host}}/{{api}}/online \
+curl -X POST http://localhost:8789/sales/online \
  -H 'Content-type:application/json' \
- -d '{"customerName": "Bill Murray", "address": "13 The Farm, Adelaide, 4321", "productName": "2022 Polygon Siskiu D5 - Dual Suspension Mountain Bike", "quantity": "2"}'
+ -d '{
+        "customerName": "Bill Murray",
+        "address": "13 The Farm, Adelaide, 4321",
+        "productName": "2022 Polygon Siskiu D5 - Dual Suspension Mountain Bike",
+        "quantity": "2"
+    }'
 
 ###
 #****************************************************
 #                GET ALL ONLINE SALES
 #****************************************************
-GET http://{{host}}/{{api}}/online HTTP/1.1
+# curl -v http://localhost:8789/sales/online | json_pp
+GET http://localhost:8789/sales/online HTTP/1.1
 
 ###
 #****************************************************
 #                GET ONE ONLINE SALE
 #****************************************************
-GET http://{{host}}/{{api}}/online/9999901 HTTP/1.1
+# curl -v http://localhost:8789/sales/online/9999901 | json_pp
+GET http://localhost:8789/sales/online/9999901 HTTP/1.1
