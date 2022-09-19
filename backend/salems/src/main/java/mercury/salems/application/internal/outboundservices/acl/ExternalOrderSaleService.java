@@ -4,7 +4,6 @@ import org.springframework.stereotype.Service;
 
 import mercury.salems.domain.aggregate.InStoreSale;
 import mercury.salems.domain.aggregate.OnlineSale;
-import mercury.salems.domain.entity.Store;
 import mercury.salems.domain.valueObject.SaleProductName;
 import mercury.shareDomain.Order;
 
