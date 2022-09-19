@@ -3,6 +3,7 @@ package mercury.salems.application.internal.commandservices;
 import java.util.Date;
 
 import mercury.salems.application.internal.outboundservices.OrderingService;
+import mercury.salems.application.internal.outboundservices.acl.ExternalOrderSaleService;
 import mercury.salems.application.internal.queryservices.StoreNotFoundException;
 import mercury.salems.domain.aggregate.InStoreSale;
 import mercury.salems.domain.aggregate.OnlineSale;
@@ -30,18 +31,21 @@ public class SaleCommandService {
   private StoreRepository storeRepository;
   private SaleModelAssembler assembler;
   private OrderingService orderingService;
+  private ExternalOrderSaleService externalOrderSaleService;
 
   public SaleCommandService(
       SaleRepository<OnlineSale> onlineSaleRepository,
       SaleRepository<InStoreSale> inStoreSaleRepository,
       StoreRepository storeRepository,
       SaleModelAssembler assembler,
-      OrderingService orderingService) {
+      OrderingService orderingService,
+      ExternalOrderSaleService externalOrderSaleService) {
     this.onlineSaleRepository = onlineSaleRepository;
     this.inStoreSaleRepository = inStoreSaleRepository;
     this.storeRepository = storeRepository;
     this.assembler = assembler;
     this.orderingService = orderingService;
+    this.externalOrderSaleService = externalOrderSaleService;
   }
 
   // **********************************************************************
@@ -66,7 +70,13 @@ public class SaleCommandService {
     Date date = new Date();
     newSale.setDateTime(date);
 
-    // TODO: send off an order.
+    Order newOrder = new Order(newSale.getId(), "PENDING", newSale.getProductName(), newSale.getQuantity());
+    Order returnOrder = orderingService.send(newOrder);
+
+    newSale = externalOrderSaleService.processOrder(returnOrder, newSale);
+
+    System.out.println("**** ONLINE SALE ADDED ****");
+    System.out.println("**** ORDER " + returnOrder.getStatusCode() + " ****");
 
     Store store = storeRepository
         .findById(id)
@@ -92,6 +102,8 @@ public class SaleCommandService {
 
     Order newOrder = new Order(newSale.getId(), "PENDING", newSale.getProductName(), newSale.getQuantity());
     Order returnOrder = orderingService.send(newOrder);
+
+    newSale = externalOrderSaleService.processOrder(returnOrder, newSale);
 
     EntityModel<OnlineSale> entityModel = assembler.toModel(onlineSaleRepository.save(newSale));
     System.out.println("**** ONLINE SALE ADDED ****");

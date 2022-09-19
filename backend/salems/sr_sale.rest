@@ -27,7 +27,10 @@ curl -X POST http://localhost:8789/sales/store \
 #****************************************************
 curl -X POST http://localhost:8789/sales/store/33333200 \
  -H 'Content-type:application/json' \
- -d '{"productName": "crank", "quantity": 1}'
+ -d '{
+        "productName": "2022 Polygon Siskiu D5 - Dual Suspension Mountain Bike",
+        "quantity": 30
+    }'
 
 ###
 #****************************************************

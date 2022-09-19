@@ -24,18 +24,13 @@ import mercury.salems.domain.valueObject.SaleQuantity;
 @SequenceGenerator(name = "sal", initialValue = 9999900, allocationSize = 100)
 @DiscriminatorColumn(name = "type", discriminatorType = DiscriminatorType.STRING)
 public class Sale {
-  enum OrderStatus {
-    BACKORDER,
-    PROCESSING,
-    COMPLETE
-  }
 
   @Column(name = "ID", unique = true, nullable = false)
   @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "sal")
   @Id
   Long id;
 
-  private OrderStatus orderStatus = OrderStatus.PROCESSING;
+  private String orderStatus = "PROCESSING";
 
   @Embedded
   private SaleProductName productName;
@@ -62,11 +57,11 @@ public class Sale {
     this.id = id;
   }
 
-  public OrderStatus getOrderStatus() {
+  public String getOrderStatus() {
     return orderStatus;
   }
 
-  public void setOrderStatus(OrderStatus orderStatus) {
+  public void setOrderStatus(String orderStatus) {
     this.orderStatus = orderStatus;
   }
 
@@ -74,8 +69,8 @@ public class Sale {
     return productName.getValue();
   }
 
-  public void setProductName(String productName) {
-    this.productName = new SaleProductName(productName);
+  public void setProductName(SaleProductName productName) {
+    this.productName = productName;
   }
 
 
