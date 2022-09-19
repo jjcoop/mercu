@@ -52,7 +52,7 @@ curl -X PUT http://localhost:8788/productInventory/777677/part/30423 \
     "partName": "SR SUNTOUR XCM HLO COIL FORK",
     "partDescription": "The Suntour Suspension package continues the theme of quality components for a great price.",
     "manufacturer": "Rhodes, Davies and Mann",
-    "quantity": 1
+    "quantity": 10
     }'
 
 ###

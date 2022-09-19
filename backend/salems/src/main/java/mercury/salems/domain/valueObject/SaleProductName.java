@@ -30,13 +30,13 @@ public class SaleProductName {
     }
   }
 
-  public SaleProductName(String value, String uri) {
+  public SaleProductName(String value, URI uri) {
     try {
       if (value.length() == 0) {
         throw new EmptyStringException("Sale product name");
       }
       this.value = value;
-      this.uri = URI.create(uri);
+      this.uri = uri;
     } catch (EmptyStringException e) {
       System.out.println(e.getMessage());
     }

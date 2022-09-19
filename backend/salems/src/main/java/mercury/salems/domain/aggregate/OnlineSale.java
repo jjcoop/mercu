@@ -21,10 +21,10 @@ public class OnlineSale extends Sale {
 
     public OnlineSale() {
         // to satisfy all of the requirements of each variable having a value
-        this(new Long(1), "default", new Long(1), 1, "default", "default");
+        this(new Long(1), "default", 1, "default", "default");
     }
 
-    public OnlineSale(Long id, String productName, Long productId, int quantity, String customerName, String address) {
+    public OnlineSale(Long id, String productName, int quantity, String customerName, String address) {
         super(id, productName, quantity);
         this.customerName = new CustomerName(customerName);
         this.address = new CustomerAddress(address);
