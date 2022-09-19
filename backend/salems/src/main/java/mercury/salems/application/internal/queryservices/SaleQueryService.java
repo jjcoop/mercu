@@ -8,17 +8,15 @@ import mercury.salems.infrastructure.repository.SaleRepository;
 import mercury.salems.infrastructure.repository.StoreRepository;
 import mercury.salems.interfaces.rest.SaleController;
 import mercury.salems.interfaces.rest.transform.SaleModelAssembler;
-import mercury.shareDomain.ProductTemplate;
-import mercury.shareDomain.PartTemplate;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -33,13 +31,7 @@ public class SaleQueryService {
     private final StoreRepository storeRepository;
     @Autowired
     private SaleModelAssembler assembler;
-@Autowired
-  private RestTemplate restTemplate;
 
-
-    // ---------------------
-    // Sale
-    // ---------------------
     public SaleQueryService(SaleRepository<OnlineSale> onlineSaleRepository,
             SaleRepository<InStoreSale> inStoreSaleRepository, StoreRepository storeRepository,
             SaleModelAssembler assembler) {
@@ -49,6 +41,9 @@ public class SaleQueryService {
         this.assembler = assembler;
     }
 
+    // **********************************************************************
+    //                              GET ALL SALES
+    // **********************************************************************
     public CollectionModel<EntityModel<Sale>> all() {
         List<EntityModel<Sale>> sales = (List<EntityModel<Sale>>) onlineSaleRepository.findAll().stream()
                 .map(assembler::toModel)
@@ -57,14 +52,17 @@ public class SaleQueryService {
         return CollectionModel.of(sales, linkTo(methodOn(SaleController.class).all()).withSelfRel());
     }
 
+    // **********************************************************************
+    //                              GET ONE SALE
+    // **********************************************************************
     public Sale findById(Long id) {
         return onlineSaleRepository.findById(id)
                 .orElseThrow(() -> new SaleNotFoundException(id));
     }
 
-    // ---------------------
-    // OnlineSale
-    // ---------------------
+    // **********************************************************************
+    //                          GET ALL ONLINE SALES
+    // **********************************************************************
     public CollectionModel<EntityModel<OnlineSale>> allOnlineSales() {
         List<EntityModel<OnlineSale>> sales = (List<EntityModel<OnlineSale>>) onlineSaleRepository.findAllOnlineSales()
                 .stream()
@@ -74,25 +72,24 @@ public class SaleQueryService {
         return CollectionModel.of(sales, linkTo(methodOn(SaleController.class).all()).withSelfRel());
     }
 
+    // **********************************************************************
+    //                          GET ONE ONLINE SALE
+    // **********************************************************************
     public EntityModel<OnlineSale> findOnlineSaleById(Long id) {
-        OnlineSale sale = (OnlineSale) onlineSaleRepository.findById(id)
+        OnlineSale sale = new OnlineSale();
+        try {
+            sale = (OnlineSale) onlineSaleRepository.findById(id)
                 .orElseThrow(() -> new SaleNotFoundException(id));
+        } catch (java.lang.ClassCastException e){
+            throw new SaleNotFoundException(id);
+        }
 
         return assembler.toModel(sale);
     }
 
-    public ProductTemplate getProductByOnlineSaleId(Long saleId) {
-        OnlineSale sale = (OnlineSale)onlineSaleRepository.findById(saleId).orElseThrow(() -> new SaleNotFoundException(saleId));
-        
-        // get product info from product repo via REST
-        String productURL = "http://localhost:8788/templateInventory/" + sale.getProductId();
-        ProductTemplate prodTemp = restTemplate.getForObject(productURL, ProductTemplate.class);
-        return prodTemp;
-    }
-
-    // ---------------------
-    // InStoreSale
-    // ---------------------
+    // **********************************************************************
+    //                          GET ALL STORE SALES
+    // **********************************************************************
     public CollectionModel<EntityModel<InStoreSale>> allInStoreSales() {
         List<EntityModel<InStoreSale>> sales = (List<EntityModel<InStoreSale>>) inStoreSaleRepository
                 .findAllInStoreSales().stream()
@@ -102,6 +99,9 @@ public class SaleQueryService {
         return CollectionModel.of(sales, linkTo(methodOn(SaleController.class).all()).withSelfRel());
     }
 
+    // **********************************************************************
+    //                          GET ONE STORE SALE
+    // **********************************************************************
     public EntityModel<InStoreSale> findInStoreSaleById(Long id) {
         InStoreSale sale = (InStoreSale) inStoreSaleRepository.findById(id)
                 .orElseThrow(() -> new SaleNotFoundException(id));
@@ -109,18 +109,9 @@ public class SaleQueryService {
         return assembler.toModel(sale);
     }
 
-    public ProductTemplate getProductByInStoreSaleId(Long saleId) {
-        InStoreSale sale = (InStoreSale)inStoreSaleRepository.findById(saleId).orElseThrow(() -> new SaleNotFoundException(saleId));
-        
-        // get product info from product repo via REST
-        String productURL = "http://localhost:8788/templateInventory/" + sale.getProductId();
-        ProductTemplate prodTemp = restTemplate.getForObject(productURL, ProductTemplate.class);
-        return prodTemp;
-    }
-
-    // ---------------------
-    // Stores
-    // ---------------------
+    // **********************************************************************
+    //                            GET ALL STORES
+    // **********************************************************************
     public CollectionModel<EntityModel<Store>> allStores() {
         List<EntityModel<Store>> stores = (List<EntityModel<Store>>) storeRepository.findAll().stream()
                 .map(assembler::toModel)
@@ -129,9 +120,22 @@ public class SaleQueryService {
         return CollectionModel.of(stores, linkTo(methodOn(SaleController.class).all()).withSelfRel());
     }
 
+    // **********************************************************************
+    //                            GET ONE STORE
+    // **********************************************************************
     public Store findStoreById(Long id) {
         return storeRepository.findById(id)
                 .orElseThrow(() -> new StoreNotFoundException(id));
 
+    }
+    // **********************************************************************
+    //                         GET ONE STORES SALES
+    // **********************************************************************
+    public Set<InStoreSale> oneStorePurchases(Long id) {
+        Store store = storeRepository.findById(id)
+        .orElseThrow(() -> new StoreNotFoundException(id));
+
+        
+        return store.getSales();
     }
 }

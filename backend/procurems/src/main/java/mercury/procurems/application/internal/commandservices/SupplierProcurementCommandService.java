@@ -22,6 +22,9 @@ public class SupplierProcurementCommandService {
     this.assembler = assembler;
   }
 
+  // **********************************************************************
+  //                            ADD SUPPLIER
+  // **********************************************************************
   public ResponseEntity<?> addSupplier(Supplier newSupplier) {
 
     EntityModel<Supplier> entityModel = assembler.toModel(supplierRepository.save(newSupplier));
@@ -31,6 +34,9 @@ public class SupplierProcurementCommandService {
         .body(entityModel);
   }
 
+  // **********************************************************************
+  //                        GET SUPPLIER CONTACTS
+  // **********************************************************************
   public ResponseEntity<?> addSupplierContact(Long id, Contact contact) {
 
     Supplier supplier = supplierRepository.findById(id)
@@ -47,21 +53,9 @@ public class SupplierProcurementCommandService {
         .body(entityModel);
   }
 
-  public ResponseEntity<?> updateSupplierContact(Contact contact, Long supplierID, Long contactID) {
-
-    Supplier supplier = supplierRepository.findById(supplierID) //
-      .orElseThrow(() -> new SupplierNotFoundException(supplierID));
-
-    supplier.updateContact(contactID, contact);
-    supplierRepository.save(supplier);
-    
-    EntityModel<Supplier> entityModel = assembler.toModel(supplier);
-
-    return ResponseEntity //
-        .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()) //
-        .body(entityModel);
-  }
-
+  // **********************************************************************
+  //                              UPDATE SUPPLIER
+  // **********************************************************************
   public ResponseEntity<?> updateSupplier(Supplier newSupplier, Long id) {
 
     Supplier updatedSupplier = supplierRepository.findById(id) //
@@ -82,6 +76,27 @@ public class SupplierProcurementCommandService {
         .body(entityModel);
   }
 
+  // **********************************************************************
+  //                      UPDATE SUPPLIER CONTACT
+  // **********************************************************************
+  public ResponseEntity<?> updateSupplierContact(Contact contact, Long supplierID, Long contactID) {
+
+    Supplier supplier = supplierRepository.findById(supplierID) //
+        .orElseThrow(() -> new SupplierNotFoundException(supplierID));
+
+    supplier.updateContact(contactID, contact);
+    supplierRepository.save(supplier);
+
+    EntityModel<Supplier> entityModel = assembler.toModel(supplier);
+
+    return ResponseEntity //
+        .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()) //
+        .body(entityModel);
+  }
+
+  // **********************************************************************
+  //            CASCADE DELETE SUPPLIER & SUPPLIERS CONTACTS
+  // **********************************************************************
   public String deleteSupplier(Long id) {
     Supplier supplier = supplierRepository.findById(id)
         .orElseThrow(() -> new SupplierNotFoundException(id));

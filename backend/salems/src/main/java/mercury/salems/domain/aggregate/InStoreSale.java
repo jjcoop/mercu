@@ -38,7 +38,7 @@ public class InStoreSale extends Sale {
   }
 
   public InStoreSale(Long id, String productName, Long productId, int quantity, String receipt) {
-    super(id, productName, productId, quantity);
+    super(id, productName, quantity);
     this.receipt = new SaleReceipt(receipt);
   }
 

@@ -1,4 +1,4 @@
-package mercury.inventoryms.domain.exceptions;
+package mercury.inventoryms.domain.valueObject.exceptions;
 
 public class ValueOutsideRangeException  extends Exception {
     public ValueOutsideRangeException(double value) {

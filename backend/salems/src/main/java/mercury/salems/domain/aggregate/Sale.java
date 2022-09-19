@@ -14,7 +14,6 @@ import javax.persistence.InheritanceType;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import mercury.salems.domain.valueObject.ProductId;
 import mercury.salems.domain.valueObject.SaleDate;
 import mercury.salems.domain.valueObject.SaleProductName;
 import mercury.salems.domain.valueObject.SaleQuantity;
@@ -42,9 +41,6 @@ public class Sale {
   private SaleProductName productName;
 
   @Embedded
-  private ProductId productId;
-
-  @Embedded
   private SaleQuantity quantity;
 
   @Embedded
@@ -52,10 +48,9 @@ public class Sale {
 
   public Sale() {}
 
-  public Sale(Long id, String productName, Long productId, int quantity) {
+  public Sale(Long id, String productName, int quantity) {
     this.id = id;
     this.productName = new SaleProductName(productName);
-    this.productId = new ProductId(productId);
     this.quantity = new SaleQuantity(quantity);
   }
 
@@ -83,13 +78,6 @@ public class Sale {
     this.productName = new SaleProductName(productName);
   }
 
-  public Long getProductId() {
-    return productId.getValue();
-  }
-
-  public void setProductId(Long productId) {
-    this.productId = new ProductId(productId);
-  }
 
   public int getQuantity() {
     return quantity.getValue();

@@ -25,7 +25,7 @@ public class OnlineSale extends Sale {
     }
 
     public OnlineSale(Long id, String productName, Long productId, int quantity, String customerName, String address) {
-        super(id, productName, productId, quantity);
+        super(id, productName, quantity);
         this.customerName = new CustomerName(customerName);
         this.address = new CustomerAddress(address);
     }
