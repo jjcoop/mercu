@@ -19,20 +19,22 @@ export default function StoreSalesTable() {
   const columns = [
     { field: "id", headerName: "Store ID", width: 100, minWidth: 75, maxWidth: 200 },
     { field: "sale_id", headerName: "Sale ID", width: 100, minWidth: 75, maxWidth: 200 },
-    { field: "productName", headerName: "Product Name", width: 500, minWidth: 200, maxWidth: 400 },
+    { field: "productName", headerName: "Product Name", width: 250, minWidth: 200, maxWidth: 400 },
     { field: "quantity", headerName: "Quantity", width: 100, minWidth: 50, maxWidth: 200 },
+    { field: "date", headerName: "Date", width: 100, minWidth: 75, maxWidth: 200 },
     { field: "orderStatus", headerName: "Order Status", width: 200, minWidth: 150, maxWidth: 200 },
   ];
 
   const rows = [];
-  function createData(id, sale_id, productName, orderStatus, quantity) {
-    return { id, sale_id, productName, orderStatus, quantity };
+  function createData(id, sale_id, productName, orderStatus, quantity, date) {
+    return { id, sale_id, productName, orderStatus, quantity, date};
   }
 
   data.map((store) =>
     store.sales.map((c) =>
+
       rows.push(
-        createData(store.id, c.id, c.productName, c.orderStatus, c.quantity)
+        createData(store.id, c.id, c.productName, c.orderStatus, c.quantity, c.dateTime.substring(0, 10))
       )
     )
   );

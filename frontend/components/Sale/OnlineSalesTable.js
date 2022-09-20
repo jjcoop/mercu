@@ -22,17 +22,18 @@ export default function OnlineSalesTable() {
     { field: "customerAddress", headerName: "Customer Address", width: 250, minWidth: 200, maxWidth: 600 },
     { field: "productName", headerName: "Product Name", width: 125, minWidth: 150, maxWidth: 200 },
     { field: "quantity", headerName: "Quantity", width: 100, minWidth: 50, maxWidth: 200},
+    { field: "date", headerName: "Date", width: 100, minWidth: 75, maxWidth: 200 },
     { field: "orderStatus", headerName: "Order Status", width: 200, minWidth: 150, maxWidth: 200 }
   ];
 
   const rows = [];
-  function createData(id, customerName, customerAddress, productName, orderStatus, quantity) {
-    return {id, customerName, customerAddress, productName, orderStatus, quantity};
+  function createData(id, customerName, customerAddress, productName, orderStatus, quantity, date) {
+    return {id, customerName, customerAddress, productName, orderStatus, quantity, date};
   }
 
   data.map((sale) =>
     rows.push(
-      createData(sale.id, sale.customerName, sale.address, sale.productName, sale.orderStatus, sale.quantity)
+      createData(sale.id, sale.customerName, sale.address, sale.productName, sale.orderStatus, sale.quantity, sale.dateTime.substring(0, 10))
     )
   );
 
