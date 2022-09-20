@@ -28,6 +28,7 @@ import CreateStoreSale from "./CreateStoreSale";
 import CreateOnlineSale from "./CreateOnlineSale";
 import OnlineSalesTable from "./OnlineSalesTable";
 import StoreSalesTable from "./StoreSalesTable";
+import CreateBackorder from "./CreateBackorder";
 
 
 const drawerWidth = 240;
@@ -254,8 +255,6 @@ function Inventory() {
                 <CreateStoreSale />
               </Paper>
             </Grid>
-            
-            {/* Recent Deposits */}
             <Grid item xs={12} md={12} lg={12}>
               <Paper
                 sx={{
@@ -269,7 +268,19 @@ function Inventory() {
                 <CreateOnlineSale />
               </Paper>
             </Grid>
-            {/* Chart */}
+            <Grid item xs={12} md={12} lg={12}>
+              <Paper
+                sx={{
+                  p: 2,
+                  display: "flex",
+                  flexDirection: "column",
+                  height: 200,
+                }}
+              >
+                <Title>Create Backorder</Title>
+                <CreateBackorder />
+              </Paper>
+            </Grid>
           </Grid>
           <Copyright sx={{ pt: 4 }} />
         </Container>
