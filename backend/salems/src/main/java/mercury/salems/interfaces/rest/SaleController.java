@@ -1,5 +1,6 @@
 package mercury.salems.interfaces.rest;
 
+import mercury.salems.application.internal.outboundservices.ProductLookupBySale;
 import mercury.salems.application.internal.commandservices.SaleCommandService;
 import mercury.salems.application.internal.queryservices.SaleQueryService;
 import mercury.salems.domain.aggregate.InStoreSale;
@@ -19,10 +20,12 @@ import org.springframework.web.bind.annotation.*;
 public class SaleController {
     private final SaleCommandService commandService;
     private final SaleQueryService queryService;
+    private final ProductLookupBySale productLookupBySale;
 
-    public SaleController(SaleCommandService commandService, SaleQueryService queryService) {
+    public SaleController(SaleCommandService commandService, SaleQueryService queryService, ProductLookupBySale productLookupBySale) {
         this.commandService = commandService;
         this.queryService = queryService;
+        this.productLookupBySale = productLookupBySale;
     }
 
     // **********************************************************************
@@ -85,5 +88,13 @@ public class SaleController {
     @GetMapping("/sales/store/{storeId}/purchases")
     public Set<InStoreSale> oneStorePurchases(@PathVariable Long storeId) {
         return queryService.oneStorePurchases(storeId);
+    }
+
+    // **********************************************************************
+    // PRODUCT BY SALE
+    // **********************************************************************
+    @GetMapping("/sales/{id}/product")
+    ResponseEntity<?> getProductBySale(@PathVariable Long id) {
+        return productLookupBySale.getProductBySale(id);
     }
 }
