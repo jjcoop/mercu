@@ -5,6 +5,7 @@ import mercury.inventoryms.application.internal.queryservices.ProductInventoryQu
 import mercury.inventoryms.domain.aggregate.Part;
 import mercury.inventoryms.domain.aggregate.Product;
 import mercury.shareDomain.Order;
+import mercury.shareDomain.ProductSchema;
 
 import java.util.List;
 
@@ -42,6 +43,11 @@ public class ProductController {
     @GetMapping("/productInventory/{id}/parts")
     public List<Part> getProductParts(@PathVariable Long id) {
         return queryService.getProductParts(id);
+    }
+
+    @GetMapping("/productInventory/{id}/schema")
+    public ProductSchema getProductAsSchema(@PathVariable Long id) {
+        return queryService.getProductAsSchema(id);
     }
 
     @PutMapping("/productInventory/{id}")

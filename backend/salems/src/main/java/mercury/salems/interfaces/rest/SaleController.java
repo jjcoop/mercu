@@ -1,16 +1,19 @@
 package mercury.salems.interfaces.rest;
 
 import mercury.salems.application.internal.outboundservices.ProductLookupBySale;
+import mercury.salems.application.internal.outboundservices.acl.ExternalGetProductBySale;
 import mercury.salems.application.internal.commandservices.SaleCommandService;
 import mercury.salems.application.internal.queryservices.SaleQueryService;
 import mercury.salems.domain.aggregate.InStoreSale;
 import mercury.salems.domain.aggregate.OnlineSale;
 import mercury.salems.domain.aggregate.Sale;
 import mercury.salems.domain.aggregate.Store;
+import mercury.shareDomain.ProductSchema;
 
 import java.util.List;
 import java.util.Set;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +25,8 @@ public class SaleController {
     private final SaleCommandService commandService;
     private final SaleQueryService queryService;
     private final ProductLookupBySale productLookupBySale;
+    @Autowired
+    ExternalGetProductBySale getProductBySale;
 
     public SaleController(SaleCommandService commandService, SaleQueryService queryService, ProductLookupBySale productLookupBySale) {
         this.commandService = commandService;
@@ -118,7 +123,8 @@ public class SaleController {
     // GET PRODUCT BY SALE
     // **********************************************************************
     @GetMapping("/sales/{id}/product")
-    ResponseEntity<?> getProductBySale(@PathVariable Long id) {
-        return productLookupBySale.getProductBySale(id);
+    ProductSchema getProductBySale(@PathVariable Long id) {
+        //return productLookupBySale.getProductBySale(id);
+        return getProductBySale.getProductBySale(id);
     }
 }
