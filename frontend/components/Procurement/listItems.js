@@ -40,7 +40,7 @@ export const mainListItems = (
       </ListItemButton>
     </Link>
 
-    <Link href="/procurement">
+    <Link href="/sale">
       <ListItemButton>
         <ListItemIcon>
           <LoyaltyIcon />
