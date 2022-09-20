@@ -22,15 +22,19 @@ import { mainListItems, secondaryListItems } from "./listItems";
 import Chart from "./Chart";
 import Deposits from "./Deposits";
 import Orders from "./Orders";
-import ContactsTable from "./ContactsTable";
+import ContactsTable from "../Procurement/ContactsTable";
 import Copyright from "../Copyright";
 import SettingsIcon from "@mui/icons-material/Settings";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-import SuppliersTable from "./SuppliersTable";
+import SuppliersTable from "../Procurement/SuppliersTable";
 import Title from "./Title";
 import ProductsTable from "../Inventory/ProductsTable";
 import PartsTable from "../Inventory/PartsTable";
+import StoresTable from "../Sale/StoresTable";
+import StoreSalesTable from "../Sale/StoreSalesTable";
+import OnlineSalesTable from "../Sale/OnlineSalesTable";
+
 
 const drawerWidth = 240;
 
@@ -238,7 +242,6 @@ function DashboardContent() {
                 <Deposits />
               </Paper>
             </Grid>
-            {/* Recent Orders */}
             <Grid item xs={12}>
               <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
                 <Title>Suppliers</Title>
@@ -264,10 +267,22 @@ function DashboardContent() {
                 <PartsTable />
               </Paper>
             </Grid>
-            {/* orders */}
             <Grid item xs={12}>
               <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
-                <Orders />
+                <Title>Stores</Title>
+                <StoresTable />
+              </Paper>
+            </Grid>
+            <Grid item xs={12}>
+              <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
+                <Title>Store Sales</Title>
+                <StoreSalesTable />
+              </Paper>
+            </Grid>
+            <Grid item xs={12}>
+              <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
+                <Title>Online Sales</Title>
+                <OnlineSalesTable />
               </Paper>
             </Grid>
           </Grid>
