@@ -70,4 +70,16 @@ public class ProductInventoryQueryService {
         return supplierParts;
     }
 
+    public List<Part> getProductParts(Long id) {
+        Product product = productRepository.findById(id).orElseThrow(() -> new ProductNotFoundException(id));
+
+        List<Part> productParts = new ArrayList<Part>();
+
+        for (Part part : product.getParts()) {
+            productParts.add(partRepository.findById(part.getId()).orElseThrow(() -> new PartNotFoundException(part.getId())));
+        }
+
+        return productParts;
+    }
+
 }

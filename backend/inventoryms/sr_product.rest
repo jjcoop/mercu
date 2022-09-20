@@ -114,3 +114,7 @@ curl -X POST http://localhost:8788/productInventory/orders/ \
         "quantity": 1
     }'
 ###
+#****************************************************
+#           GET PARTS BY PRODUCT
+#****************************************************
+GET http://localhost:8788/productInventory/777677/parts HTTP/1.1
