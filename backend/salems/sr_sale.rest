@@ -113,4 +113,4 @@ GET http://localhost:8789/sales/unavailable HTTP/1.1
 #                   BACKORDER
 #****************************************************
 # curl -v http://localhost:8789/sales/backorder/9999901 | json_pp
-GET http://localhost:8789/sales/backorder/9999901 HTTP/1.1
+GET http://localhost:8789/sales/backorder/9999900 HTTP/1.1
