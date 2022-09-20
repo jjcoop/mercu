@@ -39,6 +39,14 @@ public class SaleController {
     }
 
     // **********************************************************************
+    // UNAVAILABLE READY FOR BACKORDER
+    // **********************************************************************
+    @GetMapping("/sales/unavailable")
+    public CollectionModel<EntityModel<Sale>> getUnavailable() {
+        return queryService.getUnavailable();
+    }
+
+    // **********************************************************************
     // ONLINE SALES
     // **********************************************************************
     @PostMapping("/sales/online")
@@ -85,7 +93,7 @@ public class SaleController {
     @GetMapping("/sales/store/purchases")
     public CollectionModel<EntityModel<InStoreSale>> allInStoreSales() {
         return queryService.allInStoreSales();
-    }    
+    }
 
     @GetMapping("/sales/store/{storeId}/purchases")
     public Set<InStoreSale> oneStorePurchases(@PathVariable Long storeId) {
