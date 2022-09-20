@@ -19,7 +19,7 @@ public class SaleBackorderEventHandler {
 
     @StreamListener(SaleEventSource.BACKORDER_INPUT)
     public void receiveEvent(SaleBackorderEvent saleBackorderEvent) {
-        System.out.println("****READING FROM KAFKA TOPIC salebackorder: "+
-                saleBackorderEvent.getSaleBackorderEventData().getSaleId()+"****");
+        System.out.println("**** READING FROM KAFKA TOPIC salebackorder: "+
+                saleBackorderEvent.getSaleBackorderEventData().getSaleId()+" ****");
     }
 }

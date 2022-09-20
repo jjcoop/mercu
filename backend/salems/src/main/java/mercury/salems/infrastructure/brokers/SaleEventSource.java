@@ -1,6 +1,6 @@
 package mercury.salems.infrastructure.brokers;
 
-import org.springframework.cloud.stream.annotation.Input;
+import org.springframework.cloud.stream.annotation.Output;
 import org.springframework.messaging.SubscribableChannel;
 
 /**
@@ -8,7 +8,7 @@ import org.springframework.messaging.SubscribableChannel;
  */
 public interface SaleEventSource {
 
-    @Input
-    SubscribableChannel salebackorder();
+    @Output("saleBackorderChannel")
+    SubscribableChannel saleBackorder();
 
 }

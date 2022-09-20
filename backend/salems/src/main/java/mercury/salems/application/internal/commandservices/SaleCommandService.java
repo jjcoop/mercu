@@ -56,14 +56,13 @@ public class SaleCommandService {
   }
 
   // **********************************************************************
-  //                               ADD STORE
+  // ADD STORE
   // **********************************************************************
   public ResponseEntity<?> addStore(Store newStore) {
     EntityModel<Store> entityModel = assembler.toModel(
         storeRepository.save(newStore));
-    
+
     System.out.println("**** STORE ADDED ****");
-    
 
     return ResponseEntity
         .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
@@ -71,7 +70,7 @@ public class SaleCommandService {
   }
 
   // **********************************************************************
-  //                            ADD STORE SALE
+  // ADD STORE SALE
   // **********************************************************************
   public ResponseEntity<?> addInStoreSale(Long id, InStoreSale newSale) {
     Date date = new Date();
@@ -82,18 +81,16 @@ public class SaleCommandService {
 
     newSale = externalOrderSaleService.processOrder(returnOrder, newSale);
 
-    System.out.println("**** ONLINE SALE ADDED ****");
-    System.out.println("**** ORDER " + returnOrder.getStatusCode() + " ****");
-
     Store store = storeRepository
         .findById(id)
         .orElseThrow(() -> new StoreNotFoundException(id));
-    newSale.setStore(store);
+
+        newSale.setStore(store);
     store.addSale(newSale);
+    storeRepository.save(store);
 
-    EntityModel<InStoreSale> entityModel = assembler.toModel(inStoreSaleRepository.save(newSale));
+    EntityModel<InStoreSale> entityModel = assembler.toModel(newSale);
     System.out.println("**** STORE SALE ADDED ****");
-
 
     return ResponseEntity
         .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
@@ -101,7 +98,7 @@ public class SaleCommandService {
   }
 
   // **********************************************************************
-  //                            ADD ONLINE SALE
+  // ADD ONLINE SALE
   // **********************************************************************
   public ResponseEntity<?> addOnlineSale(OnlineSale newSale) {
     Date date = new Date();
@@ -114,22 +111,28 @@ public class SaleCommandService {
 
     EntityModel<OnlineSale> entityModel = assembler.toModel(onlineSaleRepository.save(newSale));
     System.out.println("**** ONLINE SALE ADDED ****");
-    System.out.println("**** ORDER " + returnOrder.getStatusCode() + " ****");
-
 
     return ResponseEntity
         .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
         .body(entityModel);
   }
 
-public Sale backorder(Long id) {
-  Sale sale = onlineSaleRepository.findById(id)
-  .orElseThrow(() -> new SaleNotFoundException(id)); 
-  
-  sale.backOrder();
-  saleRepository.save(sale);
-  
-  return sale;
-}
+  // **********************************************************************
+  // ADD ONLINE SALE
+  // **********************************************************************
+  public Sale backorder(Long id) {
+    Sale sale = onlineSaleRepository.findById(id)
+        .orElseThrow(() -> new SaleNotFoundException(id));
+
+    if (sale.getOrderStatus().equals("UNAVAILABLE")) {
+      sale.backOrder();
+      saleRepository.save(sale);
+      System.out.println("**** SALE BACKORDER ****");      
+    } else {
+      throw new SaleNotFoundException(id);
+    }
+
+    return sale;
+  }
 
 }

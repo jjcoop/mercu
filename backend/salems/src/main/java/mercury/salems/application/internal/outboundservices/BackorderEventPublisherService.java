@@ -22,6 +22,6 @@ public class BackorderEventPublisherService {
 
     @TransactionalEventListener
     public void handleCargoBookedEvent(SaleBackorderEvent saleBackorderEvent){
-        saleEventSource.salebackorder().send(MessageBuilder.withPayload(saleBackorderEvent).build());
+        saleEventSource.saleBackorder().send(MessageBuilder.withPayload(saleBackorderEvent).build());
     }
 }

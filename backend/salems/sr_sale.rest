@@ -55,6 +55,13 @@ GET http://localhost:8789/sales/store/33333200/purchases
 
 ###
 #****************************************************
+#               GET ALL STORES SALES
+#****************************************************
+# curl -v http://localhost:8789/sales/store/purchases | json_pp
+GET http://localhost:8789/sales/store/purchases
+
+###
+#****************************************************
 #                 CREATE ONLINE SALE
 #****************************************************
 curl -X POST http://localhost:8789/sales/online \
@@ -63,7 +70,7 @@ curl -X POST http://localhost:8789/sales/online \
         "customerName": "Bill Murray",
         "address": "13 The Farm, Adelaide, 4321",
         "productName": "2022 Polygon Siskiu D5 - Dual Suspension Mountain Bike",
-        "quantity": "2"
+        "quantity": "30"
     }'
 
 ###
@@ -99,4 +106,4 @@ GET http://localhost:8789/sales/9999901 HTTP/1.1
 #                   BACKORDER
 #****************************************************
 # curl -v http://localhost:8789/sales/backorder/9999901 | json_pp
-GET http://localhost:8789/sales/backorder/9999901 HTTP/1.1
+GET http://localhost:8789/sales/backorder/9999900 HTTP/1.1
