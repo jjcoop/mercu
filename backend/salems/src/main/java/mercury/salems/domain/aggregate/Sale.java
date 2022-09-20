@@ -1,5 +1,6 @@
 package mercury.salems.domain.aggregate;
 
+import java.net.URI;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
@@ -77,6 +78,9 @@ public class Sale extends AbstractAggregateRoot<Sale> {
     this.productName = productName;
   }
 
+  public URI getproductURI() {
+    return productName.getURI();
+  }
 
   public int getQuantity() {
     return quantity.getValue();
