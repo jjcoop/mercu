@@ -29,26 +29,14 @@ export default function CreateBackorder() {
     // Stop the form from submitting and refreshing the page.
     event.preventDefault();
 
-    // Get data from the form.
-    const data = {
-      id: inputId
-    };
-
     // Send the data to the server in JSON format.
-    const JSONdata = JSON.stringify(data);
 
     const endpoint = `http://localhost:8789/${keyword}/backorder/${inputId}`;
 
     // Form the request for sending data to the server.
     const options = {
       // The method is POST because we are sending data.
-      method: "POST",
-      // Tell the server we're sending JSON.
-      headers: {
-        "Content-Type": "application/json",
-      },
-      // Body of the request is the JSON data we created above.
-      body: JSONdata,
+      method: "GET"
     };
 
     // Send the form data to our forms API on Vercel and get a response.
@@ -58,7 +46,7 @@ export default function CreateBackorder() {
     // If server returns the name submitted, that means the form works.
     const result = await response.json();
 
-    if (response.status == 201) {
+    if (response.status == 200) {
       alert(
         "Created Backorder for Order: " + inputId + 
           ".\nRefreshing webpage now..."
@@ -74,10 +62,10 @@ export default function CreateBackorder() {
     <div>
       <form onSubmit={handleSubmit}>
       <Autocomplete
-          getOptionLabel={(option) => `${option.id}: ${option.orderStatus}, ${option.productName}`}
+          getOptionLabel={(option) => `${option.id}`}
           onInputChange={(event, newInputValue) => {
             setInputValue(newInputValue);
-            setInputId(newInputValue.replace(/\D/g, ''));
+            setInputId(newInputValue);
           }}
           disablePortal
           id="combo-box-demo"
