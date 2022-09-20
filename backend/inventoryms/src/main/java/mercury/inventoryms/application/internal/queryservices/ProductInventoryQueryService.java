@@ -3,6 +3,7 @@ package mercury.inventoryms.application.internal.queryservices;
 import mercury.inventoryms.interfaces.rest.ProductController;
 import mercury.inventoryms.interfaces.rest.transform.PartModelAssembler;
 import mercury.inventoryms.interfaces.rest.transform.ProductModelAssembler;
+import mercury.shareDomain.ProductSchema;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +13,7 @@ import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.stereotype.Service;
 
+import mercury.inventoryms.application.internal.outboundservices.acl.ProductACL;
 import mercury.inventoryms.domain.aggregate.Part;
 import mercury.inventoryms.domain.aggregate.Product;
 import mercury.inventoryms.infrastructure.repository.PartRepository;
@@ -81,6 +83,13 @@ public class ProductInventoryQueryService {
         }
 
         return productParts;
+    }
+
+    public ProductSchema getProductAsSchema(Long id) {
+        Product product = productRepository.findById(id).orElseThrow(() -> new ProductNotFoundException(id));
+        ProductACL pacl = new ProductACL(partRepository);
+
+        return pacl.toProductSchema(product);
     }
 
 }
