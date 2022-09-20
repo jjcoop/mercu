@@ -82,8 +82,22 @@ public class SaleController {
         return commandService.addInStoreSale(storeId, sale);
     }
 
+    @GetMapping("/sales/store/purchases")
+    public CollectionModel<EntityModel<InStoreSale>> allInStoreSales() {
+        return queryService.allInStoreSales();
+    }    
+
     @GetMapping("/sales/store/{storeId}/purchases")
     public Set<InStoreSale> oneStorePurchases(@PathVariable Long storeId) {
         return queryService.oneStorePurchases(storeId);
     }
+
+    // **********************************************************************
+    // STORE SALE
+    // **********************************************************************
+    @GetMapping("/sales/backorder/{id}")
+    public Sale backorder(@PathVariable Long id) {
+        return commandService.backorder(id);
+    }
+
 }
