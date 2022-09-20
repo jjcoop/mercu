@@ -4,9 +4,11 @@ import java.util.Date;
 
 import mercury.salems.application.internal.outboundservices.OrderingService;
 import mercury.salems.application.internal.outboundservices.acl.ExternalOrderSaleService;
+import mercury.salems.application.internal.queryservices.SaleNotFoundException;
 import mercury.salems.application.internal.queryservices.StoreNotFoundException;
 import mercury.salems.domain.aggregate.InStoreSale;
 import mercury.salems.domain.aggregate.OnlineSale;
+import mercury.salems.domain.aggregate.Sale;
 import mercury.salems.domain.entity.Store;
 import mercury.salems.infrastructure.repository.SaleRepository;
 import mercury.salems.infrastructure.repository.StoreRepository;
@@ -28,6 +30,9 @@ public class SaleCommandService {
   @Autowired
   private SaleRepository<InStoreSale> inStoreSaleRepository;
 
+  @Autowired
+  private SaleRepository<Sale> saleRepository;
+
   private StoreRepository storeRepository;
   private SaleModelAssembler assembler;
   private OrderingService orderingService;
@@ -36,10 +41,12 @@ public class SaleCommandService {
   public SaleCommandService(
       SaleRepository<OnlineSale> onlineSaleRepository,
       SaleRepository<InStoreSale> inStoreSaleRepository,
+      SaleRepository<Sale> saleRepository,
       StoreRepository storeRepository,
       SaleModelAssembler assembler,
       OrderingService orderingService,
       ExternalOrderSaleService externalOrderSaleService) {
+    this.saleRepository = saleRepository;
     this.onlineSaleRepository = onlineSaleRepository;
     this.inStoreSaleRepository = inStoreSaleRepository;
     this.storeRepository = storeRepository;
@@ -114,5 +121,15 @@ public class SaleCommandService {
         .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
         .body(entityModel);
   }
+
+public Sale backorder(Long id) {
+  Sale sale = onlineSaleRepository.findById(id)
+  .orElseThrow(() -> new SaleNotFoundException(id)); 
+  
+  sale.backOrder();
+  saleRepository.save(sale);
+  
+  return sale;
+}
 
 }

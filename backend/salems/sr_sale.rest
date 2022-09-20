@@ -79,3 +79,24 @@ GET http://localhost:8789/sales/online HTTP/1.1
 #****************************************************
 # curl -v http://localhost:8789/sales/online/9999901 | json_pp
 GET http://localhost:8789/sales/online/9999901 HTTP/1.1
+
+###
+#****************************************************
+#                GET ALL SALES
+#****************************************************
+# curl -v http://localhost:8789/sales | json_pp
+GET http://localhost:8789/sales HTTP/1.1
+
+###
+#****************************************************
+#                GET ONE SALE
+#****************************************************
+# curl -v http://localhost:8789/sales/9999901 | json_pp
+GET http://localhost:8789/sales/9999901 HTTP/1.1
+
+###
+#****************************************************
+#                   BACKORDER
+#****************************************************
+# curl -v http://localhost:8789/sales/backorder/9999901 | json_pp
+GET http://localhost:8789/sales/backorder/9999901 HTTP/1.1

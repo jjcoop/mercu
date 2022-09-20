@@ -86,4 +86,13 @@ public class SaleController {
     public Set<InStoreSale> oneStorePurchases(@PathVariable Long storeId) {
         return queryService.oneStorePurchases(storeId);
     }
+
+    // **********************************************************************
+    // STORE SALE
+    // **********************************************************************
+    @GetMapping("/sales/backorder/{id}")
+    public Sale backorder(@PathVariable Long id) {
+        return commandService.backorder(id);
+    }
+
 }
