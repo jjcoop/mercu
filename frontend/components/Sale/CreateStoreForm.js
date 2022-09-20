@@ -28,6 +28,7 @@ export default function CreateStoreForm() {
     // API endpoint where we send form data.
 
     const endpoint = `http://localhost:8789/${keyword}/store`;
+    
 
     // Form the request for sending data to the server.
     const options = {

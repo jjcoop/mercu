@@ -73,9 +73,10 @@ export default function CreateStoreSale() {
 
     if (response.status == 201) {
       alert(
-        "Created Store: " +
-          "\nStore Address: " + event.target.storeAddress.value + 
-          "\nStore Manager: " + event.target.quantity.value +
+        "Created Store Sale: " +
+          "\nStore ID: " + inputId + 
+          "\nStore Address: " + inputValue +
+          "\nQuantity: " + event.target.quantity.value +
           ".\nRefreshing webpage now..."
       );
       window.location.reload(false);
@@ -89,7 +90,7 @@ export default function CreateStoreSale() {
           getOptionLabel={(option) => `${option.id}: ${option.address}`}
           onInputChange={(event, newInputValue) => {
             setInputValue(newInputValue);
-            setInputId(newInputValue.replace(/\D/g, ""));
+            setInputId(newInputValue.substring(0, newInputValue.indexOf(':')));
           }}
           disablePortal
           id="combo-box-demo"
@@ -106,6 +107,7 @@ export default function CreateStoreSale() {
         <Autocomplete
           getOptionLabel={(x) => `${x.name}: ${x.id}`}
           onInputChange={(event, newproductValue) => {
+            setProductId(newproductValue.replace(/\D/g, ""));
             setProductValue(newproductValue.substring(0, newproductValue.indexOf(':')));
           }}
           disablePortal
