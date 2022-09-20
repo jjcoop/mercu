@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useEffect, useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
-import Title from "./Title";
+
 
 
 export default function contacts() {
@@ -19,15 +19,10 @@ export default function contacts() {
   }, []);
 
   const columns = [
-    { field: "id", headerName: "ID", width: 125, minWidth: 150, maxWidth: 200 },
-    { field: "companyName", headerName: "Company Name", width: 125, minWidth: 150, maxWidth: 200},
-    { field: "base", headerName: "Administrative Unit", width: 125, minWidth: 150, maxWidth: 200},
-    {
-      field: "contacts",
-      headerName: "Contacts #",
-      type: 'number',
-      width: 125, minWidth: 150, maxWidth: 200
-    },
+    { field: "id", headerName: "ID", width: 75, minWidth: 75, maxWidth: 200 },
+    { field: "companyName", headerName: "Company Name", width: 250, minWidth: 200, maxWidth: 300},
+    { field: "base", headerName: "State", width: 125, minWidth: 150, maxWidth: 200},
+    { field: "contacts", headerName: "Contacts #", width: 100, minWidth: 75, maxWidth: 200},
   ];
 
   const rows = [];

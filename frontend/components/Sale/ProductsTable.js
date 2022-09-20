@@ -1,10 +1,10 @@
 import * as React from "react";
 import { useEffect, useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
-import Title from "./Title";
+
 
 //GET LINK: http://localhost:8788/productInventory/parts
-export default function StoresTable() {
+export default function ProductsTable() {
   const [keyword, setKeyword] = useState("productInventory");
   const [data, setData] = useState([]);
   const fetchData = () => {
@@ -14,7 +14,6 @@ export default function StoresTable() {
       .catch((err) => console.error(err));
   };
   
-
   useEffect(() => {
     fetchData();
   }, []);
@@ -41,13 +40,11 @@ export default function StoresTable() {
 
   return (
     <div style={{ height: 400, width: "100%" }}>
-      {/* <Title>Suppliers</Title> */}
       <DataGrid
         rows={rows}
         columns={columns}
         pageSize={5}
         rowsPerPageOptions={[5]}
-        // checkboxSelection
       />
     </div>
   );

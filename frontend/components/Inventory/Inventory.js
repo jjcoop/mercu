@@ -16,24 +16,18 @@ import Paper from "@mui/material/Paper";
 import Link from "@mui/material/Link";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import NotificationsIcon from "@mui/icons-material/Notifications";
-import PedalBikeIcon from "@mui/icons-material/PedalBike";
-import { mainListItems, secondaryListItems } from "./listItems";
-import Chart from "./Chart";
-import Deposits from "./Deposits";
+import { mainListItems, secondaryListItems } from "../listItems";
 import Copyright from "../Copyright";
 import SettingsIcon from "@mui/icons-material/Settings";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-import Title from "./Title";
+import Title from "../Title";
 import UpdatePartForm from "./UpdatePartForm";
 import UpdateProductForm from "./UpdateProductForm";
 import CreatePartForm from "./CreatePartForm";
 import CreateProductForm from "./CreateProductForm";
 import ProductsTable from "./ProductsTable";
 import PartsTable from "./PartsTable";
-
-
 
 const drawerWidth = 240;
 
