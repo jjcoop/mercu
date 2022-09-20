@@ -11,8 +11,9 @@ import java.util.stream.Collectors;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.stereotype.Service;
+
+import mercury.inventoryms.domain.aggregate.Part;
 import mercury.inventoryms.domain.aggregate.Product;
-import mercury.inventoryms.domain.entity.Part;
 import mercury.inventoryms.infrastructure.repository.PartRepository;
 import mercury.inventoryms.infrastructure.repository.ProductRepository;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;

@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 import mercury.salems.domain.aggregate.InStoreSale;
 import mercury.salems.domain.aggregate.OnlineSale;
 import mercury.salems.domain.aggregate.Sale;
-import mercury.salems.domain.entity.Store;
+import mercury.salems.domain.aggregate.Store;
 import mercury.salems.interfaces.rest.SaleController;
 
 // use this default constructor, when autowired, use that constructor instead.

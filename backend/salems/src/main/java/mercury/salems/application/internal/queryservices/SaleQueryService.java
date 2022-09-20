@@ -3,7 +3,7 @@ package mercury.salems.application.internal.queryservices;
 import mercury.salems.domain.aggregate.InStoreSale;
 import mercury.salems.domain.aggregate.OnlineSale;
 import mercury.salems.domain.aggregate.Sale;
-import mercury.salems.domain.entity.Store;
+import mercury.salems.domain.aggregate.Store;
 import mercury.salems.infrastructure.repository.SaleRepository;
 import mercury.salems.infrastructure.repository.StoreRepository;
 import mercury.salems.interfaces.rest.SaleController;

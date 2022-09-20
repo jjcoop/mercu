@@ -2,8 +2,8 @@ package mercury.inventoryms.interfaces.rest;
 
 import mercury.inventoryms.application.internal.commandservices.ProductInventoryCommandService;
 import mercury.inventoryms.application.internal.queryservices.ProductInventoryQueryService;
+import mercury.inventoryms.domain.aggregate.Part;
 import mercury.inventoryms.domain.aggregate.Product;
-import mercury.inventoryms.domain.entity.Part;
 import mercury.shareDomain.Order;
 
 import java.util.List;

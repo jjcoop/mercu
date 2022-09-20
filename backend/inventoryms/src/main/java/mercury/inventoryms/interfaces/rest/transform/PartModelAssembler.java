@@ -6,9 +6,7 @@ import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
 import org.springframework.stereotype.Component;
 
-
-
-import mercury.inventoryms.domain.entity.Part;
+import mercury.inventoryms.domain.aggregate.Part;
 import mercury.inventoryms.interfaces.rest.ProductController;
 
 // use this default constructor, when autowired, use that constructor instead.
