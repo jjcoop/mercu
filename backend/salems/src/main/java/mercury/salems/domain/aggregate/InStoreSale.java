@@ -15,7 +15,6 @@ import org.springframework.hateoas.Link;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import mercury.salems.domain.entity.Store;
 import mercury.salems.domain.valueObject.SaleReceipt;
 import mercury.salems.interfaces.rest.SaleController;
 import net.bytebuddy.utility.RandomString;

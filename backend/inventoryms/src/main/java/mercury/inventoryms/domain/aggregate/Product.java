@@ -1,5 +1,4 @@
 package mercury.inventoryms.domain.aggregate;
-import mercury.inventoryms.domain.entity.Part;
 import mercury.inventoryms.domain.valueObject.ProductDescription;
 import mercury.inventoryms.domain.valueObject.ProductPrice;
 import mercury.inventoryms.domain.valueObject.Quantity;

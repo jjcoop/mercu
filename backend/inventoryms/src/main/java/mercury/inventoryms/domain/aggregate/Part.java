@@ -1,6 +1,5 @@
-package mercury.inventoryms.domain.entity;
+package mercury.inventoryms.domain.aggregate;
 
-import mercury.inventoryms.domain.aggregate.Product;
 import mercury.inventoryms.interfaces.rest.ProductController;
 import mercury.inventoryms.domain.valueObject.PartName;
 import mercury.inventoryms.domain.valueObject.Quantity;

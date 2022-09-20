@@ -13,8 +13,8 @@ import org.springframework.hateoas.IanaLinkRelations;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import mercury.inventoryms.domain.aggregate.Part;
 import mercury.inventoryms.domain.aggregate.Product;
-import mercury.inventoryms.domain.entity.Part;
 import mercury.inventoryms.domain.valueObject.Manufacturer;
 import mercury.inventoryms.infrastructure.repository.PartRepository;
 import mercury.inventoryms.infrastructure.repository.ProductRepository;
