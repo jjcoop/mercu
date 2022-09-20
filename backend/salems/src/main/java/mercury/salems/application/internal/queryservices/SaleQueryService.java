@@ -63,13 +63,12 @@ public class SaleQueryService {
     // **********************************************************************
     //                              GET AVAILABLE SALES
     // **********************************************************************
-    public CollectionModel<EntityModel<Sale>> getUnavailable() {
-        List<EntityModel<Sale>> sales = (List<EntityModel<Sale>>) onlineSaleRepository.findAll().stream()
+    public List<Sale> getUnavailable() {
+        List<Sale> sales = (List<Sale>) onlineSaleRepository.findAll().stream()
                 .filter(s -> s.getOrderStatus().equalsIgnoreCase("UNAVAILABLE"))
-                .map(assembler::toModel)
                 .collect(Collectors.toList());
 
-        return CollectionModel.of(sales, linkTo(methodOn(SaleController.class).all()).withSelfRel());
+        return sales;
     }
 
     // **********************************************************************

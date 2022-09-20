@@ -7,6 +7,7 @@ import mercury.salems.domain.aggregate.OnlineSale;
 import mercury.salems.domain.aggregate.Sale;
 import mercury.salems.domain.entity.Store;
 
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.hateoas.CollectionModel;
@@ -42,7 +43,7 @@ public class SaleController {
     // UNAVAILABLE READY FOR BACKORDER
     // **********************************************************************
     @GetMapping("/sales/unavailable")
-    public CollectionModel<EntityModel<Sale>> getUnavailable() {
+    public List<Sale> getUnavailable() {
         return queryService.getUnavailable();
     }
 
