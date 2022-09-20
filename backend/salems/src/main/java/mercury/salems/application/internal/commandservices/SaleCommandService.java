@@ -89,7 +89,7 @@ public class SaleCommandService {
     store.addSale(newSale);
     storeRepository.save(store);
 
-    EntityModel<InStoreSale> entityModel = assembler.toModel(newSale);
+    EntityModel<Store> entityModel = assembler.toModel(store);
     System.out.println("**** STORE SALE ADDED ****");
 
     return ResponseEntity
