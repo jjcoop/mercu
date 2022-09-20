@@ -1,6 +1,5 @@
 package mercury.shareDomain;
 
-import java.util.Date;
 import java.util.List;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -11,7 +10,6 @@ public class ProductSchema implements Serializable {
   private String productName;
   private String description;
   private int quantity;
-  private Date dateTime;
   private List<PartSchema> parts = new ArrayList<PartSchema>();
 
   public ProductSchema() {};
@@ -45,10 +43,6 @@ public class ProductSchema implements Serializable {
 
   public int getQuantity() {
     return quantity;
-  }
-
-  public Date getDateTime() {
-    return dateTime;
   }
 
   public List<PartSchema> getParts() {

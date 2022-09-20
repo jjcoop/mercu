@@ -87,7 +87,7 @@ public class ProductInventoryQueryService {
 
     public ProductSchema getProductAsSchema(Long id) {
         Product product = productRepository.findById(id).orElseThrow(() -> new ProductNotFoundException(id));
-        ProductACL pacl = new ProductACL();
+        ProductACL pacl = new ProductACL(partRepository);
 
         return pacl.toProductSchema(product);
     }
