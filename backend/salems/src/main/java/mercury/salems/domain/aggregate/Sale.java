@@ -15,16 +15,20 @@ import javax.persistence.InheritanceType;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import org.springframework.data.domain.AbstractAggregateRoot;
+
 import mercury.salems.domain.valueObject.SaleDate;
 import mercury.salems.domain.valueObject.SaleProductName;
 import mercury.salems.domain.valueObject.SaleQuantity;
+import mercury.shareDomain.events.SaleBackorderEvent;
+import mercury.shareDomain.events.SaleBackorderEventData;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @Table(name = "Tbl_Sale")
 @SequenceGenerator(name = "sal", initialValue = 9999900, allocationSize = 100)
 @DiscriminatorColumn(name = "type", discriminatorType = DiscriminatorType.STRING)
-public class Sale {
+public class Sale extends AbstractAggregateRoot<Sale> {
 
   @Column(name = "ID", unique = true, nullable = false)
   @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "sal")
@@ -47,7 +51,7 @@ public class Sale {
   public Sale(Long id, String productName, int quantity) {
     this.id = id;
     this.productName = new SaleProductName(productName);
-    this.quantity = new SaleQuantity(quantity);
+    this.quantity = new SaleQuantity(quantity);  
   }
 
   public Long getId() {
@@ -133,4 +137,20 @@ public class Sale {
     if (quantity.getValue() != other.quantity.getValue()) return false;
     return true;
   }
+
+  public void backOrder(){
+    this.orderStatus = "ONBACKORDER";
+    addDomainEvent(new
+    SaleBackorderEvent(
+            new SaleBackorderEventData(this.id)));      
+  }
+
+    /**
+     * Method to register the event
+     * @param event
+     */
+    public void addDomainEvent(Object event){
+      registerEvent(event);
+  }
+
 }

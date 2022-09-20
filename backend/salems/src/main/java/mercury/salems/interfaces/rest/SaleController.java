@@ -8,6 +8,7 @@ import mercury.salems.domain.aggregate.OnlineSale;
 import mercury.salems.domain.aggregate.Sale;
 import mercury.salems.domain.entity.Store;
 
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.hateoas.CollectionModel;
@@ -39,6 +40,14 @@ public class SaleController {
     @GetMapping("/sales/{id}")
     public Sale one(@PathVariable Long id) {
         return queryService.findById(id);
+    }
+
+    // **********************************************************************
+    // UNAVAILABLE READY FOR BACKORDER
+    // **********************************************************************
+    @GetMapping("/sales/unavailable")
+    public List<Sale> getUnavailable() {
+        return queryService.getUnavailable();
     }
 
     // **********************************************************************
@@ -85,13 +94,28 @@ public class SaleController {
         return commandService.addInStoreSale(storeId, sale);
     }
 
+    @GetMapping("/sales/store/purchases")
+    public CollectionModel<EntityModel<InStoreSale>> allInStoreSales() {
+        return queryService.allInStoreSales();
+    }
+
     @GetMapping("/sales/store/{storeId}/purchases")
     public Set<InStoreSale> oneStorePurchases(@PathVariable Long storeId) {
         return queryService.oneStorePurchases(storeId);
     }
+    
+    
+    // **********************************************************************
+    // STORE SALE
+    // **********************************************************************
+    @GetMapping("/sales/backorder/{id}")
+    public Sale backorder(@PathVariable Long id) {
+        return commandService.backorder(id);
+    }
+
 
     // **********************************************************************
-    // PRODUCT BY SALE
+    // GET PRODUCT BY SALE
     // **********************************************************************
     @GetMapping("/sales/{id}/product")
     ResponseEntity<?> getProductBySale(@PathVariable Long id) {

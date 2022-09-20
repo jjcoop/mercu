@@ -5,62 +5,57 @@ import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import SendIcon from "@mui/icons-material/Send";
 
-
-export default function CreatePartForm() {
+export default function CreateStoreSale() {
   const [productValue, setProductValue] = React.useState("");
   const [productId, setProductId] = React.useState("");
 
-  const [manufacturerValue, setManufacturerValue] = React.useState("");
-  const [manufacturerId, setManufacturerId] = React.useState("");
-
+  const [inputValue, setInputValue] = React.useState("");
+  const [inputId, setInputId] = React.useState("");
+  const [keyword, setKeyword] = useState("sales");
   const [pKeyword] = useState("productInventory");
-  const [sKeyword] = useState("supplierProcurement");
+  const [data, setData] = useState([]);
   const [pData, setProductData] = useState([]);
-  const [mData, setManufacturerData] = useState([]);
+
+  const fetchData = () => {
+    fetch(`http://localhost:8789/${keyword}/store`)
+      .then((response) => response.json())
+      .then((data) => setData(data._embedded.storeList))
+      .catch((err) => console.error(err));
+  };
+
   const fetchProductData = () => {
     fetch(`http://localhost:8788/${pKeyword}`)
       .then((response) => response.json())
       .then((pData) => setProductData(pData._embedded.productList))
       .catch((err) => console.error(err));
   };
-
-  const fetchManufacturerData = () => {
-    fetch(`http://localhost:8787/${sKeyword}`)
-      .then((response) => response.json())
-      .then((data) => setManufacturerData(data._embedded.supplierList))
-      .catch((err) => console.error(err));
-  };
+  
 
   useEffect(() => {
-    fetchProductData(),
-    fetchManufacturerData()
+    fetchData();
+    fetchProductData();
   }, []);
+
 
   const handleSubmit = async (event) => {
     // Stop the form from submitting and refreshing the page.
     event.preventDefault();
 
     // Get data from the form.
-    const returnData = {
-      partName: event.target.partName.value,
-      partDescription: event.target.partDescription.value,
-      manufacturer: manufacturerValue,
+    const data = {
+      productName: productValue,
       quantity: event.target.quantity.value,
     };
 
     // Send the data to the server in JSON format.
-    const JSONdata = JSON.stringify(returnData);
+    const JSONdata = JSON.stringify(data);
 
-    console.log(JSONdata);
-
-    // API endpoint where we send form data.
-
-    const endpoint = `http://localhost:8788/productInventory/${productId}/part`;
+    const endpoint = `http://localhost:8789/${keyword}/store/${inputId}`;
 
     // Form the request for sending data to the server.
     const options = {
       // The method is POST because we are sending data.
-      method: "PUT",
+      method: "POST",
       // Tell the server we're sending JSON.
       headers: {
         "Content-Type": "application/json",
@@ -78,28 +73,42 @@ export default function CreatePartForm() {
 
     if (response.status == 201) {
       alert(
-        "Created Part:" +
-          "\nPart Name: " + event.target.partName.value +
-          "\nPart Description: " + event.target.partDescription.value +
+        "Created Store Sale: " +
+          "\nStore ID: " + inputId + 
+          "\nStore Address: " + inputValue +
           "\nQuantity: " + event.target.quantity.value +
           ".\nRefreshing webpage now..."
       );
       window.location.reload(false);
-    }
-    else{
-      alert("An error occurred: ", result)
     }
   };
 
   return (
     <div>
       <form onSubmit={handleSubmit}>
+      <Autocomplete
+          getOptionLabel={(option) => `${option.id}: ${option.address}`}
+          onInputChange={(event, newInputValue) => {
+            setInputValue(newInputValue);
+            setInputId(newInputValue.substring(0, newInputValue.indexOf(':')));
+          }}
+          disablePortal
+          id="combo-box-demo"
+          options={data}
+          sx={{ width: 400 }}
+          renderInput={(params) => (
+            <div>
+              <TextField {...params} label="Select Store" />
+              <br />
+            </div>
+          )}
+        />
+        <br />
         <Autocomplete
           getOptionLabel={(x) => `${x.name}: ${x.id}`}
           onInputChange={(event, newproductValue) => {
-            setProductValue(newproductValue);
             setProductId(newproductValue.replace(/\D/g, ""));
-
+            setProductValue(newproductValue.substring(0, newproductValue.indexOf(':')));
           }}
           disablePortal
           id="combo-box-demo"
@@ -107,48 +116,13 @@ export default function CreatePartForm() {
           sx={{ width: 400 }}
           renderInput={(params) => (
             <div>
-              <TextField {...params} label="Select Product To Add Part To" />
+              <TextField {...params} label="Select Product" />
               <br />
             </div>
           )}
         />
         <br />
         <TextField
-          required
-          id="outlined-required"
-          label="Part Name"
-          name="partName"
-        />
-        <br /><br />
-        <TextField
-          fullWidth
-          required
-          id="outlined-required"
-          label="Description"
-          name="partDescription"
-        />
-        <br /><br />
-        <Autocomplete
-          getOptionLabel={(option) => `${option.companyName}: ${option.id}`}
-          onInputChange={(event, newManufacturerValue) => {
-            setManufacturerId(newManufacturerValue.replace(/\W/g, ''));
-            setManufacturerValue(newManufacturerValue.substring(0, newManufacturerValue.indexOf(':')));
-            console.log("Manufacturer value after split: ", manufacturerValue)
-          }}
-          disablePortal
-          id="combo-box-demo"
-          options={mData}
-          sx={{ width: 400 }}
-          renderInput={(params) => (
-            <div>
-              <TextField {...params} label="Select Manufacturer" />
-              <br />
-            </div>
-          )}
-        />
-        
-        <TextField
-          margin="normal"
           required
           id="outlined-required"
           label="Quantity"
@@ -162,7 +136,7 @@ export default function CreatePartForm() {
           variant="contained"
           endIcon={<SendIcon />}
         >
-          Create Part
+          Create Store Sale
         </Button>
       </form>
     </div>

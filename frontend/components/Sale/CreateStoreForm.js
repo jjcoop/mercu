@@ -4,21 +4,13 @@ import { Button } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import SendIcon from "@mui/icons-material/Send";
 
-export default function CreateProductForm() {
+
+export default function CreateStoreForm() {
   const [inputValue, setInputValue] = React.useState("");
   const [inputId, setInputId] = React.useState("");
-  const [keyword, setKeyword] = useState("productInventory");
+  const [keyword, setKeyword] = useState("sales");
   const [data, setData] = useState([]);
-  const fetchData = () => {
-    fetch(`http://localhost:8788/${keyword}/parts`)
-      .then((response) => response.json())
-      .then((data) => setData(data._embedded.partList))
-      .catch((err) => console.error(err));
-  };
 
-  useEffect(() => {
-    fetchData();
-  }, []);
 
   const handleSubmit = async (event) => {
     // Stop the form from submitting and refreshing the page.
@@ -26,10 +18,8 @@ export default function CreateProductForm() {
 
     // Get data from the form.
     const data = {
-      name: event.target.productName.value,
-      price: event.target.productPrice.value,
-      description: event.target.productDescription.value,
-      quantity: event.target.productQuantity.value,
+      address: event.target.storeAddress.value,
+      managerName: event.target.storeManager.value,
     };
 
     // Send the data to the server in JSON format.
@@ -37,7 +27,8 @@ export default function CreateProductForm() {
 
     // API endpoint where we send form data.
 
-    const endpoint = `http://localhost:8788/productInventory`;
+    const endpoint = `http://localhost:8789/${keyword}/store`;
+    
 
     // Form the request for sending data to the server.
     const options = {
@@ -60,11 +51,9 @@ export default function CreateProductForm() {
 
     if (response.status == 201) {
       alert(
-        "Created Product: " +
-          "\nProduct Name: " + event.target.productName.value + 
-          "\nProduct Price: " + event.target.productPrice.value +
-          "\nProduct Description: " + event.target.productDescription.value +
-          "\nQuantity: " + event.target.productQuantity.value +
+        "Created Store: " +
+          "\nStore Address: " + event.target.storeAddress.value + 
+          "\nStore Manager: " + event.target.storeManager.value +
           ".\nRefreshing webpage now..."
       );
       window.location.reload(false);
@@ -77,35 +66,19 @@ export default function CreateProductForm() {
         <br />
         <TextField
           required
-          id="outlined-required"
-          label="Product Name"
-          name="productName"
-        />
-        <br />
-        <br />
-        <TextField
-          required
-          id="outlined-required"
-          label="Product Price"
-          name="productPrice"
-        />
-        <br />
-        <TextField
           fullWidth
-          margin="normal"
-          required
           id="outlined-required"
-          label="Product Description"
-          name="productDescription"
+          label="Store Address"
+          name="storeAddress"
         />
         <br />
+        <br />
         <TextField
-          fullWidth
-          margin="normal"
           required
+          fullWidth
           id="outlined-required"
-          label="Quantity"
-          name="productQuantity"
+          label="Store Manager Name"
+          name="storeManager"
         />
         <br />
         <Button
@@ -115,7 +88,7 @@ export default function CreateProductForm() {
           variant="contained"
           endIcon={<SendIcon />}
         >
-          Create Product
+          Create Store
         </Button>
       </form>
     </div>

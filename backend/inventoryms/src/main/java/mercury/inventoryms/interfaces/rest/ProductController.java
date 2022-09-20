@@ -39,6 +39,11 @@ public class ProductController {
         return queryService.findById(id);
     }
 
+    @GetMapping("/productInventory/{id}/parts")
+    public List<Part> getProductParts(@PathVariable Long id) {
+        return queryService.getProductParts(id);
+    }
+
     @PutMapping("/productInventory/{id}")
     ResponseEntity<?> updateProduct(@RequestBody Product product, @PathVariable Long id) {
         return commandService.updateProduct(product, id);

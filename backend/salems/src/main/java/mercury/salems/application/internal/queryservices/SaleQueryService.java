@@ -61,6 +61,17 @@ public class SaleQueryService {
     }
 
     // **********************************************************************
+    //                              GET AVAILABLE SALES
+    // **********************************************************************
+    public List<Sale> getUnavailable() {
+        List<Sale> sales = (List<Sale>) onlineSaleRepository.findAll().stream()
+                .filter(s -> s.getOrderStatus().equalsIgnoreCase("UNAVAILABLE"))
+                .collect(Collectors.toList());
+
+        return sales;
+    }
+
+    // **********************************************************************
     //                          GET ALL ONLINE SALES
     // **********************************************************************
     public CollectionModel<EntityModel<OnlineSale>> allOnlineSales() {
@@ -138,4 +149,5 @@ public class SaleQueryService {
         
         return store.getSales();
     }
+
 }

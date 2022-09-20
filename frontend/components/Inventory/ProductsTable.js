@@ -1,9 +1,7 @@
 import * as React from "react";
 import { useEffect, useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
-import Title from "./Title";
 
-//GET LINK: http://localhost:8788/productInventory/parts
 export default function ProductsTable() {
   const [keyword, setKeyword] = useState("productInventory");
   const [data, setData] = useState([]);

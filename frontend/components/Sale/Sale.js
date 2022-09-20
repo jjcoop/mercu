@@ -16,18 +16,20 @@ import Paper from "@mui/material/Paper";
 import Link from "@mui/material/Link";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import { mainListItems, secondaryListItems } from "../listItems";
+import { mainListItems, secondaryListItems } from "./listItems";
 import Copyright from "../Copyright";
 import SettingsIcon from "@mui/icons-material/Settings";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Title from "../Title";
-import UpdatePartForm from "./UpdatePartForm";
-import UpdateProductForm from "./UpdateProductForm";
-import CreatePartForm from "./CreatePartForm";
-import CreateProductForm from "./CreateProductForm";
-import ProductsTable from "./ProductsTable";
-import PartsTable from "./PartsTable";
+import StoresTable from "./StoresTable";
+import CreateStoreForm from "./CreateStoreForm";
+import CreateStoreSale from "./CreateStoreSale";
+import CreateOnlineSale from "./CreateOnlineSale";
+import OnlineSalesTable from "./OnlineSalesTable";
+import StoreSalesTable from "./StoreSalesTable";
+import CreateBackorder from "./CreateBackorder";
+
 
 const drawerWidth = 240;
 
@@ -211,14 +213,20 @@ function Inventory() {
           <Grid container spacing={3}>
             <Grid item xs={12}>
               <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
-                <Title>Current Products</Title>
-                <ProductsTable />
+                <Title>Stores</Title>
+                <StoresTable />
               </Paper>
             </Grid>
             <Grid item xs={12}>
               <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
-                <Title>Current Parts</Title>
-                <PartsTable />
+                <Title>Store Sales</Title>
+                <StoreSalesTable />
+              </Paper>
+            </Grid>
+            <Grid item xs={12}>
+              <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
+                <Title>Online Sales</Title>
+                <OnlineSalesTable />
               </Paper>
             </Grid>
             <Grid item xs={12}>
@@ -227,11 +235,11 @@ function Inventory() {
                   p: 2,
                   display: "flex",
                   flexDirection: "column",
-                  height: 450
+                  height: 300
                 }}
               >
-                <Title>Create Product</Title>
-                <CreateProductForm />
+                <Title>Create Store</Title>
+                <CreateStoreForm />
               </Paper>
             </Grid>
             <Grid item xs={12}>
@@ -240,26 +248,11 @@ function Inventory() {
                   p: 2,
                   display: "flex",
                   flexDirection: "column",
-                  height: 500,
+                  height: 350,
                 }}
               >
-                <Title>Create Part</Title>
-                <CreatePartForm />
-              </Paper>
-            </Grid>
-            
-            {/* Recent Deposits */}
-            <Grid item xs={12} md={12} lg={12}>
-              <Paper
-                sx={{
-                  p: 2,
-                  display: "flex",
-                  flexDirection: "column",
-                  height: 500,
-                }}
-              >
-                <Title>Update Product</Title>
-                <UpdateProductForm/>
+                <Title>Create Store Sale</Title>
+                <CreateStoreSale />
               </Paper>
             </Grid>
             <Grid item xs={12} md={12} lg={12}>
@@ -268,14 +261,26 @@ function Inventory() {
                   p: 2,
                   display: "flex",
                   flexDirection: "column",
-                  height: 500,
+                  height: 450,
                 }}
               >
-                <Title>Update Part</Title>
-                <UpdatePartForm/>
+                <Title>Create Online Sale</Title>
+                <CreateOnlineSale />
               </Paper>
             </Grid>
-            {/* Chart */}
+            <Grid item xs={12} md={12} lg={12}>
+              <Paper
+                sx={{
+                  p: 2,
+                  display: "flex",
+                  flexDirection: "column",
+                  height: 200,
+                }}
+              >
+                <Title>Create Backorder</Title>
+                <CreateBackorder />
+              </Paper>
+            </Grid>
           </Grid>
           <Copyright sx={{ pt: 4 }} />
         </Container>
