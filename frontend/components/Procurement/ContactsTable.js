@@ -1,7 +1,6 @@
 import * as React from "react";
 import { useEffect, useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
-import Title from "./Title";
 
 export default function contacts() {
   const [keyword, setKeyword] = useState("supplierProcurement");
