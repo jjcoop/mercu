@@ -16,7 +16,7 @@ export default function CreateBackorder() {
   const fetchData = () => {
     fetch(`http://localhost:8789/${keyword}/unavailable`)
       .then((response) => response.json())
-      .then((data) => setData(data._embedded.storeList))
+      .then((data) => setData(data))
       .catch((err) => console.error(err));
   };
 
@@ -31,8 +31,7 @@ export default function CreateBackorder() {
 
     // Get data from the form.
     const data = {
-      productName: productValue,
-      quantity: event.target.quantity.value,
+      id: inputId
     };
 
     // Send the data to the server in JSON format.
@@ -43,7 +42,7 @@ export default function CreateBackorder() {
     // Form the request for sending data to the server.
     const options = {
       // The method is POST because we are sending data.
-      method: "GET",
+      method: "POST",
       // Tell the server we're sending JSON.
       headers: {
         "Content-Type": "application/json",
