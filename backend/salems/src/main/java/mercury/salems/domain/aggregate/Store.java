@@ -1,6 +1,5 @@
-package mercury.salems.domain.entity;
+package mercury.salems.domain.aggregate;
 
-import mercury.salems.domain.aggregate.InStoreSale;
 import mercury.salems.domain.valueObject.StoreAddress;
 import mercury.salems.domain.valueObject.StoreManager;
 
