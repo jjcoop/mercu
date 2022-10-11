@@ -5,11 +5,31 @@ import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import SendIcon from "@mui/icons-material/Send";
 
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
+
+
 export default function UpdateSupplierForm() {
   const [inputValue, setInputValue] = React.useState("");
   const [inputId, setInputId] = React.useState("");
   const [keyword, setKeyword] = useState("supplierProcurement");
   const [data, setData] = useState([]);
+
+  const [open, setOpen] = React.useState(false);
+  const [badOpen, setBadOpen] = React.useState(false);
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpen(false);
+    setBadOpen(false);
+  };
+
+
   const fetchSupplierData = () => {
     fetch(`http://localhost:8787/${keyword}`)
       .then((response) => response.json())
@@ -58,16 +78,10 @@ export default function UpdateSupplierForm() {
     const result = await response.json();
 
     if (response.status == 201) {
-      alert(
-        "Updated Supplier: " +
-          inputValue +
-          "\nNew Supplier Name: " +
-          event.target.newCpmpanyName.value +
-          "\nNew Supplier Base: " +
-          event.target.newBase.value +
-          ".\nRefreshing webpage now..."
-      );
-      window.location.reload(false);
+      setOpen(true);
+    }
+    else{
+      setBadOpen(true);
     }
   };
 
@@ -118,6 +132,17 @@ export default function UpdateSupplierForm() {
         >
           Update Supplier
         </Button>
+        <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+          Success! Updated Supplier!
+        </Alert>
+        </Snackbar>
+
+        <Snackbar open={badOpen} autoHideDuration={6000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
+          Failed to update the supplier!
+        </Alert>
+        </Snackbar>
       </form>
     </div>
   );

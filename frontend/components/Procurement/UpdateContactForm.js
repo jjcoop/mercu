@@ -4,6 +4,15 @@ import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import SendIcon from "@mui/icons-material/Send";
 
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
+import * as React from "react";
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
+
+
 export default function UpdateContactForm() {
   const [inputValue, setInputValue] = useState("");
   const [inputId, setInputId] = useState("");
@@ -12,6 +21,16 @@ export default function UpdateContactForm() {
   const [keyword, setKeyword] = useState("supplierProcurement");
   const [sData, setSupplierData] = useState([]);
   const [cData, setContactData] = useState([]);
+
+  const [open, setOpen] = React.useState(false);
+  const [badOpen, setBadOpen] = React.useState(false);
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpen(false);
+    setBadOpen(false);
+  };
 
 
   const fetchSupplierData = () => {
@@ -73,20 +92,10 @@ export default function UpdateContactForm() {
     const result = await response.json();
 
     if (response.status == 201) {
-      alert(
-        "Updated Contact: " +
-          contactName +
-          "\nNew Contact Name: " +
-          event.target.firstName.value + event.target.lastName.value +
-          "\nNew Contact Phone: " +
-          event.target.contactPhone.value +
-          "\nNew Contact Email: " +
-          event.target.contactEmail.value +
-          "\nNew Contact Position: " +
-          event.target.contactPosition.value +
-          ".\nRefreshing webpage now..."
-      );
-      window.location.reload(false);
+      setOpen(true);
+    }
+    else{
+      setBadOpen(true);
     }
   };
 
@@ -181,6 +190,18 @@ export default function UpdateContactForm() {
         >
           Update Contact
         </Button>
+
+        <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+          Success! Updated Contact!
+        </Alert>
+        </Snackbar>
+
+        <Snackbar open={badOpen} autoHideDuration={6000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
+          Failed to update the contact!
+        </Alert>
+        </Snackbar>
       </form>
     </div>
   );
