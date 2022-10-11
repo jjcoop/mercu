@@ -19,7 +19,7 @@ export default function contacts() {
   useEffect(() => {
     setInterval(() => {
       beans();
-    }, 5000);
+    }, 1000);
   }, []);
 
   const columns = [
