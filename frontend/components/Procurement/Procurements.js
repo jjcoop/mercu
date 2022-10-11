@@ -227,7 +227,7 @@ function Procurements() {
                   p: 2,
                   display: "flex",
                   flexDirection: "column",
-                  height: 800,
+                  height: 300,
                 }}
               >
                 <Title>Create Supplier</Title>
