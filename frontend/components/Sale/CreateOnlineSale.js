@@ -6,6 +6,14 @@ import Autocomplete from "@mui/material/Autocomplete";
 import SendIcon from "@mui/icons-material/Send";
 import Box from "@mui/material";
 
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
+
+
 export default function CreateOnlineSale() {
   const [productValue, setProductValue] = React.useState("");
   const [productId, setProductId] = React.useState("");
@@ -17,6 +25,18 @@ export default function CreateOnlineSale() {
   const [data, setData] = useState([]);
   const [pData, setProductData] = useState([]);
 
+  const [open, setOpen] = React.useState(false);
+  const [badOpen, setBadOpen] = React.useState(false);
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpen(false);
+    setBadOpen(false);
+  };
+
+
   const fetchProductData = () => {
     fetch(`http://localhost:8788/${pKeyword}`)
       .then((response) => response.json())
@@ -26,7 +46,9 @@ export default function CreateOnlineSale() {
   
 
   useEffect(() => {
-    fetchProductData();
+    setInterval(() => {
+      fetchProductData();
+    }, 1000);
   }, []);
 
 
@@ -66,16 +88,11 @@ export default function CreateOnlineSale() {
     // If server returns the name submitted, that means the form works.
     const result = await response.json();
 
-    if (response.status == 201) {
-      alert(
-        "Created Online Sale: " +
-          "\nCustomer Name: " + event.target.customerName.value + 
-          "\nAddress: " + event.target.customerAddress.value +
-          "\nProduct: " + productValue +
-          "\nQuantity: " + event.target.quantity.value +
-          ".\nRefreshing webpage now..."
-      );
-      window.location.reload(false);
+    if(response.status == 201){
+      setOpen(true);
+    }
+    else{
+      setBadOpen(true);
     }
   };
 
@@ -132,6 +149,17 @@ export default function CreateOnlineSale() {
         >
           Create Online Sale
         </Button>
+        <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+          Success! New Store Created
+        </Alert>
+        </Snackbar>
+
+        <Snackbar open={badOpen} autoHideDuration={6000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
+          Fail! Couldn't create new store!
+        </Alert>
+        </Snackbar>
       </form>
     </div>
   );

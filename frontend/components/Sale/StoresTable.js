@@ -5,6 +5,7 @@ import { DataGrid } from "@mui/x-data-grid";
 export default function StoresTable() {
   const [keyword, setKeyword] = useState("sales");
   const [data, setData] = useState([]);
+  
   const fetchData = () => {
     fetch(`http://localhost:8789/${keyword}/store`)
       .then((response) => response.json())
@@ -14,7 +15,9 @@ export default function StoresTable() {
   
 
   useEffect(() => {
-    fetchData();
+    setInterval(() => {
+      fetchData();
+    }, 1000);
   }, []);
 
   const columns = [
