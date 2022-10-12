@@ -63,7 +63,7 @@ export default function UpdatePartForm() {
 
   useEffect(() => {
     setInterval(() => {
-      fetchProductData();
+      fetchData();
       fetchManufacturerData();
     }, 1000);
   }, []);
@@ -121,7 +121,7 @@ export default function UpdatePartForm() {
             console.log(data.name)
           }}
 
-          onChange={fetchProductData()}
+          onChange={fetchProductData}
           disablePortal
           id="combo-box-demo"
           options={data}
