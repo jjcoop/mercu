@@ -28,6 +28,12 @@ export default function UpdatePartForm() {
   const [manufacturerValue, setManufacturerValue] = React.useState("");
   const [manufacturerId, setManufacturerId] = React.useState("");
 
+  const [part, setPart] = useState('');
+  const [partName, setPartName] = useState('');
+  const [description, setDescription] = useState('');
+  const [manufacturer, setManufacturer] = useState('');
+  const [quantity, setQuantity] = useState('');
+
   const [open, setOpen] = React.useState(false);
   const [badOpen, setBadOpen] = React.useState(false);
   const handleClose = (event, reason) => {
@@ -61,13 +67,6 @@ export default function UpdatePartForm() {
       .catch((err) => console.error(err));
   };
 
-  //Original useEffect
-  /*
-  useEffect(() => {
-    fetchData();
-    fetchManufacturerData();
-  }, []);
-*/
 
   useEffect(() => {
     setInterval(() => {
@@ -75,6 +74,7 @@ export default function UpdatePartForm() {
       fetchManufacturerData();
     }, 1000);
   }, []);
+  
   
   
   const handleSubmit = async (event) => {
@@ -113,6 +113,11 @@ export default function UpdatePartForm() {
 
     if (response.status == 201) {
       setOpen(true);
+      setPart('');
+      setPartName('');
+      setDescription('');
+      setManufacturer('');
+      setQuantity('');
     }
     else{
       setBadOpen(true);
@@ -147,6 +152,8 @@ export default function UpdatePartForm() {
           id="outlined-required"
           label="Part Name"
           name="name"
+          onChange={event => setPartName(event.target.value)}
+          value={partName}
         />
         <br /><br />
         <TextField
@@ -154,9 +161,13 @@ export default function UpdatePartForm() {
           id="outlined-required"
           label="Part Description"
           name="description"
+          onChange={event => setDescription(event.target.value)}
+          value={description}
         />
         <br /><br />
         <Autocomplete
+          inputValue={manufacturer}
+          onChange={(e,v)=>setManufacturer(v?.companyName||v)}
           getOptionLabel={(option) => `${option.companyName}: ${option.id}`}
           onInputChange={(event, newManufacturerValue) => {
             setManufacturerId(newManufacturerValue.replace(/\W/g, ''));
@@ -180,6 +191,8 @@ export default function UpdatePartForm() {
           id="outlined-required"
           label="Quantity"
           name="quantity"
+          onChange={event => setQuantity(event.target.value)}
+          value={quantity}
         />
         <br />
         <Button
@@ -193,13 +206,13 @@ export default function UpdatePartForm() {
         </Button>
         <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
         <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
-          Success! Updated Product!
+          Success! Updated Part!
         </Alert>
         </Snackbar>
 
         <Snackbar open={badOpen} autoHideDuration={6000} onClose={handleClose}>
         <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
-          Failed to update the product!
+          Failed to update the part!
         </Alert>
         </Snackbar>
       </form>

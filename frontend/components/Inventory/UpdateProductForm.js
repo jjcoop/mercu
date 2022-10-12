@@ -25,6 +25,13 @@ export default function UpdateContactForm() {
 
   const [open, setOpen] = React.useState(false);
   const [badOpen, setBadOpen] = React.useState(false);
+
+  const [product, setProduct] = useState('');
+  const [name, setName] = useState('');
+  const [price, setPrice] = useState('');
+  const [description, setDescription] = useState('');
+  const [quantity, setQuantity] = useState('');
+
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {
       return;
@@ -87,6 +94,11 @@ export default function UpdateContactForm() {
 
     if (response.status == 201) {
       setOpen(true);
+      setProduct('');
+      setName('');
+      setPrice('');
+      setDescription('');
+      setQuantity('');
     }
     else{
       setBadOpen(true);
@@ -97,6 +109,8 @@ export default function UpdateContactForm() {
     <div>
       <form onSubmit={handleSubmit}>
         <Autocomplete
+            inputValue={product}
+            onChange={(e,v)=>setProduct(v?.name||v)}
             getOptionLabel={(x) => `${x.name}: ${x.id}`}
             onInputChange={(event, newproductValue) => {
               setProductValue(newproductValue);
@@ -119,6 +133,8 @@ export default function UpdateContactForm() {
           id="outlined-required"
           label="Product Name"
           name="productName"
+          onChange={event => setName(event.target.value)}
+          value={name}
         />
         <br />
         <br />
@@ -127,6 +143,8 @@ export default function UpdateContactForm() {
           id="outlined-required"
           label="Product Price"
           name="productPrice"
+          onChange={event => setPrice(event.target.value)}
+          value={price}
         />
         <br />
         <TextField
@@ -136,6 +154,8 @@ export default function UpdateContactForm() {
           id="outlined-required"
           label="Product Description"
           name="productDescription"
+          onChange={event => setDescription(event.target.value)}
+          value={description}
         />
         <br />
         <TextField
@@ -145,6 +165,8 @@ export default function UpdateContactForm() {
           id="outlined-required"
           label="Quantity"
           name="productQuantity"
+          onChange={event => setQuantity(event.target.value)}
+          value={quantity}
         />
         <Button
           color="warning"

@@ -18,6 +18,11 @@ export default function CreateProductForm() {
   const [keyword, setKeyword] = useState("productInventory");
   const [data, setData] = useState([]);
 
+  const [productName, setproductName] = useState('');
+  const [productPrice, setproductPrice] = useState('');
+  const [productDescription, setproductDescription] = useState('');
+  const [quantity, setQuantity] = useState('');
+
   const [open, setOpen] = React.useState(false);
   const [badOpen, setBadOpen] = React.useState(false);
   const handleClose = (event, reason) => {
@@ -79,6 +84,11 @@ export default function CreateProductForm() {
 
     if (response.status == 201) {
       setOpen(true);
+      setproductName('');
+      setproductPrice('');
+      setproductDescription('');
+      setQuantity('');
+
     }
     else{
       setBadOpen(true);
@@ -94,6 +104,8 @@ export default function CreateProductForm() {
           id="outlined-required"
           label="Product Name"
           name="productName"
+          onChange={event => setproductName(event.target.value)}
+          value={productName}
         />
         <br />
         <br />
@@ -102,6 +114,8 @@ export default function CreateProductForm() {
           id="outlined-required"
           label="Product Price"
           name="productPrice"
+          onChange={event => setproductPrice(event.target.value)}
+          value={productPrice}
         />
         <br />
         <TextField
@@ -111,6 +125,8 @@ export default function CreateProductForm() {
           id="outlined-required"
           label="Product Description"
           name="productDescription"
+          onChange={event => setproductDescription(event.target.value)}
+          value={productDescription}
         />
         <br />
         <TextField
@@ -120,6 +136,8 @@ export default function CreateProductForm() {
           id="outlined-required"
           label="Quantity"
           name="productQuantity"
+          onChange={event => setQuantity(event.target.value)}
+          value={quantity}
         />
         <br />
         <Button

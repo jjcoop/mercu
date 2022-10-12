@@ -25,6 +25,12 @@ export default function CreatePartForm() {
   const [pData, setProductData] = useState([]);
   const [mData, setManufacturerData] = useState([]);
 
+  const [product, setProduct] = useState('');
+  const [part, setPartName] = useState('');
+  const [description, setDescription] = useState('');
+  const [manufacturer, setManufacturer] = useState('');
+  const [quantity, setQuantity] = useState('');
+
   const [open, setOpen] = React.useState(false);
   const [badOpen, setBadOpen] = React.useState(false);
   const handleClose = (event, reason) => {
@@ -101,6 +107,11 @@ export default function CreatePartForm() {
 
     if (response.status == 201) {
       setOpen(true);
+      setProduct('');
+      setPartName('');
+      setDescription('');
+      setManufacturer('');
+      setQuantity('');
     }
     else{
       setBadOpen(true);
@@ -111,6 +122,8 @@ export default function CreatePartForm() {
     <div>
       <form onSubmit={handleSubmit}>
         <Autocomplete
+          inputValue={product}
+          onChange={(e,v)=>setProduct(v?.name||v)}
           getOptionLabel={(x) => `${x.name}: ${x.id}`}
           onInputChange={(event, newproductValue) => {
             setProductValue(newproductValue);
@@ -134,6 +147,8 @@ export default function CreatePartForm() {
           id="outlined-required"
           label="Part Name"
           name="partName"
+          onChange={event => setPartName(event.target.value)}
+          value={part}
         />
         <br /><br />
         <TextField
@@ -142,9 +157,13 @@ export default function CreatePartForm() {
           id="outlined-required"
           label="Description"
           name="partDescription"
+          onChange={event => setDescription(event.target.value)}
+          value={description}
         />
         <br /><br />
         <Autocomplete
+          inputValue={manufacturer}
+          onChange={(e,v)=>setManufacturer(v?.companyName||v)}
           getOptionLabel={(option) => `${option.companyName}: ${option.id}`}
           onInputChange={(event, newManufacturerValue) => {
             setManufacturerId(newManufacturerValue.replace(/\W/g, ''));
@@ -169,6 +188,8 @@ export default function CreatePartForm() {
           id="outlined-required"
           label="Quantity"
           name="quantity"
+          onChange={event => setQuantity(event.target.value)}
+          value={quantity}
         />
         <br />
         <Button
