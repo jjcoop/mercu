@@ -4,12 +4,32 @@ import { Button } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import SendIcon from "@mui/icons-material/Send";
 
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 export default function CreateStoreForm() {
   const [inputValue, setInputValue] = React.useState("");
   const [inputId, setInputId] = React.useState("");
   const [keyword, setKeyword] = useState("sales");
   const [data, setData] = useState([]);
+
+  const [storeAddress, setStoreAddress] = useState('');
+  const [managerName, setManagerName] = useState('');
+
+  const [open, setOpen] = React.useState(false);
+  const [badOpen, setBadOpen] = React.useState(false);
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpen(false);
+    setBadOpen(false);
+  };
 
 
   const handleSubmit = async (event) => {
@@ -49,14 +69,13 @@ export default function CreateStoreForm() {
     // If server returns the name submitted, that means the form works.
     const result = await response.json();
 
-    if (response.status == 201) {
-      alert(
-        "Created Store: " +
-          "\nStore Address: " + event.target.storeAddress.value + 
-          "\nStore Manager: " + event.target.storeManager.value +
-          ".\nRefreshing webpage now..."
-      );
-      window.location.reload(false);
+    if(response.status == 201){
+      setOpen(true);
+      setStoreAddress('');
+      setManagerName('');
+    }
+    else{
+      setBadOpen(true);
     }
   };
 
@@ -70,6 +89,8 @@ export default function CreateStoreForm() {
           id="outlined-required"
           label="Store Address"
           name="storeAddress"
+          onChange={event => setStoreAddress(event.target.value)}
+          value={storeAddress}
         />
         <br />
         <br />
@@ -79,6 +100,8 @@ export default function CreateStoreForm() {
           id="outlined-required"
           label="Store Manager Name"
           name="storeManager"
+          onChange={event => setManagerName(event.target.value)}
+          value={managerName}
         />
         <br />
         <Button
@@ -90,6 +113,17 @@ export default function CreateStoreForm() {
         >
           Create Store
         </Button>
+        <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+          Success! New Store Created
+        </Alert>
+        </Snackbar>
+
+        <Snackbar open={badOpen} autoHideDuration={6000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
+          Fail! Couldn't create new store!
+        </Alert>
+        </Snackbar>
       </form>
     </div>
   );

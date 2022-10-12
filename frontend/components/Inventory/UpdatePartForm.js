@@ -5,6 +5,14 @@ import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import SendIcon from "@mui/icons-material/Send";
 
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
+
+
 
 export default function UpdatePartForm() {
   const [keyword, setKeyword] = useState("productInventory");
@@ -19,6 +27,22 @@ export default function UpdatePartForm() {
   const [mData, setManufacturerData] = useState([]);
   const [manufacturerValue, setManufacturerValue] = React.useState("");
   const [manufacturerId, setManufacturerId] = React.useState("");
+
+  const [part, setPart] = useState('');
+  const [partName, setPartName] = useState('');
+  const [description, setDescription] = useState('');
+  const [manufacturer, setManufacturer] = useState('');
+  const [quantity, setQuantity] = useState('');
+
+  const [open, setOpen] = React.useState(false);
+  const [badOpen, setBadOpen] = React.useState(false);
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpen(false);
+    setBadOpen(false);
+  };
 
 
   const fetchData = () => {
@@ -43,10 +67,15 @@ export default function UpdatePartForm() {
       .catch((err) => console.error(err));
   };
 
+
   useEffect(() => {
-    fetchData();
-    fetchManufacturerData();
+    setInterval(() => {
+      fetchData();
+      fetchManufacturerData();
+    }, 1000);
   }, []);
+  
+  
   
   const handleSubmit = async (event) => {
     // Stop the form from submitting and refreshing the page.
@@ -83,20 +112,15 @@ export default function UpdatePartForm() {
     const result = await response.json();
 
     if (response.status == 201) {
-      alert(
-        "Updated Part: " +
-          input +
-          "\nNew Part Name: " +
-          event.target.name.value +
-          "\nNew Part Description: " +
-          event.target.description.value +
-          "\nNew Manufacturer: " +
-          manufacturerValue +
-          "\nNew Quantity: " +
-          event.target.quantity.value +
-          ".\nRefreshing webpage now..."
-      );
-      window.location.reload(false);
+      setOpen(true);
+      setPart('');
+      setPartName('');
+      setDescription('');
+      setManufacturer('');
+      setQuantity('');
+    }
+    else{
+      setBadOpen(true);
     }
   };
 
@@ -128,6 +152,8 @@ export default function UpdatePartForm() {
           id="outlined-required"
           label="Part Name"
           name="name"
+          onChange={event => setPartName(event.target.value)}
+          value={partName}
         />
         <br /><br />
         <TextField
@@ -135,9 +161,13 @@ export default function UpdatePartForm() {
           id="outlined-required"
           label="Part Description"
           name="description"
+          onChange={event => setDescription(event.target.value)}
+          value={description}
         />
         <br /><br />
         <Autocomplete
+          inputValue={manufacturer}
+          onChange={(e,v)=>setManufacturer(v?.companyName||v)}
           getOptionLabel={(option) => `${option.companyName}: ${option.id}`}
           onInputChange={(event, newManufacturerValue) => {
             setManufacturerId(newManufacturerValue.replace(/\W/g, ''));
@@ -161,6 +191,8 @@ export default function UpdatePartForm() {
           id="outlined-required"
           label="Quantity"
           name="quantity"
+          onChange={event => setQuantity(event.target.value)}
+          value={quantity}
         />
         <br />
         <Button
@@ -172,6 +204,17 @@ export default function UpdatePartForm() {
         >
           Update Part
         </Button>
+        <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+          Success! Updated Part!
+        </Alert>
+        </Snackbar>
+
+        <Snackbar open={badOpen} autoHideDuration={6000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
+          Failed to update the part!
+        </Alert>
+        </Snackbar>
       </form>
     </div>
   );

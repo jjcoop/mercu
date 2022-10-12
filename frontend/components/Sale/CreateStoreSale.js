@@ -5,6 +5,14 @@ import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import SendIcon from "@mui/icons-material/Send";
 
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
+
+
 export default function CreateStoreSale() {
   const [productValue, setProductValue] = React.useState("");
   const [productId, setProductId] = React.useState("");
@@ -15,6 +23,22 @@ export default function CreateStoreSale() {
   const [pKeyword] = useState("productInventory");
   const [data, setData] = useState([]);
   const [pData, setProductData] = useState([]);
+
+  const [open, setOpen] = React.useState(false);
+  const [badOpen, setBadOpen] = React.useState(false);
+
+  const [test, setTest] = useState('');
+  const [product, setProduct] = useState('');
+  const [quantity, setQuantity] = useState('');
+  
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpen(false);
+    setBadOpen(false);
+  };
 
   const fetchData = () => {
     fetch(`http://localhost:8789/${keyword}/store`)
@@ -32,8 +56,10 @@ export default function CreateStoreSale() {
   
 
   useEffect(() => {
-    fetchData();
-    fetchProductData();
+    setInterval(() => {
+      fetchData();
+      fetchProductData();
+    }, 1000);
   }, []);
 
 
@@ -71,15 +97,14 @@ export default function CreateStoreSale() {
     // If server returns the name submitted, that means the form works.
     const result = await response.json();
 
-    if (response.status == 201) {
-      alert(
-        "Created Store Sale: " +
-          "\nStore ID: " + inputId + 
-          "\nStore Address: " + inputValue +
-          "\nQuantity: " + event.target.quantity.value +
-          ".\nRefreshing webpage now..."
-      );
-      window.location.reload(false);
+    if(response.status == 201){
+      setOpen(true);
+      setTest('');
+      setProduct('');
+      setQuantity('');
+    }
+    else{
+      setBadOpen(true);
     }
   };
 
@@ -87,6 +112,8 @@ export default function CreateStoreSale() {
     <div>
       <form onSubmit={handleSubmit}>
       <Autocomplete
+          inputValue={test}
+          onChange={(e,v)=>setTest(v?.address||v)}
           getOptionLabel={(option) => `${option.id}: ${option.address}`}
           onInputChange={(event, newInputValue) => {
             setInputValue(newInputValue);
@@ -105,6 +132,8 @@ export default function CreateStoreSale() {
         />
         <br />
         <Autocomplete
+          inputValue={product}
+          onChange={(e,v)=>setProduct(v?.name||v)}
           getOptionLabel={(x) => `${x.name}: ${x.id}`}
           onInputChange={(event, newproductValue) => {
             setProductId(newproductValue.replace(/\D/g, ""));
@@ -127,6 +156,8 @@ export default function CreateStoreSale() {
           id="outlined-required"
           label="Quantity"
           name="quantity"
+          onChange={event => setQuantity(event.target.value)}
+          value={quantity}
         />
         <br />
         <Button
@@ -138,6 +169,17 @@ export default function CreateStoreSale() {
         >
           Create Store Sale
         </Button>
+        <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+          Success! New Store Sale Created
+        </Alert>
+        </Snackbar>
+
+        <Snackbar open={badOpen} autoHideDuration={6000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
+          Fail! Couldn't create new store sale!
+        </Alert>
+        </Snackbar>
       </form>
     </div>
   );

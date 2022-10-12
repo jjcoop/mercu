@@ -5,12 +5,38 @@ import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import SendIcon from "@mui/icons-material/Send";
 
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
+
 
 export default function UpdateSupplierForm() {
   const [inputValue, setInputValue] = React.useState("");
   const [inputId, setInputId] = React.useState("");
   const [keyword, setKeyword] = useState("supplierProcurement");
   const [data, setData] = useState([]);
+
+  const [supplier, setSupplier] = useState('');
+  const [fname, setFname] = useState('');
+  const [lname, setLname] = useState('');
+  const [phone, setPhone] = useState('');
+  const [email, setEmail] = useState('');
+  const [position, setPosition] = useState('');
+
+  const [open, setOpen] = React.useState(false);
+  const [badOpen, setBadOpen] = React.useState(false);
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpen(false);
+    setBadOpen(false);
+  };
+
+
   const fetchData = () => {
     fetch(`http://localhost:8787/${keyword}`)
       .then((response) => response.json())
@@ -19,7 +45,9 @@ export default function UpdateSupplierForm() {
   };
 
   useEffect(() => {
-    fetchData();
+    setInterval(() => {
+      fetchData();
+    }, 1000);
   }, []);
 
   const handleSubmit = async (event) => {
@@ -62,16 +90,16 @@ export default function UpdateSupplierForm() {
     const result = await response.json();
 
     if (response.status == 201) {
-      alert(
-        "Created Contact for Supplier: " +
-          inputValue +
-          "\nContact Name: " +
-          event.target.firstName.value + event.target.lastName.value +
-          "\nContact Email: " + event.target.contactEmail.value +
-          "\nContact Position: " + event.target.contactPosition.value +
-          ".\nRefreshing webpage now..."
-      );
-      window.location.reload(false);
+      setOpen(true);
+      setSupplier('');
+      setFname('');
+      setLname('');
+      setPhone('');
+      setEmail('');
+      setPosition('');
+    }
+    else{
+      setBadOpen(true);
     }
   };
 
@@ -79,6 +107,8 @@ export default function UpdateSupplierForm() {
     <div>
       <form onSubmit={handleSubmit}>
         <Autocomplete
+          inputValue={supplier}
+          onChange={(e,v)=>setSupplier(v?.companyName||v)}
           getOptionLabel={(option) => `${option.companyName}: ${option.id}`}
           onInputChange={(event, newInputValue) => {
             setInputValue(newInputValue);
@@ -101,12 +131,16 @@ export default function UpdateSupplierForm() {
           id="outlined-required"
           label="First Name"
           name="firstName"
+          onChange={event => setFname(event.target.value)}
+          value={fname}
         />
         <TextField
           required
           id="outlined-required"
           label="Last Name"
           name="lastName"
+          onChange={event => setLname(event.target.value)}
+          value={lname}
         />
         <br />
         <TextField
@@ -116,6 +150,8 @@ export default function UpdateSupplierForm() {
           id="outlined-required"
           label="Phone"
           name="contactPhone"
+          onChange={event => setPhone(event.target.value)}
+          value={phone}
         />
         <TextField
           fullWidth
@@ -124,6 +160,8 @@ export default function UpdateSupplierForm() {
           id="outlined-required"
           label="Email"
           name="contactEmail"
+          onChange={event => setEmail(event.target.value)}
+          value={email}
         />
         <TextField
           fullWidth
@@ -132,6 +170,8 @@ export default function UpdateSupplierForm() {
           id="outlined-required"
           label="Position"
           name="contactPosition"
+          onChange={event => setPosition(event.target.value)}
+          value={position}
         />
         <br />
         <Button
@@ -143,6 +183,18 @@ export default function UpdateSupplierForm() {
         >
           Create Contact
         </Button>
+
+        <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+          Success! New Contact Created!
+        </Alert>
+        </Snackbar>
+
+        <Snackbar open={badOpen} autoHideDuration={6000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
+          Failed to create a new contact!
+        </Alert>
+        </Snackbar>
       </form>
     </div>
   );

@@ -5,6 +5,13 @@ import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import SendIcon from "@mui/icons-material/Send";
 
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
+
 
 export default function UpdateContactForm() {
   const [keyword, setKeyword] = useState("supplierProcurement");
@@ -16,6 +23,23 @@ export default function UpdateContactForm() {
   const [productValue, setProductValue] = React.useState("");
   const [productId, setProductId] = React.useState("");
 
+  const [open, setOpen] = React.useState(false);
+  const [badOpen, setBadOpen] = React.useState(false);
+
+  const [product, setProduct] = useState('');
+  const [name, setName] = useState('');
+  const [price, setPrice] = useState('');
+  const [description, setDescription] = useState('');
+  const [quantity, setQuantity] = useState('');
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpen(false);
+    setBadOpen(false);
+  };
+
   const fetchProductData = () => {
     fetch(`http://localhost:8788/${pKeyword}`)
       .then((response) => response.json())
@@ -25,7 +49,9 @@ export default function UpdateContactForm() {
 
 
   useEffect(() => {
-    fetchProductData();
+    setInterval(() => {
+      fetchProductData();
+    }, 1000);
   }, []);
   
   
@@ -67,15 +93,15 @@ export default function UpdateContactForm() {
     const result = await response.json();
 
     if (response.status == 201) {
-      alert(
-        "Updated Product: " + productValue +
-          "\nProduct Name: " + event.target.productName.value + 
-          "\nProduct Price: " + event.target.productPrice.value +
-          "\nProduct Description: " + event.target.productDescription.value +
-          "\nQuantity: " + event.target.productQuantity.value +
-          ".\nRefreshing webpage now..."
-      );
-      window.location.reload(false);
+      setOpen(true);
+      setProduct('');
+      setName('');
+      setPrice('');
+      setDescription('');
+      setQuantity('');
+    }
+    else{
+      setBadOpen(true);
     }
   };
 
@@ -83,6 +109,8 @@ export default function UpdateContactForm() {
     <div>
       <form onSubmit={handleSubmit}>
         <Autocomplete
+            inputValue={product}
+            onChange={(e,v)=>setProduct(v?.name||v)}
             getOptionLabel={(x) => `${x.name}: ${x.id}`}
             onInputChange={(event, newproductValue) => {
               setProductValue(newproductValue);
@@ -105,6 +133,8 @@ export default function UpdateContactForm() {
           id="outlined-required"
           label="Product Name"
           name="productName"
+          onChange={event => setName(event.target.value)}
+          value={name}
         />
         <br />
         <br />
@@ -113,6 +143,8 @@ export default function UpdateContactForm() {
           id="outlined-required"
           label="Product Price"
           name="productPrice"
+          onChange={event => setPrice(event.target.value)}
+          value={price}
         />
         <br />
         <TextField
@@ -122,6 +154,8 @@ export default function UpdateContactForm() {
           id="outlined-required"
           label="Product Description"
           name="productDescription"
+          onChange={event => setDescription(event.target.value)}
+          value={description}
         />
         <br />
         <TextField
@@ -131,6 +165,8 @@ export default function UpdateContactForm() {
           id="outlined-required"
           label="Quantity"
           name="productQuantity"
+          onChange={event => setQuantity(event.target.value)}
+          value={quantity}
         />
         <Button
           color="warning"
@@ -141,6 +177,17 @@ export default function UpdateContactForm() {
         >
           Update Product
         </Button>
+        <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+          Success! Updated Product!
+        </Alert>
+        </Snackbar>
+
+        <Snackbar open={badOpen} autoHideDuration={6000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
+          Failed to update the product!
+        </Alert>
+        </Snackbar>
       </form>
     </div>
   );

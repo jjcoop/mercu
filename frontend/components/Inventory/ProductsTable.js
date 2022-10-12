@@ -14,7 +14,9 @@ export default function ProductsTable() {
   
 
   useEffect(() => {
-    fetchData();
+    setInterval(() => {
+      fetchData();
+    }, 1000);
   }, []);
 
   const columns = [

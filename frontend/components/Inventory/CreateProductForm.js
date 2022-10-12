@@ -4,11 +4,35 @@ import { Button } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import SendIcon from "@mui/icons-material/Send";
 
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
+
+
 export default function CreateProductForm() {
   const [inputValue, setInputValue] = React.useState("");
   const [inputId, setInputId] = React.useState("");
   const [keyword, setKeyword] = useState("productInventory");
   const [data, setData] = useState([]);
+
+  const [productName, setproductName] = useState('');
+  const [productPrice, setproductPrice] = useState('');
+  const [productDescription, setproductDescription] = useState('');
+  const [quantity, setQuantity] = useState('');
+
+  const [open, setOpen] = React.useState(false);
+  const [badOpen, setBadOpen] = React.useState(false);
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpen(false);
+    setBadOpen(false);
+  };
+
   const fetchData = () => {
     fetch(`http://localhost:8788/${keyword}/parts`)
       .then((response) => response.json())
@@ -59,15 +83,15 @@ export default function CreateProductForm() {
     const result = await response.json();
 
     if (response.status == 201) {
-      alert(
-        "Created Product: " +
-          "\nProduct Name: " + event.target.productName.value + 
-          "\nProduct Price: " + event.target.productPrice.value +
-          "\nProduct Description: " + event.target.productDescription.value +
-          "\nQuantity: " + event.target.productQuantity.value +
-          ".\nRefreshing webpage now..."
-      );
-      window.location.reload(false);
+      setOpen(true);
+      setproductName('');
+      setproductPrice('');
+      setproductDescription('');
+      setQuantity('');
+
+    }
+    else{
+      setBadOpen(true);
     }
   };
 
@@ -80,6 +104,8 @@ export default function CreateProductForm() {
           id="outlined-required"
           label="Product Name"
           name="productName"
+          onChange={event => setproductName(event.target.value)}
+          value={productName}
         />
         <br />
         <br />
@@ -88,6 +114,8 @@ export default function CreateProductForm() {
           id="outlined-required"
           label="Product Price"
           name="productPrice"
+          onChange={event => setproductPrice(event.target.value)}
+          value={productPrice}
         />
         <br />
         <TextField
@@ -97,6 +125,8 @@ export default function CreateProductForm() {
           id="outlined-required"
           label="Product Description"
           name="productDescription"
+          onChange={event => setproductDescription(event.target.value)}
+          value={productDescription}
         />
         <br />
         <TextField
@@ -106,6 +136,8 @@ export default function CreateProductForm() {
           id="outlined-required"
           label="Quantity"
           name="productQuantity"
+          onChange={event => setQuantity(event.target.value)}
+          value={quantity}
         />
         <br />
         <Button
@@ -117,6 +149,17 @@ export default function CreateProductForm() {
         >
           Create Product
         </Button>
+        <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+          Success! Created Product!
+        </Alert>
+        </Snackbar>
+
+        <Snackbar open={badOpen} autoHideDuration={6000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
+          Failed to create the product!
+        </Alert>
+        </Snackbar>
       </form>
     </div>
   );

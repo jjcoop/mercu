@@ -7,15 +7,19 @@ import { DataGrid } from "@mui/x-data-grid";
 export default function contacts() {
   const [keyword, setKeyword] = useState("supplierProcurement");
   const [data, setData] = useState([]);
-  const fetchData = () => {
+
+  function beans() {
     fetch(`http://localhost:8787/${keyword}`)
       .then((response) => response.json())
       .then((data) => setData(data._embedded.supplierList))
       .catch((err) => console.error(err));
   };
+  
 
   useEffect(() => {
-    fetchData();
+    setInterval(() => {
+      beans();
+    }, 1000);
   }, []);
 
   const columns = [
@@ -37,6 +41,7 @@ export default function contacts() {
   );
 
   return (
+    
     <div style={{ height: 400, width: "100%" }}>
       {/* <Title>Suppliers</Title> */}
       <DataGrid
@@ -49,3 +54,5 @@ export default function contacts() {
     </div>
   );
 }
+
+export {contacts}

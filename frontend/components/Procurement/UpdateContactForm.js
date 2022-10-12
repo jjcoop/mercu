@@ -4,6 +4,15 @@ import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import SendIcon from "@mui/icons-material/Send";
 
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
+import * as React from "react";
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
+
+
 export default function UpdateContactForm() {
   const [inputValue, setInputValue] = useState("");
   const [inputId, setInputId] = useState("");
@@ -12,6 +21,24 @@ export default function UpdateContactForm() {
   const [keyword, setKeyword] = useState("supplierProcurement");
   const [sData, setSupplierData] = useState([]);
   const [cData, setContactData] = useState([]);
+
+  const [supplier, setSupplier] = useState('');
+  const [contact, setContact] = useState('');
+  const [fname, setFname] = useState('');
+  const [lname, setLname] = useState('');
+  const [phone, setPhone] = useState('');
+  const [email, setEmail] = useState('');
+  const [position, setPosition] = useState('');
+
+  const [open, setOpen] = React.useState(false);
+  const [badOpen, setBadOpen] = React.useState(false);
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpen(false);
+    setBadOpen(false);
+  };
 
 
   const fetchSupplierData = () => {
@@ -23,7 +50,9 @@ export default function UpdateContactForm() {
   };
 
   useEffect(() => {
-    fetchSupplierData();
+    setInterval(() => {
+      fetchSupplierData();
+    }, 1000);
   }, []);
 
   const fetchContactData = () => {
@@ -73,20 +102,17 @@ export default function UpdateContactForm() {
     const result = await response.json();
 
     if (response.status == 201) {
-      alert(
-        "Updated Contact: " +
-          contactName +
-          "\nNew Contact Name: " +
-          event.target.firstName.value + event.target.lastName.value +
-          "\nNew Contact Phone: " +
-          event.target.contactPhone.value +
-          "\nNew Contact Email: " +
-          event.target.contactEmail.value +
-          "\nNew Contact Position: " +
-          event.target.contactPosition.value +
-          ".\nRefreshing webpage now..."
-      );
-      window.location.reload(false);
+      setOpen(true);
+      setSupplier('');
+      setContact('');
+      setFname('');
+      setLname('');
+      setPhone('');
+      setEmail('');
+      setPosition('');
+    }
+    else{
+      setBadOpen(true);
     }
   };
 
@@ -94,6 +120,8 @@ export default function UpdateContactForm() {
     <div>
       <form onSubmit={handleSubmit}>
         <Autocomplete
+          inputValue={supplier}
+          onChange={(e,v)=>setSupplier(v?.companyName||v)}
           getOptionLabel={(option) => `${option.companyName}: ${option.id}`}
           onInputChange={(event, newInputValue) => {
             setInputValue(newInputValue)
@@ -116,6 +144,8 @@ export default function UpdateContactForm() {
         />
         <br />
         <Autocomplete
+          inputValue={contact}
+          onChange={(e,v)=>setContact(v?.name||v)}
           isOptionEqualToValue={(option, value) => option.id === value.id}
           getOptionLabel={(option) => `${option.name}: ${option.id}`}
           onInputChange={(event, value) => {
@@ -139,12 +169,16 @@ export default function UpdateContactForm() {
           id="outlined-required"
           label="First Name"
           name="firstName"
+          onChange={event => setFname(event.target.value)}
+          value={fname}
         />
         <TextField
           required
           id="outlined-required"
           label="Last Name"
           name="lastName"
+          onChange={event => setLname(event.target.value)}
+          value={lname}
         />
         <br />
         <TextField
@@ -154,6 +188,8 @@ export default function UpdateContactForm() {
           id="outlined-required"
           label="Phone"
           name="contactPhone"
+          onChange={event => setPhone(event.target.value)}
+          value={phone}
         />
         <TextField
           fullWidth
@@ -162,6 +198,8 @@ export default function UpdateContactForm() {
           id="outlined-required"
           label="Email"
           name="contactEmail"
+          onChange={event => setEmail(event.target.value)}
+          value={email}
         />
         <TextField
           fullWidth
@@ -170,6 +208,8 @@ export default function UpdateContactForm() {
           id="outlined-required"
           label="Position"
           name="contactPosition"
+          onChange={event => setPosition(event.target.value)}
+          value={position}
         />
         <br />
         <Button
@@ -181,6 +221,18 @@ export default function UpdateContactForm() {
         >
           Update Contact
         </Button>
+
+        <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+          Success! Updated Contact!
+        </Alert>
+        </Snackbar>
+
+        <Snackbar open={badOpen} autoHideDuration={6000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
+          Failed to update the contact!
+        </Alert>
+        </Snackbar>
       </form>
     </div>
   );

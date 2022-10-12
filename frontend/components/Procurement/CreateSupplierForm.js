@@ -1,9 +1,44 @@
-import React, { useState } from "react";
+import React, { useEffect, useState, useRef, useCallback } from "react";
 import TextField from "@mui/material/TextField";
 import SendIcon from "@mui/icons-material/Send";
 import Button from "@mui/material/Button";
 
+
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
+
 export default function CreateSupplierForm() {
+  const [open, setOpen] = React.useState(false);
+  const [badOpen, setBadOpen] = React.useState(false);
+
+  const [name, setName] = useState('');  
+  const [base, setBase] = useState('');
+
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpen(false);
+    setBadOpen(false);
+  };
+
+
+
+  const [keyword, setKeyword] = useState("supplierProcurement");
+  const [data, setData] = useState([]);
+  const fetchData = () => {
+    fetch(`http://localhost:8787/${keyword}`)
+      .then((response) => response.json())
+      .then((data) => setData(data._embedded.supplierList))
+      .catch((err) => console.error(err));
+  };
+
+
   const [myValue, setValue] = useState("");
 
   // Handles the submit event on form submit.
@@ -43,8 +78,12 @@ export default function CreateSupplierForm() {
     const result = await response.json();
 
     if(response.status == 201){
-        alert("Created New Supplier: " + data.companyName + ". Refreshing webpage now...")
-        window.location.reload(false)
+      setOpen(true);
+      setName('');
+      setBase('');
+    }
+    else{
+      setBadOpen(true);
     }
   };
   return (
@@ -57,6 +96,8 @@ export default function CreateSupplierForm() {
           id="outlined-required"
           label="Company Name"
           name="companyName"
+          onChange={event => setName(event.target.value)}
+          value={name}
         />
         <br />
         <TextField
@@ -66,13 +107,29 @@ export default function CreateSupplierForm() {
           id="outlined-required"
           label="Base Name"
           name="base"
+          onChange={event => setBase(event.target.value)}
+          value={base}
         />
         <br />
         <br />
         <Button color="success" type="submit" variant="contained" endIcon={<SendIcon />}>
           Create Supplier
         </Button>
+
+        <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+          Success! New Supplier Created
+        </Alert>
+        </Snackbar>
+
+        <Snackbar open={badOpen} autoHideDuration={6000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
+          Fail! New Supplier Created
+        </Alert>
+        </Snackbar>
+        
       </form>
     </div>
+    
   );
 }

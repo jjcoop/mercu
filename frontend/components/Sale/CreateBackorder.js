@@ -5,6 +5,14 @@ import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import SendIcon from "@mui/icons-material/Send";
 
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
+
+
 export default function CreateBackorder() {
   const [inputValue, setInputValue] = React.useState("");
   const [inputId, setInputId] = React.useState("");
@@ -12,6 +20,18 @@ export default function CreateBackorder() {
   const [pKeyword] = useState("productInventory");
   const [data, setData] = useState([]);
 
+  const [open, setOpen] = React.useState(false);
+  const [badOpen, setBadOpen] = React.useState(false);
+
+  const [test, setTest] = useState('');
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpen(false);
+    setBadOpen(false);
+  };
 
   const fetchData = () => {
     fetch(`http://localhost:8789/${keyword}/unavailable`)
@@ -21,7 +41,9 @@ export default function CreateBackorder() {
   };
 
   useEffect(() => {
-    fetchData();
+    setInterval(() => {
+      fetchData();
+    }, 1000);
   }, []);
 
 
@@ -46,15 +68,12 @@ export default function CreateBackorder() {
     // If server returns the name submitted, that means the form works.
     const result = await response.json();
 
-    if (response.status == 200) {
-      alert(
-        "Created Backorder for Order: " + inputId + 
-          ".\nRefreshing webpage now..."
-      );
-      window.location.reload(false);
+    if(response.status == 200){
+      setOpen(true);
+      setTest('');
     }
     else{
-      alert("Couldn't find order to put on backorder")
+      setBadOpen(true);
     }
   };
 
@@ -62,6 +81,8 @@ export default function CreateBackorder() {
     <div>
       <form onSubmit={handleSubmit}>
       <Autocomplete
+          inputValue={test}
+          onChange={(e,v)=>setTest(v?.id||v)}
           getOptionLabel={(option) => `${option.id}`}
           onInputChange={(event, newInputValue) => {
             setInputValue(newInputValue);
@@ -86,6 +107,17 @@ export default function CreateBackorder() {
         >
           Create Backorder
         </Button>
+        <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+          Success! Backorder Created
+        </Alert>
+        </Snackbar>
+
+        <Snackbar open={badOpen} autoHideDuration={6000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
+          Fail! Couldn't create backorder!
+        </Alert>
+        </Snackbar>
       </form>
     </div>
   );
