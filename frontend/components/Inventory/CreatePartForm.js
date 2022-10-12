@@ -5,6 +5,13 @@ import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import SendIcon from "@mui/icons-material/Send";
 
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
+
 
 export default function CreatePartForm() {
   const [productValue, setProductValue] = React.useState("");
@@ -17,18 +24,34 @@ export default function CreatePartForm() {
   const [sKeyword] = useState("supplierProcurement");
   const [pData, setProductData] = useState([]);
   const [mData, setManufacturerData] = useState([]);
+
+  const [open, setOpen] = React.useState(false);
+  const [badOpen, setBadOpen] = React.useState(false);
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpen(false);
+    setBadOpen(false);
+  };
+
+
   const fetchProductData = () => {
-    fetch(`http://localhost:8788/${pKeyword}`)
+    setInterval(() => {
+      fetch(`http://localhost:8788/${pKeyword}`)
       .then((response) => response.json())
       .then((pData) => setProductData(pData._embedded.productList))
       .catch((err) => console.error(err));
+    }, 1000);
   };
 
   const fetchManufacturerData = () => {
-    fetch(`http://localhost:8787/${sKeyword}`)
+    setInterval(() => {
+      fetch(`http://localhost:8787/${sKeyword}`)
       .then((response) => response.json())
       .then((data) => setManufacturerData(data._embedded.supplierList))
       .catch((err) => console.error(err));
+    }, 1000);
   };
 
   useEffect(() => {
@@ -77,17 +100,10 @@ export default function CreatePartForm() {
     const result = await response.json();
 
     if (response.status == 201) {
-      alert(
-        "Created Part:" +
-          "\nPart Name: " + event.target.partName.value +
-          "\nPart Description: " + event.target.partDescription.value +
-          "\nQuantity: " + event.target.quantity.value +
-          ".\nRefreshing webpage now..."
-      );
-      window.location.reload(false);
+      setOpen(true);
     }
     else{
-      alert("An error occurred: ", result)
+      setBadOpen(true);
     }
   };
 
@@ -164,6 +180,17 @@ export default function CreatePartForm() {
         >
           Create Part
         </Button>
+        <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+          Success! Created Part!
+        </Alert>
+        </Snackbar>
+
+        <Snackbar open={badOpen} autoHideDuration={6000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
+          Failed to create the part!
+        </Alert>
+        </Snackbar>
       </form>
     </div>
   );

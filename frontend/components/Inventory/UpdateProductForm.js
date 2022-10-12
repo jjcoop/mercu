@@ -5,6 +5,13 @@ import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import SendIcon from "@mui/icons-material/Send";
 
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
+
 
 export default function UpdateContactForm() {
   const [keyword, setKeyword] = useState("supplierProcurement");
@@ -16,6 +23,16 @@ export default function UpdateContactForm() {
   const [productValue, setProductValue] = React.useState("");
   const [productId, setProductId] = React.useState("");
 
+  const [open, setOpen] = React.useState(false);
+  const [badOpen, setBadOpen] = React.useState(false);
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpen(false);
+    setBadOpen(false);
+  };
+
   const fetchProductData = () => {
     fetch(`http://localhost:8788/${pKeyword}`)
       .then((response) => response.json())
@@ -25,7 +42,9 @@ export default function UpdateContactForm() {
 
 
   useEffect(() => {
-    fetchProductData();
+    setInterval(() => {
+      fetchProductData();
+    }, 1000);
   }, []);
   
   
@@ -67,15 +86,10 @@ export default function UpdateContactForm() {
     const result = await response.json();
 
     if (response.status == 201) {
-      alert(
-        "Updated Product: " + productValue +
-          "\nProduct Name: " + event.target.productName.value + 
-          "\nProduct Price: " + event.target.productPrice.value +
-          "\nProduct Description: " + event.target.productDescription.value +
-          "\nQuantity: " + event.target.productQuantity.value +
-          ".\nRefreshing webpage now..."
-      );
-      window.location.reload(false);
+      setOpen(true);
+    }
+    else{
+      setBadOpen(true);
     }
   };
 
@@ -141,6 +155,17 @@ export default function UpdateContactForm() {
         >
           Update Product
         </Button>
+        <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+          Success! Updated Product!
+        </Alert>
+        </Snackbar>
+
+        <Snackbar open={badOpen} autoHideDuration={6000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
+          Failed to update the product!
+        </Alert>
+        </Snackbar>
       </form>
     </div>
   );

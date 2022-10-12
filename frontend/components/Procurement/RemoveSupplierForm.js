@@ -45,7 +45,9 @@ export default function RemoveSupplier() {
   }
 
   useEffect(() => {
-    fetchData();
+    setInterval(() => {
+      fetchData();
+    }, 1000);
   }, []);
 
   return (

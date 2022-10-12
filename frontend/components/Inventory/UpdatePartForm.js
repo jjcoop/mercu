@@ -5,6 +5,14 @@ import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import SendIcon from "@mui/icons-material/Send";
 
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
+
+
 
 export default function UpdatePartForm() {
   const [keyword, setKeyword] = useState("productInventory");
@@ -19,6 +27,16 @@ export default function UpdatePartForm() {
   const [mData, setManufacturerData] = useState([]);
   const [manufacturerValue, setManufacturerValue] = React.useState("");
   const [manufacturerId, setManufacturerId] = React.useState("");
+
+  const [open, setOpen] = React.useState(false);
+  const [badOpen, setBadOpen] = React.useState(false);
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpen(false);
+    setBadOpen(false);
+  };
 
 
   const fetchData = () => {
@@ -44,8 +62,10 @@ export default function UpdatePartForm() {
   };
 
   useEffect(() => {
-    fetchData();
-    fetchManufacturerData();
+    setInterval(() => {
+      fetchProductData();
+      fetchManufacturerData();
+    }, 1000);
   }, []);
   
   const handleSubmit = async (event) => {
@@ -83,20 +103,10 @@ export default function UpdatePartForm() {
     const result = await response.json();
 
     if (response.status == 201) {
-      alert(
-        "Updated Part: " +
-          input +
-          "\nNew Part Name: " +
-          event.target.name.value +
-          "\nNew Part Description: " +
-          event.target.description.value +
-          "\nNew Manufacturer: " +
-          manufacturerValue +
-          "\nNew Quantity: " +
-          event.target.quantity.value +
-          ".\nRefreshing webpage now..."
-      );
-      window.location.reload(false);
+     setOpen(true);
+    }
+    else{
+      setBadOpen(true);
     }
   };
 
@@ -172,6 +182,17 @@ export default function UpdatePartForm() {
         >
           Update Part
         </Button>
+        <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+          Success! Updated Part!
+        </Alert>
+        </Snackbar>
+
+        <Snackbar open={badOpen} autoHideDuration={6000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
+          Failed to update the part!
+        </Alert>
+        </Snackbar>
       </form>
     </div>
   );

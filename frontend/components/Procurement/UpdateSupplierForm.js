@@ -38,7 +38,9 @@ export default function UpdateSupplierForm() {
   };
 
   useEffect(() => {
-    fetchSupplierData();
+    setInterval(() => {
+      fetchSupplierData();
+    }, 1000);
   }, []);
 
   const handleSubmit = async (event) => {

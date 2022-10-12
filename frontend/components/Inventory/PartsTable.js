@@ -13,7 +13,9 @@ export default function PartsTable() {
   };
   
   useEffect(() => {
-    fetchData();
+    setInterval(() => {
+      fetchData();
+    }, 1000);
   }, []);
 
   const columns = [

@@ -42,7 +42,9 @@ export default function UpdateContactForm() {
   };
 
   useEffect(() => {
-    fetchSupplierData();
+    setInterval(() => {
+      fetchSupplierData();
+    }, 1000);
   }, []);
 
   const fetchContactData = () => {
