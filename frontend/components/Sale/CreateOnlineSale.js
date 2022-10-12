@@ -151,13 +151,13 @@ export default function CreateOnlineSale() {
         </Button>
         <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
         <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
-          Success! New Store Created
+          Success! New Online Sale Created
         </Alert>
         </Snackbar>
 
         <Snackbar open={badOpen} autoHideDuration={6000} onClose={handleClose}>
         <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
-          Fail! Couldn't create new store!
+          Fail! Couldn't create new online sale!
         </Alert>
         </Snackbar>
       </form>
