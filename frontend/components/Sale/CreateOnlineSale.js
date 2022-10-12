@@ -28,6 +28,11 @@ export default function CreateOnlineSale() {
   const [open, setOpen] = React.useState(false);
   const [badOpen, setBadOpen] = React.useState(false);
 
+  const [customerAddress, setCustomerAddress] = useState('');
+  const [customerName, setCustomerName] = useState('');
+  const [quantity, setQuantity] = useState('');
+  const [test, setTest] = useState('');
+
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {
       return;
@@ -90,6 +95,10 @@ export default function CreateOnlineSale() {
 
     if(response.status == 201){
       setOpen(true);
+      setCustomerName('');
+      setCustomerAddress('');
+      setQuantity('');
+      setTest('');
     }
     else{
       setBadOpen(true);
@@ -104,6 +113,8 @@ export default function CreateOnlineSale() {
           id="outlined-required"
           label="Customer Name"
           name="customerName"
+          onChange={event => setCustomerName(event.target.value)}
+          value={customerName}
         />
         <br />
         <br />
@@ -113,10 +124,14 @@ export default function CreateOnlineSale() {
           id="outlined-required"
           label="Customer Address"
           name="customerAddress"
+          onChange={event => setCustomerAddress(event.target.value)}
+          value={customerAddress}
         />
         <br />
         <br />
         <Autocomplete
+          inputValue={test}
+          onChange={(e,v)=>setTest(v?.name||v)}
           getOptionLabel={(x) => `${x.name}: ${x.id}`}
           onInputChange={(event, newproductValue) => {
             setProductValue(newproductValue.substring(0, newproductValue.indexOf(':')));
@@ -138,6 +153,8 @@ export default function CreateOnlineSale() {
           id="outlined-required"
           label="Quantity"
           name="quantity"
+          onChange={event => setQuantity(event.target.value)}
+          value={quantity}
         />
         <br />
         <Button

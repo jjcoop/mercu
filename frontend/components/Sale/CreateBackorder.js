@@ -23,6 +23,8 @@ export default function CreateBackorder() {
   const [open, setOpen] = React.useState(false);
   const [badOpen, setBadOpen] = React.useState(false);
 
+  const [test, setTest] = useState('');
+
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {
       return;
@@ -68,6 +70,7 @@ export default function CreateBackorder() {
 
     if(response.status == 200){
       setOpen(true);
+      setTest('');
     }
     else{
       setBadOpen(true);
@@ -78,6 +81,8 @@ export default function CreateBackorder() {
     <div>
       <form onSubmit={handleSubmit}>
       <Autocomplete
+          inputValue={test}
+          onChange={(e,v)=>setTest(v?.id||v)}
           getOptionLabel={(option) => `${option.id}`}
           onInputChange={(event, newInputValue) => {
             setInputValue(newInputValue);

@@ -27,6 +27,11 @@ export default function CreateStoreSale() {
   const [open, setOpen] = React.useState(false);
   const [badOpen, setBadOpen] = React.useState(false);
 
+  const [test, setTest] = useState('');
+  const [product, setProduct] = useState('');
+  const [quantity, setQuantity] = useState('');
+  
+
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {
       return;
@@ -94,6 +99,9 @@ export default function CreateStoreSale() {
 
     if(response.status == 201){
       setOpen(true);
+      setTest('');
+      setProduct('');
+      setQuantity('');
     }
     else{
       setBadOpen(true);
@@ -104,6 +112,8 @@ export default function CreateStoreSale() {
     <div>
       <form onSubmit={handleSubmit}>
       <Autocomplete
+          inputValue={test}
+          onChange={(e,v)=>setTest(v?.address||v)}
           getOptionLabel={(option) => `${option.id}: ${option.address}`}
           onInputChange={(event, newInputValue) => {
             setInputValue(newInputValue);
@@ -122,6 +132,8 @@ export default function CreateStoreSale() {
         />
         <br />
         <Autocomplete
+          inputValue={product}
+          onChange={(e,v)=>setProduct(v?.name||v)}
           getOptionLabel={(x) => `${x.name}: ${x.id}`}
           onInputChange={(event, newproductValue) => {
             setProductId(newproductValue.replace(/\D/g, ""));
@@ -144,6 +156,8 @@ export default function CreateStoreSale() {
           id="outlined-required"
           label="Quantity"
           name="quantity"
+          onChange={event => setQuantity(event.target.value)}
+          value={quantity}
         />
         <br />
         <Button
