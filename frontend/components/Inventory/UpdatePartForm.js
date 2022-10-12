@@ -61,12 +61,21 @@ export default function UpdatePartForm() {
       .catch((err) => console.error(err));
   };
 
+  //Original useEffect
+  /*
+  useEffect(() => {
+    fetchData();
+    fetchManufacturerData();
+  }, []);
+*/
+
   useEffect(() => {
     setInterval(() => {
       fetchData();
       fetchManufacturerData();
     }, 1000);
   }, []);
+  
   
   const handleSubmit = async (event) => {
     // Stop the form from submitting and refreshing the page.
@@ -103,7 +112,7 @@ export default function UpdatePartForm() {
     const result = await response.json();
 
     if (response.status == 201) {
-     setOpen(true);
+      setOpen(true);
     }
     else{
       setBadOpen(true);
@@ -121,7 +130,7 @@ export default function UpdatePartForm() {
             console.log(data.name)
           }}
 
-          onChange={fetchProductData}
+          onChange={fetchProductData()}
           disablePortal
           id="combo-box-demo"
           options={data}
@@ -184,13 +193,13 @@ export default function UpdatePartForm() {
         </Button>
         <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
         <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
-          Success! Updated Part!
+          Success! Updated Product!
         </Alert>
         </Snackbar>
 
         <Snackbar open={badOpen} autoHideDuration={6000} onClose={handleClose}>
         <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
-          Failed to update the part!
+          Failed to update the product!
         </Alert>
         </Snackbar>
       </form>
