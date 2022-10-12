@@ -19,6 +19,10 @@ export default function UpdateSupplierForm() {
   const [keyword, setKeyword] = useState("supplierProcurement");
   const [data, setData] = useState([]);
 
+  const [supplier, setSupplier] = useState('');
+  const [companyName, setCompanyName] = useState('');
+  const [baseName, setBaseName] = useState('');
+
   const [open, setOpen] = React.useState(false);
   const [badOpen, setBadOpen] = React.useState(false);
   const handleClose = (event, reason) => {
@@ -81,6 +85,9 @@ export default function UpdateSupplierForm() {
 
     if (response.status == 201) {
       setOpen(true);
+      setCompanyName('');
+      setBaseName('');
+      setSupplier('');
     }
     else{
       setBadOpen(true);
@@ -91,6 +98,8 @@ export default function UpdateSupplierForm() {
     <div>
       <form onSubmit={handleSubmit}>
         <Autocomplete
+          inputValue={supplier}
+          onChange={(e,v)=>setSupplier(v?.companyName||v)}
           getOptionLabel={(option) => `${option.companyName}: ${option.id}`}
           onInputChange={(event, newInputValue) => {
             setInputValue(newInputValue);
@@ -114,6 +123,8 @@ export default function UpdateSupplierForm() {
           id="outlined-required"
           label="New Company Name"
           name="newCpmpanyName"
+          onChange={event => setCompanyName(event.target.value)}
+          value={companyName}
         />
         <br />
         <TextField
@@ -123,6 +134,8 @@ export default function UpdateSupplierForm() {
           id="outlined-required"
           label="New Base Name"
           name="newBase"
+          onChange={event => setBaseName(event.target.value)}
+          value={baseName}
         />
         <br />
         <Button

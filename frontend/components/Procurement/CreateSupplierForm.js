@@ -15,6 +15,9 @@ export default function CreateSupplierForm() {
   const [open, setOpen] = React.useState(false);
   const [badOpen, setBadOpen] = React.useState(false);
 
+  const [name, setName] = useState('');  
+  const [base, setBase] = useState('');
+
 
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {
@@ -76,6 +79,8 @@ export default function CreateSupplierForm() {
 
     if(response.status == 201){
       setOpen(true);
+      setName('');
+      setBase('');
     }
     else{
       setBadOpen(true);
@@ -91,6 +96,8 @@ export default function CreateSupplierForm() {
           id="outlined-required"
           label="Company Name"
           name="companyName"
+          onChange={event => setName(event.target.value)}
+          value={name}
         />
         <br />
         <TextField
@@ -100,6 +107,8 @@ export default function CreateSupplierForm() {
           id="outlined-required"
           label="Base Name"
           name="base"
+          onChange={event => setBase(event.target.value)}
+          value={base}
         />
         <br />
         <br />

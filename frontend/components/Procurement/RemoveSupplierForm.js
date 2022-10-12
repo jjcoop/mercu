@@ -20,6 +20,8 @@ export default function RemoveSupplier() {
   const [keyword, setKeyword] = useState("supplierProcurement");
   const [data, setData] = useState([]);
 
+  const [supplier, setSupplier] = useState('');
+
   const [open, setOpen] = React.useState(false);
   const [badOpen, setBadOpen] = React.useState(false);
   const handleClose = (event, reason) => {
@@ -41,6 +43,7 @@ export default function RemoveSupplier() {
     fetch(`http://localhost:8787/${keyword}/${inputId}`, { method: 'DELETE' })
     .then(async response => {
       setOpen(true);
+      setSupplier('');
     })
   }
 
@@ -54,6 +57,8 @@ export default function RemoveSupplier() {
     <div>
       <div>
         <Autocomplete
+          inputValue={supplier}
+          onChange={(e,v)=>setSupplier(v?.companyName||v)}
           getOptionLabel={(option) => `${option.companyName}: ${option.id}`}
           onInputChange={(event, newInputValue) => {
             setInputValue(newInputValue);

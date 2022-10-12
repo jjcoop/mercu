@@ -22,6 +22,14 @@ export default function UpdateContactForm() {
   const [sData, setSupplierData] = useState([]);
   const [cData, setContactData] = useState([]);
 
+  const [supplier, setSupplier] = useState('');
+  const [contact, setContact] = useState('');
+  const [fname, setFname] = useState('');
+  const [lname, setLname] = useState('');
+  const [phone, setPhone] = useState('');
+  const [email, setEmail] = useState('');
+  const [position, setPosition] = useState('');
+
   const [open, setOpen] = React.useState(false);
   const [badOpen, setBadOpen] = React.useState(false);
   const handleClose = (event, reason) => {
@@ -95,6 +103,13 @@ export default function UpdateContactForm() {
 
     if (response.status == 201) {
       setOpen(true);
+      setSupplier('');
+      setContact('');
+      setFname('');
+      setLname('');
+      setPhone('');
+      setEmail('');
+      setPosition('');
     }
     else{
       setBadOpen(true);
@@ -105,6 +120,8 @@ export default function UpdateContactForm() {
     <div>
       <form onSubmit={handleSubmit}>
         <Autocomplete
+          inputValue={supplier}
+          onChange={(e,v)=>setSupplier(v?.companyName||v)}
           getOptionLabel={(option) => `${option.companyName}: ${option.id}`}
           onInputChange={(event, newInputValue) => {
             setInputValue(newInputValue)
@@ -127,6 +144,8 @@ export default function UpdateContactForm() {
         />
         <br />
         <Autocomplete
+          inputValue={contact}
+          onChange={(e,v)=>setContact(v?.name||v)}
           isOptionEqualToValue={(option, value) => option.id === value.id}
           getOptionLabel={(option) => `${option.name}: ${option.id}`}
           onInputChange={(event, value) => {
@@ -150,12 +169,16 @@ export default function UpdateContactForm() {
           id="outlined-required"
           label="First Name"
           name="firstName"
+          onChange={event => setFname(event.target.value)}
+          value={fname}
         />
         <TextField
           required
           id="outlined-required"
           label="Last Name"
           name="lastName"
+          onChange={event => setLname(event.target.value)}
+          value={lname}
         />
         <br />
         <TextField
@@ -165,6 +188,8 @@ export default function UpdateContactForm() {
           id="outlined-required"
           label="Phone"
           name="contactPhone"
+          onChange={event => setPhone(event.target.value)}
+          value={phone}
         />
         <TextField
           fullWidth
@@ -173,6 +198,8 @@ export default function UpdateContactForm() {
           id="outlined-required"
           label="Email"
           name="contactEmail"
+          onChange={event => setEmail(event.target.value)}
+          value={email}
         />
         <TextField
           fullWidth
@@ -181,6 +208,8 @@ export default function UpdateContactForm() {
           id="outlined-required"
           label="Position"
           name="contactPosition"
+          onChange={event => setPosition(event.target.value)}
+          value={position}
         />
         <br />
         <Button
