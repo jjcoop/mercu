@@ -93,7 +93,6 @@ export default function AlertDialog() {
           )}
         />
       <Button
-          inputValue={buttonBool}
           color="error"
           sx={{ width: 300, marginTop: 4 }}
           type="submit"
