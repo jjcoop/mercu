@@ -25,9 +25,9 @@ import UpdateSupplierForm from "./UpdateSupplierForm"
 import UpdateContactForm from "./UpdateContactForm"
 import CreateSupplierForm from "./CreateSupplierForm"
 import CreateContact from "./CreateContact"
-import RemoveSupplierForm from "./RemoveSupplierForm"
 import SuppliersTable from "./SuppliersTable";
 import ContactsTable from "./ContactsTable";
+import RemoveSupplier from "./RemoveSupplier";
 
 const drawerWidth = 240;
 
@@ -276,7 +276,6 @@ function Procurements() {
             </Grid>
             {/* Chart */}
             <Grid item xs={12}>
-              
               <Paper
                 sx={{
                   p: 2,
@@ -286,7 +285,7 @@ function Procurements() {
                 }}
               >
                 <Title>Remove Supplier</Title>
-                <RemoveSupplierForm />
+                <RemoveSupplier />
               </Paper>
             </Grid>
           </Grid>
