@@ -54,7 +54,7 @@ export const mainListItems = (
         <ListItemIcon>
           <BarChartIcon />
         </ListItemIcon>
-        <ListItemText primary="Reports" />
+        <ListItemText primary="Business Intelligence" />
       </ListItemButton>
     </Link>
   </React.Fragment>
