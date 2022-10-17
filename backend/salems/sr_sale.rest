@@ -1,18 +1,11 @@
-@hostname = localhost
-@port = 8789
-@host = {{hostname}}:{{port}}
-@api = sales
-@contentType = application/json
-@createdAt = {{$datetime iso8601}}
-@modifiedBy = {{$processEnv USERNAME}}
-@ID = 2
-
-
 # expert user interface
 # ./mvnw clean spring-boot:run
 # ./mvnw clean install
 # java -jar target/Procurement*
-
+D:\kafka_2.13-3.3.1\bin\windows\zookeeper-server-start.bat D:\kafka_2.13-3.3.1\config\zookeeper.properties
+D:\kafka_2.13-3.3.1\bin\windows\kafka-server-start.bat D:\kafka_2.13-3.3.1\config\server.properties
+D:\kafka_2.13-3.3.1\bin\windows\kafka-topics.bat --bootstrap-server=localhost:9092 --list
+D:\kafka_2.13-3.3.1\bin\windows\kafka-console-consumer.bat --bootstrap-server localhost:9092 --topic backorder-topic --from-beginning
 ###
 #****************************************************
 #                   CREATE A STORE
@@ -29,7 +22,7 @@ curl -X POST http://localhost:8789/sales/store/33333200 \
  -H 'Content-type:application/json' \
  -d '{
         "productName": "2022 Polygon Siskiu D5 - Dual Suspension Mountain Bike",
-        "quantity": 1
+        "quantity": 30
     }'
 
 ###
@@ -118,7 +111,7 @@ GET http://localhost:8789/sales/unavailable HTTP/1.1
 #                   BACKORDER
 #****************************************************
 # curl -v http://localhost:8789/sales/backorder/9999901 | json_pp
-GET http://localhost:8789/sales/backorder/9999900 HTTP/1.1
+GET http://localhost:8789/sales/backorder/9999909 HTTP/1.1
 
 ###
 #****************************************************

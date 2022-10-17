@@ -19,10 +19,12 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import org.springframework.data.domain.AbstractAggregateRoot;
+
 @Entity
 @Table(name = "Tbl_Product")
 @SequenceGenerator(name="prod", initialValue=777677, allocationSize=100)
-public class Product {
+public class Product extends AbstractAggregateRoot<Product> {
   
   @Column(name = "ID", unique = true, nullable = false)
   @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="prod")
@@ -118,5 +120,5 @@ public class Product {
   public String toString() {
     return "Product [name=" + getName() + ", price=" + getPrice() + ", description=" + getDescription() + ", parts=" + parts + ", id=" + id + "]";
   }
-  
+
 }

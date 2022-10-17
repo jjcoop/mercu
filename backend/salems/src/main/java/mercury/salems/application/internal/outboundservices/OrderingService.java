@@ -16,4 +16,10 @@ public class OrderingService {
         return returnOrder;
     }
 
+    public void backorder(Order order) {
+        RestTemplate restTemplate = new RestTemplate();
+        String endPoint = "http://localhost:8788/productInventory/backorder/";
+        restTemplate.postForObject(endPoint, order, Order.class);
+    }
+
 }

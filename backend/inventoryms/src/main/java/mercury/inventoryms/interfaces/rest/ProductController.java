@@ -87,4 +87,8 @@ public class ProductController {
         return commandService.processOrder(order);
     }
 
+    @PostMapping("/productInventory/backorder/")
+    public Order backorder(@RequestBody Order order) {
+        return commandService.backorder(order);
+    }
 }

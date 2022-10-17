@@ -28,9 +28,6 @@ public class SaleCommandService {
   private SaleRepository<OnlineSale> onlineSaleRepository;
 
   @Autowired
-  private SaleRepository<InStoreSale> inStoreSaleRepository;
-
-  @Autowired
   private SaleRepository<Sale> saleRepository;
 
   private StoreRepository storeRepository;
@@ -48,7 +45,6 @@ public class SaleCommandService {
       ExternalOrderSaleService externalOrderSaleService) {
     this.saleRepository = saleRepository;
     this.onlineSaleRepository = onlineSaleRepository;
-    this.inStoreSaleRepository = inStoreSaleRepository;
     this.storeRepository = storeRepository;
     this.assembler = assembler;
     this.orderingService = orderingService;
@@ -118,13 +114,15 @@ public class SaleCommandService {
   }
 
   // **********************************************************************
-  // ADD ONLINE SALE
+  // CREATE BACKORDER
   // **********************************************************************
   public Sale backorder(Long id) {
     Sale sale = onlineSaleRepository.findById(id)
         .orElseThrow(() -> new SaleNotFoundException(id));
 
     if (sale.getOrderStatus().equals("UNAVAILABLE")) {
+      Order order = new Order(sale.getId(), sale.getOrderStatus(), sale.getProductName(), sale.getproductURI(), sale.getQuantity(), sale.getTotal(), sale.getDateTime());
+      orderingService.backorder(order);
       sale.backOrder();
       saleRepository.save(sale);
       System.out.println("**** SALE BACKORDER ****");      

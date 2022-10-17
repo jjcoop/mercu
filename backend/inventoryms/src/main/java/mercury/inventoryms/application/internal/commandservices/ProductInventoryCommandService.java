@@ -2,6 +2,7 @@ package mercury.inventoryms.application.internal.commandservices;
 
 import mercury.inventoryms.interfaces.rest.transform.ProductModelAssembler;
 import mercury.shareDomain.Order;
+import mercury.shareDomain.events.Backorder;
 import mercury.inventoryms.interfaces.rest.ProductController;
 import mercury.inventoryms.interfaces.rest.transform.PartModelAssembler;
 
@@ -18,6 +19,7 @@ import mercury.inventoryms.domain.aggregate.Product;
 import mercury.inventoryms.domain.valueObject.Manufacturer;
 import mercury.inventoryms.infrastructure.repository.PartRepository;
 import mercury.inventoryms.infrastructure.repository.ProductRepository;
+import mercury.inventoryms.application.internal.outboundservices.BackorderEventPublisherService;
 import mercury.inventoryms.application.internal.outboundservices.SupplierLookupService;
 import mercury.inventoryms.application.internal.queryservices.ProductNotFoundException;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
@@ -34,14 +36,17 @@ public class ProductInventoryCommandService {
   private ProductModelAssembler assembler;
   private PartModelAssembler partAssembler;
   private SupplierLookupService supplierLookup;
+  private BackorderEventPublisherService backorderEventPublisherService;
 
   public ProductInventoryCommandService(ProductRepository productRepository, PartRepository partRepository,
-      ProductModelAssembler assembler, PartModelAssembler partAssembler, SupplierLookupService supplierLookup) {
+      ProductModelAssembler assembler, PartModelAssembler partAssembler, SupplierLookupService supplierLookup,
+      BackorderEventPublisherService backorderEventPublisherService) {
     this.productRepository = productRepository;
     this.partRepository = partRepository;
     this.assembler = assembler;
     this.partAssembler = partAssembler;
     this.supplierLookup = supplierLookup;
+    this.backorderEventPublisherService = backorderEventPublisherService;
   }
 
   // **********************************************************************
@@ -187,7 +192,7 @@ public class ProductInventoryCommandService {
           "COMPLETE",
           order.getProductName(),
           linkTo(methodOn(ProductController.class).getProduct(updateProduct.getId())).toUri(),
-          order.getQuantity(), new Date());
+          order.getQuantity(),updateProduct.getPrice() * updateProduct.getQuantity(), new Date());
     }
     else if (productNameCheck && (!productQuantityCheck || !partQuantityCheck)) {
       return new Order(
@@ -195,10 +200,15 @@ public class ProductInventoryCommandService {
           "UNAVAILABLE",
           order.getProductName(),
           linkTo(methodOn(ProductController.class).getProduct(updateProduct.getId())).toUri(),
-          order.getQuantity(), new Date());
+          order.getQuantity(), updateProduct.getPrice() * updateProduct.getQuantity(), new Date());
     }
 
     return order;
   }
+
+public Order backorder(Order order) {
+  backorderEventPublisherService.handleSaleBackorderEvent(new Backorder(order.getSaleID(), order.getTotal()));
+  return order;
+}
 
 }

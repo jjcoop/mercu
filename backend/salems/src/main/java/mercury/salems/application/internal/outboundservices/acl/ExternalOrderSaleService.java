@@ -18,6 +18,7 @@ public class ExternalOrderSaleService {
     public OnlineSale toOnlineSale(Order order, String cName, String cAddress) {
         OnlineSale sale = new OnlineSale(order.getSaleID(), order.getProductName(), order.getQuantity(), cName, cAddress);
         sale.setOrderStatus(order.getStatusCode());
+        sale.setTotal(order.getTotal());
         
         SaleProductName productName = new SaleProductName(order.getProductName(), order.getProductURI());
         sale.setProductName(productName);
@@ -34,6 +35,7 @@ public class ExternalOrderSaleService {
     public InStoreSale toInStoreSale(Order order, String reciept) {
         InStoreSale sale = new InStoreSale(order.getSaleID(), order.getProductName(), order.getQuantity(), reciept);
         sale.setOrderStatus(order.getStatusCode());
+        sale.setTotal(order.getTotal());
 
         SaleProductName productName = new SaleProductName(order.getProductName(), order.getProductURI());
         sale.setProductName(productName);

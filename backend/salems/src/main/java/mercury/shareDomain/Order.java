@@ -9,6 +9,7 @@ public class Order {
     private String productName;
     private URI productURI = URI.create("");
     private Integer quantity;
+    private Double total;
     private Date dateTime = new Date();
 
     public Order() {
@@ -21,12 +22,14 @@ public class Order {
         this.quantity = quantity;
     }
 
-    public Order(Long saleID, String statusCode, String productName, URI productURI, Integer quantity, Date dateTime) {
+    public Order(Long saleID, String statusCode, String productName, URI productURI, Integer quantity, Double total,
+            Date dateTime) {
         this.saleID = saleID;
         this.statusCode = statusCode;
         this.productName = productName;
         this.productURI = productURI;
         this.quantity = quantity;
+        this.total = total;
         this.dateTime = dateTime;
     }
 
@@ -50,8 +53,11 @@ public class Order {
         return quantity;
     }
 
+    public Double getTotal() {
+        return total;
+    }
+
     public Date getDateTime() {
         return dateTime;
     }
-
 }

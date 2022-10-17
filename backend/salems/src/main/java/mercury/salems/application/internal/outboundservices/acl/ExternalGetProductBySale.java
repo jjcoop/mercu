@@ -8,9 +8,7 @@ import mercury.salems.application.internal.queryservices.SaleNotFoundException;
 import mercury.salems.domain.aggregate.InStoreSale;
 import mercury.salems.domain.aggregate.OnlineSale;
 import mercury.salems.domain.aggregate.Sale;
-import mercury.salems.domain.valueObject.SaleProductName;
 import mercury.salems.infrastructure.repository.SaleRepository;
-import mercury.shareDomain.Order;
 import mercury.shareDomain.ProductSchema;
 
 @Service

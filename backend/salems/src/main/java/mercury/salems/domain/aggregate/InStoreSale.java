@@ -33,7 +33,7 @@ public class InStoreSale extends Sale {
 
   public InStoreSale() {
     // to satisfy all of the requirements of each variable having a value
-    this(new Long(1), "default", 1, "default");
+    this(Long.parseLong("1"), "default", 1, "default");
   }
 
   public InStoreSale(Long id, String productName, int quantity, String receipt) {

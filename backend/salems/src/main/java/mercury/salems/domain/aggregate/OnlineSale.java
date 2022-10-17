@@ -21,7 +21,7 @@ public class OnlineSale extends Sale {
 
     public OnlineSale() {
         // to satisfy all of the requirements of each variable having a value
-        this(new Long(1), "default", 1, "default", "default");
+        this(Long.parseLong("1"), "default", 1, "default", "default");
     }
 
     public OnlineSale(Long id, String productName, int quantity, String customerName, String address) {

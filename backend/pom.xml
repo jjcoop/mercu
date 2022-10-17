@@ -12,7 +12,7 @@
         <module>procurems</module>
         <module>inventoryms</module>
         <module>salems</module>
-        <!-- <module>bi-salesms</module> -->
+        <module>bi</module>
     </modules>
 
     <properties>

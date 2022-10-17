@@ -1,0 +1,5 @@
+server.port: 8788
+spring.cloud.stream:
+  bindings:
+    output-out-0:
+      destination: backorder-topic

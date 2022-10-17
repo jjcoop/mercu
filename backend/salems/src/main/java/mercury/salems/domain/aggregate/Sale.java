@@ -20,8 +20,7 @@ import org.springframework.data.domain.AbstractAggregateRoot;
 import mercury.salems.domain.valueObject.SaleDate;
 import mercury.salems.domain.valueObject.SaleProductName;
 import mercury.salems.domain.valueObject.SaleQuantity;
-import mercury.shareDomain.events.SaleBackorderEvent;
-import mercury.shareDomain.events.SaleBackorderEventData;
+import mercury.salems.domain.valueObject.SaleTotal;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
@@ -42,6 +41,9 @@ public class Sale extends AbstractAggregateRoot<Sale> {
 
   @Embedded
   private SaleQuantity quantity;
+
+  @Embedded
+  private SaleTotal total;
 
   @Embedded
   private SaleDate dateTime = new SaleDate(new Date());
@@ -88,6 +90,14 @@ public class Sale extends AbstractAggregateRoot<Sale> {
 
   public void setQuantity(int quantity) {
     this.quantity = new SaleQuantity(quantity);
+  }
+
+  public Double getTotal() {
+    return total.getValue();
+  }
+
+  public void setTotal(Double total) {
+    this.total = new SaleTotal(total);
   }
 
   public Date getDateTime() {
@@ -139,18 +149,6 @@ public class Sale extends AbstractAggregateRoot<Sale> {
   }
 
   public void backOrder(){
-    this.orderStatus = "ONBACKORDER";
-    addDomainEvent(new
-    SaleBackorderEvent(
-            new SaleBackorderEventData(this.id)));      
+    this.orderStatus = "ONBACKORDER";   
   }
-
-    /**
-     * Method to register the event
-     * @param event
-     */
-    public void addDomainEvent(Object event){
-      registerEvent(event);
-  }
-
 }
