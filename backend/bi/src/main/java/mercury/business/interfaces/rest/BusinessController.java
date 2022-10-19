@@ -13,6 +13,11 @@ public class BusinessController {
     @Autowired
     SalesInteractiveQuery salesInteractiveQuery;
 
+    @GetMapping("/bi-sales/all")
+    List<String> getAllSales() {
+        return salesInteractiveQuery.getSaleList();
+    }
+
     @GetMapping("/bi-sales/gross-profit")
     List<String> getGrossProfit() {
         return salesInteractiveQuery.getGrossProfit();
@@ -22,12 +27,6 @@ public class BusinessController {
     long getSaleByID(@PathVariable String ID) {
         return salesInteractiveQuery.getSaleQuantity(ID);
     }
-
-    @GetMapping("/bi-sales/all")
-    List<String> getAllSales() {
-        return salesInteractiveQuery.getSaleList();
-    }
-
 
     @GetMapping("/bi-sales/{ID}/products")
     List<String> getProductBysale(@PathVariable String ID) {
