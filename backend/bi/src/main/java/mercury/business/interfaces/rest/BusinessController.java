@@ -13,25 +13,30 @@ public class BusinessController {
     @Autowired
     SalesInteractiveQuery salesInteractiveQuery;
 
-    @GetMapping("/brand/{brandName}/quantity")
-    long getBrandQuantityByName(@PathVariable String brandName) {
-        return salesInteractiveQuery.getBrandQuantity(brandName);
+    @GetMapping("/bi-sales/gross-profit")
+    List<String> getGrossProfit() {
+        return salesInteractiveQuery.getGrossProfit();
     }
 
-    @GetMapping("/brands/all")
-    List<String> getAllBrands() {
-        return salesInteractiveQuery.getBrandList();
+    @GetMapping("/bi-sale/{ID}/quantity")
+    long getSaleByID(@PathVariable String ID) {
+        return salesInteractiveQuery.getSaleQuantity(ID);
+    }
+
+    @GetMapping("/bi-sales/all")
+    List<String> getAllSales() {
+        return salesInteractiveQuery.getSaleList();
     }
 
 
-    @GetMapping("/brand/{brandName}/equipments")
-    List<String> getAllEquipmentsByBrand(@PathVariable String brandName) {
-        return  salesInteractiveQuery.getEquipmentListByBrand(brandName);
+    @GetMapping("/bi-sales/{ID}/products")
+    List<String> getProductBysale(@PathVariable String ID) {
+        return  salesInteractiveQuery.getProductBySale(ID);
     }
 
-    @GetMapping("/brand/all-equipments")
-    List<String> getAllEquipments() {
-        return  salesInteractiveQuery.getEquipmentList();
+    @GetMapping("/bi-sale/all-products")
+    List<String> getAllProducts() {
+        return  salesInteractiveQuery.getProductsList();
     }
 
 }
