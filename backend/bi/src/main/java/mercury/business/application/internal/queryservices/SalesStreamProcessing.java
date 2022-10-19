@@ -1,6 +1,8 @@
 package mercury.business.application.internal.queryservices;
 
-import mercury.shareDomain.Order;
+import mercury.shareDomain.events.Backlog;
+import mercury.shareDomain.events.Backorder;
+
 import org.apache.kafka.common.serialization.Serde;
 import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.common.utils.Bytes;
@@ -20,13 +22,13 @@ import java.util.Map;
 import java.util.function.Function;
 
 @Configuration
-public class ApplianceStreamProcessing {
+public class SalesStreamProcessing {
 
-    public final static String BRAND_STATE_STORE = "brand-store";
-    public final static String EQUIPMENT_STATE_STORE = "equipment-store";
+    public final static String BACKLOG_STATE_STORE = "Backlog-store";
+    public final static String BACKORDER_STATE_STORE = "Backorder-store";
 
     @Bean
-    public Function<KStream<?, Appliance>, KStream<String, BrandQuantity>> process() {
+    public Function<KStream<?, Backorder>, KStream<String, Backlog>> process() {
         return inputStream -> {
 
             inputStream.map((k, v) -> {
@@ -65,12 +67,21 @@ public class ApplianceStreamProcessing {
 
 
     // Can compare the following configuration properties with those defined in application.yml
-    public Serde<Equipment> equipmentSerde() {
-        final JsonSerde<Equipment> equipmentJsonSerde = new JsonSerde<>();
+    public Serde<Backorder> backorderSerde() {
+        final JsonSerde<Backorder> backorderJsonSerde = new JsonSerde<>();
         Map<String, Object> configProps = new HashMap<>();
-        configProps.put(JsonDeserializer.VALUE_DEFAULT_TYPE, "csci318.demo.model.Equipment");
+        configProps.put(JsonDeserializer.VALUE_DEFAULT_TYPE, "mercury.shareDomain.events.Backorder");
         configProps.put(JsonDeserializer.TRUSTED_PACKAGES, "*");
-        equipmentJsonSerde.configure(configProps, false);
-        return equipmentJsonSerde;
+        backorderJsonSerde.configure(configProps, false);
+        return backorderJsonSerde;
     }
+
+    public Serde<Backlog> backlogSerde() {
+        final JsonSerde<Backlog> backlogJsonSerde = new JsonSerde<>();
+        Map<String, Object> configProps = new HashMap<>();
+        configProps.put(JsonDeserializer.VALUE_DEFAULT_TYPE, "mercury.shareDomain.events.Backlog");
+        configProps.put(JsonDeserializer.TRUSTED_PACKAGES, "*");
+        backlogJsonSerde.configure(configProps, false);
+        return backlogJsonSerde;
+    }    
 }
