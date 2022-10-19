@@ -76,5 +76,25 @@ public class SalesInteractiveQuery {
                 QueryableStoreTypes.keyValueStore());
     }
 
+    public long getSaleQuantity(String iD) {
+        return 0;
+    }
+
+    public List<String> getSaleList() {
+        return null;
+    }
+
+    public List<String> getProductBySale(String iD) {
+        return null;
+    }
+
+    public List<String> getProductsList() {
+        return null;
+    }
+
+    public List<String> getGrossProfit() {
+        return null;
+    }
+
 
 }
