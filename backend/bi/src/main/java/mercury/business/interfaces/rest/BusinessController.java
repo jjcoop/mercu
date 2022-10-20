@@ -1,11 +1,8 @@
 package mercury.business.interfaces.rest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import mercury.business.application.internal.queryservices.SalesInteractiveQuery;
-
-import java.util.List;
 
 @RestController
 public class BusinessController {
@@ -15,23 +12,7 @@ public class BusinessController {
 
 
     @GetMapping("/bi-sales/gross-profit")
-    List<Double> getGrossProfit() {
+    Double getGrossProfit() {
         return salesInteractiveQuery.getGrossProfit();
     }
-
-    // @GetMapping("/bi-sale/{ID}/quantity")
-    // long getSaleByID(@PathVariable String ID) {
-    //     return salesInteractiveQuery.getSaleQuantity(ID);
-    // }
-
-    // @GetMapping("/bi-sales/{ID}/products")
-    // List<String> getProductBysale(@PathVariable String ID) {
-    //     return  salesInteractiveQuery.getProductBySale(ID);
-    // }
-
-    // @GetMapping("/bi-sale/all-products")
-    // List<String> getAllProducts() {
-    //     return  salesInteractiveQuery.getProductsList();
-    // }
-
 }

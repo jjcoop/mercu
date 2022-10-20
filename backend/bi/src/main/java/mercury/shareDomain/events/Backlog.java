@@ -4,6 +4,9 @@ public class Backlog {
     private Long saleID;
     private Double total;
     private String productName;
+    
+    public Backlog() {
+    }
 
     public Backlog(Long saleID, Double total, String productName) {
         this.saleID = saleID;
