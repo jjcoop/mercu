@@ -1,5 +1,6 @@
 package mercury.business.application.internal.queryservices;
 
+import mercury.business.model.SalesIntel;
 import mercury.shareDomain.events.Backlog;
 import mercury.shareDomain.events.Backorder;
 
@@ -25,22 +26,20 @@ import java.util.function.Function;
 public class SalesStreamProcessing {
 
     public final static String BACKLOG_STATE_STORE = "Backlog-store";
-    public final static String BACKORDER_STATE_STORE = "Backorder-store";
+    public final static String SALESINTEL_STATE_STORE = "SalesIntel-store";
 
     @Bean
-    public Function<KStream<?, Backorder>, KStream<String, Backlog>> process() {
+    public Function<KStream<?, Backlog>, KStream<String, SalesIntel>> process() {
         return inputStream -> {
 
             inputStream.map((k, v) -> {
-                String equipment_name = v.getEquipment();
-                String brand_name = v.getBrand();
-                Equipment equipment = new Equipment();
-                equipment.setEquipment(equipment_name);
-                equipment.setBrand(brand_name);
+                Double total = v.getTotal();
+                Long id = v.getSaleID();
+                SalesIntel saleIntel = new SalesIntel(id, total);
                 String new_key = brand_name + equipment_name;
                 return KeyValue.pair(new_key, equipment);
             }).toTable(
-                    Materialized.<String, Equipment, KeyValueStore<Bytes, byte[]>>as(EQUIPMENT_STATE_STORE).
+                    Materialized.<String, Equipment, KeyValueStore<Bytes, byte[]>>as(BACKLOG_STATE_STORE).
                             withKeySerde(Serdes.String()).
                             // a custom value serde for this state store
                             withValueSerde(equipmentSerde())
@@ -50,7 +49,7 @@ public class SalesStreamProcessing {
                     mapValues(Appliance::getBrand).
                     groupBy((keyIgnored, value) -> value).
                     count(
-                            Materialized.<String, Long, KeyValueStore<Bytes, byte[]>>as(BRAND_STATE_STORE).
+                            Materialized.<String, Long, KeyValueStore<Bytes, byte[]>>as(SALESINTEL_STATE_STORE).
                                     withKeySerde(Serdes.String()).
                                     withValueSerde(Serdes.Long())
                     );
@@ -64,7 +63,7 @@ public class SalesStreamProcessing {
             return brandQuantityStream;
         };
     }
-
+                    
 
     // Can compare the following configuration properties with those defined in application.yml
     public Serde<Backorder> backorderSerde() {
@@ -72,8 +71,9 @@ public class SalesStreamProcessing {
         Map<String, Object> configProps = new HashMap<>();
         configProps.put(JsonDeserializer.VALUE_DEFAULT_TYPE, "mercury.shareDomain.events.Backorder");
         configProps.put(JsonDeserializer.TRUSTED_PACKAGES, "*");
-        backorderJsonSerde.configure(configProps, false);
+        backorderJsonSerde.configure(configProps, false);      
         return backorderJsonSerde;
+    // 
     }
 
     public Serde<Backlog> backlogSerde() {
@@ -85,3 +85,4 @@ public class SalesStreamProcessing {
         return backlogJsonSerde;
     }    
 }
+
