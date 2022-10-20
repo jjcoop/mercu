@@ -192,7 +192,7 @@ public class ProductInventoryCommandService {
           "COMPLETE",
           order.getProductName(),
           linkTo(methodOn(ProductController.class).getProduct(updateProduct.getId())).toUri(),
-          order.getQuantity(),updateProduct.getPrice() * updateProduct.getQuantity(), new Date());
+          order.getQuantity(),updateProduct.getPrice() * order.getQuantity(), new Date());
     }
     else if (productNameCheck && (!productQuantityCheck || !partQuantityCheck)) {
       return new Order(
@@ -200,7 +200,7 @@ public class ProductInventoryCommandService {
           "UNAVAILABLE",
           order.getProductName(),
           linkTo(methodOn(ProductController.class).getProduct(updateProduct.getId())).toUri(),
-          order.getQuantity(), updateProduct.getPrice() * updateProduct.getQuantity(), new Date());
+          order.getQuantity(), updateProduct.getPrice() * order.getQuantity(), new Date());
     }
 
     return order;

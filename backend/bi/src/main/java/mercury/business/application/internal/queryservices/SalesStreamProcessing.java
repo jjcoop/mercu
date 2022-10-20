@@ -28,41 +28,41 @@ public class SalesStreamProcessing {
     public final static String BACKLOG_STATE_STORE = "Backlog-store";
     public final static String SALESINTEL_STATE_STORE = "SalesIntel-store";
 
-    @Bean
-    public Function<KStream<?, Backlog>, KStream<String, SalesIntel>> process() {
-        return inputStream -> {
+    // @Bean
+    // public Function<KStream<?, Backlog>, KStream<String, SalesIntel>> process() {
+    //     return inputStream -> {
 
-            inputStream.map((k, v) -> {
-                Double total = v.getTotal();
-                Long id = v.getSaleID();
-                SalesIntel saleIntel = new SalesIntel(id, total);
-                String new_key = brand_name + equipment_name;
-                return KeyValue.pair(new_key, equipment);
-            }).toTable(
-                    Materialized.<String, Equipment, KeyValueStore<Bytes, byte[]>>as(BACKLOG_STATE_STORE).
-                            withKeySerde(Serdes.String()).
-                            // a custom value serde for this state store
-                            withValueSerde(equipmentSerde())
-            );
+    //         inputStream.map((k, v) -> {
+    //             Double total = v.getTotal();
+    //             Long id = v.getSaleID();
+    //             SalesIntel saleIntel = new SalesIntel(id, total);
+    //             String new_key = brand_name + equipment_name;
+    //             return KeyValue.pair(new_key, equipment);
+    //         }).toTable(
+    //                 Materialized.<String, Equipment, KeyValueStore<Bytes, byte[]>>as(BACKLOG_STATE_STORE).
+    //                         withKeySerde(Serdes.String()).
+    //                         // a custom value serde for this state store
+    //                         withValueSerde(equipmentSerde())
+    //         );
 
-            KTable<String, Long> brandKTable = inputStream.
-                    mapValues(Appliance::getBrand).
-                    groupBy((keyIgnored, value) -> value).
-                    count(
-                            Materialized.<String, Long, KeyValueStore<Bytes, byte[]>>as(SALESINTEL_STATE_STORE).
-                                    withKeySerde(Serdes.String()).
-                                    withValueSerde(Serdes.Long())
-                    );
+    //         KTable<String, Long> brandKTable = inputStream.
+    //                 mapValues(Appliance::getBrand).
+    //                 groupBy((keyIgnored, value) -> value).
+    //                 count(
+    //                         Materialized.<String, Long, KeyValueStore<Bytes, byte[]>>as(SALESINTEL_STATE_STORE).
+    //                                 withKeySerde(Serdes.String()).
+    //                                 withValueSerde(Serdes.Long())
+    //                 );
 
-            KStream<String, BrandQuantity> brandQuantityStream = brandKTable.
-                    toStream().
-                    map((k, v) -> KeyValue.pair(k, new BrandQuantity(k, v)));
-            // use the following code for testing
-            brandQuantityStream.print(Printed.<String, BrandQuantity>toSysOut().withLabel("Console Output"));
+    //         KStream<String, BrandQuantity> brandQuantityStream = brandKTable.
+    //                 toStream().
+    //                 map((k, v) -> KeyValue.pair(k, new BrandQuantity(k, v)));
+    //         // use the following code for testing
+    //         brandQuantityStream.print(Printed.<String, BrandQuantity>toSysOut().withLabel("Console Output"));
 
-            return brandQuantityStream;
-        };
-    }
+    //         return brandQuantityStream;
+    //     };
+    // }
                     
 
     // Can compare the following configuration properties with those defined in application.yml
