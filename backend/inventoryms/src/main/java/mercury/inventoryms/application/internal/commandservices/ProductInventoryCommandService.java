@@ -6,6 +6,8 @@ import mercury.shareDomain.events.Backorder;
 import mercury.inventoryms.interfaces.rest.ProductController;
 import mercury.inventoryms.interfaces.rest.transform.PartModelAssembler;
 
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -37,6 +39,7 @@ public class ProductInventoryCommandService {
   private PartModelAssembler partAssembler;
   private SupplierLookupService supplierLookup;
   private BackorderEventPublisherService backorderEventPublisherService;
+  private DecimalFormat df;
 
   public ProductInventoryCommandService(ProductRepository productRepository, PartRepository partRepository,
       ProductModelAssembler assembler, PartModelAssembler partAssembler, SupplierLookupService supplierLookup,
@@ -47,6 +50,8 @@ public class ProductInventoryCommandService {
     this.partAssembler = partAssembler;
     this.supplierLookup = supplierLookup;
     this.backorderEventPublisherService = backorderEventPublisherService;
+    this.df = new DecimalFormat("0.00");
+    this.df.setRoundingMode(RoundingMode.DOWN);
   }
 
   // **********************************************************************
@@ -192,7 +197,7 @@ public class ProductInventoryCommandService {
           "COMPLETE",
           order.getProductName(),
           linkTo(methodOn(ProductController.class).getProduct(updateProduct.getId())).toUri(),
-          order.getQuantity(),updateProduct.getPrice() * order.getQuantity(), new Date());
+          order.getQuantity(),Double.valueOf(df.format(updateProduct.getPrice() * order.getQuantity())), new Date());
     }
     else if (productNameCheck && (!productQuantityCheck || !partQuantityCheck)) {
       return new Order(
@@ -200,7 +205,7 @@ public class ProductInventoryCommandService {
           "UNAVAILABLE",
           order.getProductName(),
           linkTo(methodOn(ProductController.class).getProduct(updateProduct.getId())).toUri(),
-          order.getQuantity(), updateProduct.getPrice() * order.getQuantity(), new Date());
+          order.getQuantity(), Double.valueOf(df.format(updateProduct.getPrice() * order.getQuantity())), new Date());
     }
 
     return order;
