@@ -2,6 +2,7 @@ package mercury.salems.application.internal.commandservices;
 
 import java.util.Date;
 
+import mercury.salems.application.internal.outboundservices.BacklogEventPublisherService;
 import mercury.salems.application.internal.outboundservices.OrderingService;
 import mercury.salems.application.internal.outboundservices.acl.ExternalOrderSaleService;
 import mercury.salems.application.internal.queryservices.SaleNotFoundException;
@@ -14,6 +15,7 @@ import mercury.salems.infrastructure.repository.SaleRepository;
 import mercury.salems.infrastructure.repository.StoreRepository;
 import mercury.salems.interfaces.rest.transform.SaleModelAssembler;
 import mercury.shareDomain.Order;
+import mercury.shareDomain.events.Backlog;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.EntityModel;
@@ -28,12 +30,17 @@ public class SaleCommandService {
   private SaleRepository<OnlineSale> onlineSaleRepository;
 
   @Autowired
+  private SaleRepository<InStoreSale> inStoreSaleRepository;
+
+  @Autowired
   private SaleRepository<Sale> saleRepository;
 
   private StoreRepository storeRepository;
   private SaleModelAssembler assembler;
   private OrderingService orderingService;
   private ExternalOrderSaleService externalOrderSaleService;
+  @Autowired
+  private BacklogEventPublisherService backlogEventPublisherService;
 
   public SaleCommandService(
       SaleRepository<OnlineSale> onlineSaleRepository,
@@ -42,13 +49,16 @@ public class SaleCommandService {
       StoreRepository storeRepository,
       SaleModelAssembler assembler,
       OrderingService orderingService,
-      ExternalOrderSaleService externalOrderSaleService) {
+      ExternalOrderSaleService externalOrderSaleService,
+      BacklogEventPublisherService backlogEventPublisherService) {
     this.saleRepository = saleRepository;
     this.onlineSaleRepository = onlineSaleRepository;
+    this.inStoreSaleRepository = inStoreSaleRepository;
     this.storeRepository = storeRepository;
     this.assembler = assembler;
     this.orderingService = orderingService;
     this.externalOrderSaleService = externalOrderSaleService;
+    this.backlogEventPublisherService = backlogEventPublisherService;
   }
 
   // **********************************************************************
@@ -76,17 +86,21 @@ public class SaleCommandService {
     Order returnOrder = orderingService.send(newOrder);
 
     newSale = externalOrderSaleService.processOrder(returnOrder, newSale);
-
+    newSale = inStoreSaleRepository.save(newSale);
+    if (newSale.getOrderStatus().equals("COMPLETE")) {
+      backlogEventPublisherService.handleSaleBacklogEvent(new Backlog(newSale.getId(), newSale.getTotal()));
+    }
     Store store = storeRepository
         .findById(id)
         .orElseThrow(() -> new StoreNotFoundException(id));
 
-        newSale.setStore(store);
+    newSale.setStore(store);
     store.addSale(newSale);
     storeRepository.save(store);
 
     EntityModel<Store> entityModel = assembler.toModel(store);
     System.out.println("**** STORE SALE ADDED ****");
+    System.out.println(newSale.getId().toString());
 
     return ResponseEntity
         .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
@@ -104,9 +118,14 @@ public class SaleCommandService {
     Order returnOrder = orderingService.send(newOrder);
 
     newSale = externalOrderSaleService.processOrder(returnOrder, newSale);
+    newSale = onlineSaleRepository.save(newSale);
+    if (newSale.getOrderStatus().equals("COMPLETE")) {
+      backlogEventPublisherService.handleSaleBacklogEvent(new Backlog(newSale.getId(), newSale.getTotal()));
+    }
 
     EntityModel<OnlineSale> entityModel = assembler.toModel(onlineSaleRepository.save(newSale));
     System.out.println("**** ONLINE SALE ADDED ****");
+    System.out.println(newSale.getId().toString());
 
     return ResponseEntity
         .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
@@ -121,11 +140,12 @@ public class SaleCommandService {
         .orElseThrow(() -> new SaleNotFoundException(id));
 
     if (sale.getOrderStatus().equals("UNAVAILABLE")) {
-      Order order = new Order(sale.getId(), sale.getOrderStatus(), sale.getProductName(), sale.getproductURI(), sale.getQuantity(), sale.getTotal(), sale.getDateTime());
+      Order order = new Order(sale.getId(), sale.getOrderStatus(), sale.getProductName(), sale.getproductURI(),
+          sale.getQuantity(), sale.getTotal(), sale.getDateTime());
       orderingService.backorder(order);
       sale.backOrder();
       saleRepository.save(sale);
-      System.out.println("**** SALE BACKORDER ****");      
+      System.out.println("**** SALE BACKORDER ****");
     } else {
       throw new SaleNotFoundException(id);
     }

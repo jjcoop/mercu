@@ -14,7 +14,7 @@ public class SaleTotal {
     nullable = false,
     length = 20
   )
-  private Double value;
+  private Double value = 0.0;
 
   public SaleTotal() {}
 

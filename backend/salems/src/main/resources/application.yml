@@ -1,0 +1,5 @@
+server.port: 8789
+spring.cloud.stream:
+  bindings:
+    output-out-0:
+      destination: backlog-topic
