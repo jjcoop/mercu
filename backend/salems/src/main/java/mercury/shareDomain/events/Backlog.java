@@ -3,10 +3,12 @@ package mercury.shareDomain.events;
 public class Backlog {
     private Long saleID;
     private Double total;
+    private String productName;
 
-    public Backlog(Long saleID, Double total) {
+    public Backlog(Long saleID, Double total, String productName) {
         this.saleID = saleID;
         this.total = total;
+        this.productName = productName;
     }
 
     public Long getSaleID() {
@@ -25,9 +27,17 @@ public class Backlog {
         this.total = total;
     }
 
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+
     @Override
     public String toString() {
-        return "Backlog [saleID=" + saleID + ", total=" + total + "]";
+        return "Backlog [saleID=" + saleID + ", total=" + total + ", productName=" + productName + "]";
     }
 
 }

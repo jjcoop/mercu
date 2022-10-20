@@ -23,7 +23,7 @@ import org.springframework.data.domain.AbstractAggregateRoot;
 
 @Entity
 @Table(name = "Tbl_Product")
-@SequenceGenerator(name="prod", initialValue=777677, allocationSize=100)
+@SequenceGenerator(name="prod", initialValue=777677, allocationSize=2000)
 public class Product extends AbstractAggregateRoot<Product> {
   
   @Column(name = "ID", unique = true, nullable = false)

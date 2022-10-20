@@ -25,7 +25,7 @@ import mercury.salems.domain.valueObject.SaleTotal;
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @Table(name = "Tbl_Sale")
-@SequenceGenerator(name = "sal", initialValue = 9999900, allocationSize = 100)
+@SequenceGenerator(name = "sal", initialValue = 9999900, allocationSize = 2000)
 @DiscriminatorColumn(name = "type", discriminatorType = DiscriminatorType.STRING)
 public class Sale extends AbstractAggregateRoot<Sale> {
 
