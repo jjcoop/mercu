@@ -26,7 +26,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "Tbl_Part")
-@SequenceGenerator(name = "par", initialValue = 30423, allocationSize = 100)
+@SequenceGenerator(name = "par", initialValue = 30423, allocationSize = 2000)
 public class Part {
   @Id
   @Column(name = "ID", unique = true, nullable = false)

@@ -1,7 +1,5 @@
 #!/usr/bin/env python3
 
-from getopt import getopt
-from tkinter import N, Y
 import requests
 import json
 import time
@@ -158,7 +156,7 @@ if input("Create Products and Parts: Y/N ").upper() == "Y":
                 "name": f"{fake.color_name()} {fake.word()}",
                 "price": f"{fake.random_number(digits=4, fix_len=True)}.{fake.random_number(digits=2, fix_len=True)}",
                 "description": fake.sentence(nb_words=7, variable_nb_words=False),
-                "quantity": fake.random_number(digits=1, fix_len=True)
+                "quantity": fake.random_number(digits=3, fix_len=True)
             }
             print(product)
             resProduct = postProduct(product)
@@ -172,7 +170,7 @@ if input("Create Products and Parts: Y/N ").upper() == "Y":
                     "partName": f"{partName1} {partName2} {partName3} {partName4}",
                     "partDescription": fake.sentence(nb_words=7, variable_nb_words=False),
                     "manufacturer": manufacturer,
-                    "quantity": fake.random_number(digits=2, fix_len=True)
+                    "quantity": fake.random_number(digits=3, fix_len=True)
                 }
                 print(part)
                 putProductPart(part, int(resProduct['id']))
@@ -214,4 +212,16 @@ if input("Create Backorders: Y/N ").upper() == "Y":
     for u in unavailableProducts:
         print(backorder(u['id']))
 
-    
+if input("Create High Traffic Online Sales: Y/N ").upper() == "Y":
+    while(True):
+        ln = fake.last_name()
+        sale = {
+            "customerName": f"{fake.first_name()} {ln}",
+            "address": fake.address(),
+            "productName": choice(productNames),
+            "quantity": fake.random_number(digits=1, fix_len=True)
+        }
+        print(sale)
+        postOnlineSale(sale)  
+        print("another request ...") 
+        time.sleep(2)    

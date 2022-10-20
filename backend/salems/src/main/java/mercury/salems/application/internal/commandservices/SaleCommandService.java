@@ -88,7 +88,7 @@ public class SaleCommandService {
     newSale = externalOrderSaleService.processOrder(returnOrder, newSale);
     newSale = inStoreSaleRepository.save(newSale);
     if (newSale.getOrderStatus().equals("COMPLETE")) {
-      backlogEventPublisherService.handleSaleBacklogEvent(new Backlog(newSale.getId(), newSale.getTotal()));
+      backlogEventPublisherService.handleSaleBacklogEvent(new Backlog(newSale.getId(), newSale.getTotal(), newSale.getProductName()));
     }
     Store store = storeRepository
         .findById(id)
@@ -120,7 +120,7 @@ public class SaleCommandService {
     newSale = externalOrderSaleService.processOrder(returnOrder, newSale);
     newSale = onlineSaleRepository.save(newSale);
     if (newSale.getOrderStatus().equals("COMPLETE")) {
-      backlogEventPublisherService.handleSaleBacklogEvent(new Backlog(newSale.getId(), newSale.getTotal()));
+      backlogEventPublisherService.handleSaleBacklogEvent(new Backlog(newSale.getId(), newSale.getTotal(), newSale.getProductName()));
     }
 
     EntityModel<OnlineSale> entityModel = assembler.toModel(onlineSaleRepository.save(newSale));
