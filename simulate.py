@@ -27,6 +27,9 @@ HEADER = {
     "Content-Type": "application/json"
 }
 
+BIKE_PARTS = ["Saddle", "Seatpost", "Rim", "Tyre", "Chain ring", "Front Spacer", "Crank", "Rear Spacer", "Pedal",
+              "Large Rear Sprocket", "Small Rear Sprocket", "Whell hub", "Air Chamber", "Chain", "Center Spacer", "Bottom Bracket", "Spoke"]
+
 
 def getSuppliers():
     response = requests.get(procurems.url)
@@ -54,6 +57,7 @@ def getProducts():
         productName.append(s['name'])
 
     return productName
+
 
 def getUnavailableProducts():
     response = requests.get(f"{salems.url}/unavailable")
@@ -117,11 +121,13 @@ def postOnlineSale(sale):
     # data = json.dumps(response.json(), indent=2)
     # return data
 
+
 def backorder(unavailableSaleID):
     response = requests.get(f"{salems.url}/backorder/{unavailableSaleID}")
     response.raise_for_status()
     data = response.json()
-    return data 
+    return data
+
 
 if input("Create Suppliers and contacts: Y/N ").upper() == "Y":
     for x in range(20):
@@ -160,14 +166,14 @@ if input("Create Products and Parts: Y/N ").upper() == "Y":
             }
             print(product)
             resProduct = postProduct(product)
-            for i in range(partNumber):
+            for PART in BIKE_PARTS:
                 manufacturer = choice(supplierNames)
                 partName1 = f"{fake.word()}".upper()
                 partName2 = f"{fake.word()}".upper()
                 partName3 = f"{fake.word()}".upper()
                 partName4 = f"{fake.word()}".upper()
                 part = {
-                    "partName": f"{partName1} {partName2} {partName3} {partName4}",
+                    "partName": PART,
                     "partDescription": fake.sentence(nb_words=7, variable_nb_words=False),
                     "manufacturer": manufacturer,
                     "quantity": fake.random_number(digits=3, fix_len=True)
@@ -213,7 +219,7 @@ if input("Create Backorders: Y/N ").upper() == "Y":
         print(backorder(u['id']))
 
 if input("Create High Traffic Online Sales: Y/N ").upper() == "Y":
-    while(True):
+    while (True):
         ln = fake.last_name()
         sale = {
             "customerName": f"{fake.first_name()} {ln}",
@@ -222,6 +228,6 @@ if input("Create High Traffic Online Sales: Y/N ").upper() == "Y":
             "quantity": fake.random_number(digits=1, fix_len=True)
         }
         print(sale)
-        postOnlineSale(sale)  
-        print("another request ...") 
-        time.sleep(2)    
+        postOnlineSale(sale)
+        print("another request ...")
+        time.sleep(2)
