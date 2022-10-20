@@ -1,23 +1,29 @@
 #!/usr/bin/env python3
 
+from getopt import getopt
+from tkinter import N, Y
 import requests
-import json, time
+import json
+import time
 from faker import Faker
+from random import choice
+
 
 class Microservice:
     def __init__(self, service, port) -> None:
         self.service = service
         self.port = port
         self.url = self.createUrl()
-        
+
     def createUrl(self):
         return f"http://localhost:{self.port}/{self.service}"
-    
+
+
 fake = Faker("en-AU")
-procurems = Microservice(service="supplierProcurement",port=8787)
-inventoryms = Microservice(service="productInventory",port=8788)
-salems = Microservice(service="sales",port=8789)
-bi = Microservice(service="bi-sales",port=8790)
+procurems = Microservice(service="supplierProcurement", port=8787)
+inventoryms = Microservice(service="productInventory", port=8788)
+salems = Microservice(service="sales", port=8789)
+bi = Microservice(service="bi-sales", port=8790)
 
 HEADER = {
     "Content-Type": "application/json"
@@ -31,27 +37,99 @@ def getSuppliers():
     # strData = json.dumps(response.json(), indent=2)
     # print(strData)
 
-    names = []
+    supplierName = []
     for s in data['_embedded']['supplierList']:
-        names.append(s['companyName'])
-        
-    return names
+        supplierName.append(s['companyName'])
 
-def postSupplier(supplier):
-    response = requests.post(f"{procurems.url}", data=json.dumps(supplier), headers=HEADER)
-    response.raise_for_status()
-    data = json.dumps(response.json(), indent=2)
-    return response.json()
+    return supplierName
 
-def putSupplierContact(contact, supplierID):
-    response = requests.put(f"{procurems.url}/{supplierID}/contact", data=json.dumps(contact), headers=HEADER)
+
+def getProducts():
+    response = requests.get(inventoryms.url)
     response.raise_for_status()
-    data = json.dumps(response.json(), indent=2)
+    data = response.json()
+    # strData = json.dumps(response.json(), indent=2)
+    # print(strData)
+
+    productName = []
+    for s in data['_embedded']['productList']:
+        productName.append(s['name'])
+
+    return productName
+
+def getUnavailableProducts():
+    response = requests.get(f"{salems.url}/unavailable")
+    response.raise_for_status()
+    data = response.json()
     return data
 
-if input("Create Suppliers and contacts: Y/N ") == "Y":
+
+def postSupplier(supplier):
+    response = requests.post(
+        f"{procurems.url}", data=json.dumps(supplier), headers=HEADER)
+    response.raise_for_status()
+    # data = json.dumps(response.json(), indent=2)
+    return response.json()
+
+
+def postProduct(product):
+    response = requests.post(f"{inventoryms.url}",
+                             data=json.dumps(product), headers=HEADER)
+    response.raise_for_status()
+    # data = json.dumps(response.json(), indent=2)
+    return response.json()
+
+
+def postStore(store):
+    response = requests.post(f"{salems.url}/store",
+                             data=json.dumps(store), headers=HEADER)
+    response.raise_for_status()
+    # data = json.dumps(response.json(), indent=2)
+    return response.json()
+
+
+def putSupplierContact(contact, supplierID):
+    response = requests.put(
+        f"{procurems.url}/{supplierID}/contact", data=json.dumps(contact), headers=HEADER)
+    response.raise_for_status()
+    # data = json.dumps(response.json(), indent=2)
+    # return data
+
+
+def putProductPart(part, productID):
+    response = requests.put(
+        f"{inventoryms.url}/{productID}/part", data=json.dumps(part), headers=HEADER)
+    response.raise_for_status()
+    # data = json.dumps(response.json(), indent=2)
+    # return data
+
+
+def postStoreSale(sale, storeID):
+    response = requests.post(
+        f"{salems.url}/store/{storeID}", data=json.dumps(sale), headers=HEADER)
+    response.raise_for_status()
+    # data = json.dumps(response.json(), indent=2)
+    # return data
+
+
+def postOnlineSale(sale):
+    response = requests.post(
+        f"{salems.url}/online", data=json.dumps(sale), headers=HEADER)
+    response.raise_for_status()
+    # data = json.dumps(response.json(), indent=2)
+    # return data
+
+def backorder(unavailableSaleID):
+    response = requests.get(f"{salems.url}/backorder/{unavailableSaleID}")
+    response.raise_for_status()
+    data = response.json()
+    return data 
+
+if input("Create Suppliers and contacts: Y/N ").upper() == "Y":
     for x in range(20):
-        supplier = {"companyName": fake.company(), "base": fake.administrative_unit()}
+        supplier = {"companyName": fake.company(
+        ), "base": fake.administrative_unit()}
+        print(supplier)
         sup = postSupplier(supplier)
         for i in range(10):
             ln = fake.last_name()
@@ -62,20 +140,78 @@ if input("Create Suppliers and contacts: Y/N ") == "Y":
                 "email": f"{ln}{fake.random_number(digits=3, fix_len=True)}@example.com",
                 "position": fake.job()
             }
+            print(contact)
             putSupplierContact(contact, int(sup['id']))
 
-if input("Create Products and Parts: Y/N ") == "Y":
+if input("Create Products and Parts: Y/N ").upper() == "Y":
     check = True
+    counter = 777677
+    productNumber = 20
+    partNumber = 7
     if len(getSuppliers()) < 1:
         print("Error: Suppliers are needed")
         check = False
     if check:
         supplierNames = getSuppliers()
-        for name in supplierNames:
+        for x in range(productNumber):
             product = {
-                "name": fake.company(),
+                "name": f"{fake.color_name()} {fake.word()}",
                 "price": f"{fake.random_number(digits=4, fix_len=True)}.{fake.random_number(digits=2, fix_len=True)}",
-                "description": f"{fake.color_name()}",
+                "description": fake.sentence(nb_words=7, variable_nb_words=False),
                 "quantity": fake.random_number(digits=1, fix_len=True)
+            }
+            print(product)
+            resProduct = postProduct(product)
+            for i in range(partNumber):
+                manufacturer = choice(supplierNames)
+                partName1 = f"{fake.word()}".upper()
+                partName2 = f"{fake.word()}".upper()
+                partName3 = f"{fake.word()}".upper()
+                partName4 = f"{fake.word()}".upper()
+                part = {
+                    "partName": f"{partName1} {partName2} {partName3} {partName4}",
+                    "partDescription": fake.sentence(nb_words=7, variable_nb_words=False),
+                    "manufacturer": manufacturer,
+                    "quantity": fake.random_number(digits=2, fix_len=True)
                 }
+                print(part)
+                putProductPart(part, int(resProduct['id']))
 
+productNames = getProducts()
+
+if input("Create Stores and Store sales: Y/N ").upper() == "Y":
+    storeNumber = 5
+    for x in range(storeNumber):
+        store = {
+            "address": fake.address(),
+            "managerName": fake.first_name()
+        }
+        storeID = postStore(store)
+        for inSale in range(5):
+            inStoreSale = {
+                "productName": choice(productNames),
+                "quantity": fake.random_number(digits=1, fix_len=True)
+            }
+            print(inStoreSale)
+            postStoreSale(inStoreSale, storeID['id'])
+
+if input("Create Online Sales: Y/N ").upper() == "Y":
+    saleNumber = 25
+    for x in range(saleNumber):
+        ln = fake.last_name()
+        sale = {
+            "customerName": f"{fake.first_name()} {ln}",
+            "address": fake.address(),
+            "productName": choice(productNames),
+            "quantity": fake.random_number(digits=1, fix_len=True)
+        }
+        print(sale)
+        postOnlineSale(sale)
+
+
+if input("Create Backorders: Y/N ").upper() == "Y":
+    unavailableProducts = getUnavailableProducts()
+    for u in unavailableProducts:
+        print(backorder(u['id']))
+
+    

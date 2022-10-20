@@ -34,7 +34,7 @@ curl -X PUT http://localhost:8788/productInventory/777677 \
 #****************************************************
 #                   ADD PRODUCT PART
 #****************************************************
-curl -X PUT http://localhost:8788/productInventory/777677/part \
+curl -X PUT http://localhost:8788/productInventory/777684/part \
  -H 'Content-type:application/json' \
  -d '{
     "partName": "XCM HLO COIL FORK",
