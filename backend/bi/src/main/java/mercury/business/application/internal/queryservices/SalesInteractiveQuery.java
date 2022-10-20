@@ -20,31 +20,31 @@ public class SalesInteractiveQuery {
         this.interactiveQueryService = interactiveQueryService;
     }
 
-    public List<String> getSaleList() {
-        List<String> saleList = new ArrayList<>();
-        KeyValueIterator<String, Long> backorders = BackorderStore().all();
-        KeyValueIterator<String, Long> backlogs = BacklogStore().all();
+    public List<Double> getGrossProfit() {
+        List<Double> saleList = new ArrayList<>();
+        KeyValueIterator<Long, Double> salesIntel = SalesIntelStore().all();
+        KeyValueIterator<Long, Double> backlogs = BacklogStore().all();
         
-        while (backorders.hasNext()) {
-            String next = backorders.next().key;
+        while (salesIntel.hasNext()) {
+            Double next = salesIntel.next().value;
             saleList.add(next);
         }
 
         while (backlogs.hasNext()) {
-            String next = backlogs.next().key;
+            Double next = backlogs.next().value;
             saleList.add(next);
         }
 
         return saleList;
     }
 
-    private ReadOnlyKeyValueStore<String, Long> BacklogStore() {
+    private ReadOnlyKeyValueStore<Long, Double> BacklogStore() {
         return this.interactiveQueryService.getQueryableStore(SalesStreamProcessing.BACKLOG_STATE_STORE,
                 QueryableStoreTypes.keyValueStore());
     }
 
-    private ReadOnlyKeyValueStore<String, Long> BackorderStore() {
-        return this.interactiveQueryService.getQueryableStore(SalesStreamProcessing.BACKORDER_STATE_STORE,
+    private ReadOnlyKeyValueStore<Long, Double> SalesIntelStore() {
+        return this.interactiveQueryService.getQueryableStore(SalesStreamProcessing.SALESINTEL_STATE_STORE,
                 QueryableStoreTypes.keyValueStore());
     }
 
@@ -72,23 +72,19 @@ public class SalesInteractiveQuery {
     //     return equipmentList;
     // }
 
-    public long getSaleQuantity(String iD) {
-        return 0;
-    }
+    // public long getSaleQuantity(String iD) {
+    //     return 0;
+    // }
 
 
 
-    public List<String> getProductBySale(String iD) {
-        return null;
-    }
+    // public List<String> getProductBySale(String iD) {
+    //     return null;
+    // }
 
-    public List<String> getProductsList() {
-        return null;
-    }
-
-    public List<String> getGrossProfit() {
-        return null;
-    }
+    // public List<String> getProductsList() {
+    //     return null;
+    // }
 
 
 }

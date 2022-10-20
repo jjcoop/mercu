@@ -1,10 +1,10 @@
-package mercury.shareDomain.events;
+package mercury.business.model;
 
-public class Backlog {
+public class SalesIntel {
     private Long saleID;
     private Double total;
 
-    public Backlog(Long saleID, Double total) {
+    public SalesIntel(Long saleID, Double total) {
         this.saleID = saleID;
         this.total = total;
     }
@@ -27,7 +27,6 @@ public class Backlog {
 
     @Override
     public String toString() {
-        return "Backlog [saleID=" + saleID + ", total=" + total + "]";
+        return "SalesIntel [saleID=" + saleID + ", total=" + total + "]";
     }
-
 }

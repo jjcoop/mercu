@@ -1,9 +1,9 @@
 server.port: 8790
 spring.cloud.stream.bindings:
   process-in-0:
-        destination: backorder-topic
-  process-in-1:
         destination: backlog-topic
+  process-out-0:
+        destination: bi-topic
 spring.cloud.stream.kafka.streams.binder:
   brokers: localhost:9092
   configuration:
@@ -16,14 +16,14 @@ spring.cloud.stream.kafka.streams.bindings:
         default.key.serde: org.apache.kafka.common.serialization.Serdes$StringSerde
         default.value.serde: org.springframework.kafka.support.serializer.JsonSerde
         spring.json.trusted.packages: '*'
-        spring.json.value.default.type: mercury.shareDomain.events.Backorder
-  process-in-1:
-    consumer:
+        spring.json.value.default.type: mercury.shareDomain.events.Backlog
+  process-out-0:
+    producer:
       configuration:
         default.key.serde: org.apache.kafka.common.serialization.Serdes$StringSerde
         default.value.serde: org.springframework.kafka.support.serializer.JsonSerde
         spring.json.trusted.packages: '*'
-        spring.json.value.default.type: mercury.shareDomain.events.Backlog
+        spring.json.value.default.type: mercury.business.model.SalesIntel
 
 #spring.cloud.stream.kafka.streams.binder.stateStoreRetry.maxAttempts: 3
 
