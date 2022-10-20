@@ -11,8 +11,6 @@ import java.util.function.Consumer;
 @Component
 public class BacklogEventLogger {
 	private static final Logger log = LoggerFactory.getLogger(BacklogEventLogger.class);
-
-	@Bean
 	public Consumer<Backlog> process() {
 		return i -> log.info(i.toString());
 	}
