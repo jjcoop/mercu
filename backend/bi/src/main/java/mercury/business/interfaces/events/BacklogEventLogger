@@ -8,9 +8,12 @@ import org.springframework.stereotype.Component;
 import mercury.shareDomain.events.Backlog;
 import java.util.function.Consumer;
 
+// USED IN TESTING, rename to .java extension
+
 @Component
 public class BacklogEventLogger {
 	private static final Logger log = LoggerFactory.getLogger(BacklogEventLogger.class);
+	@Bean
 	public Consumer<Backlog> process() {
 		return i -> log.info(i.toString());
 	}

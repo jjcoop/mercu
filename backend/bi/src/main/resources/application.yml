@@ -2,6 +2,8 @@ server.port: 8790
 spring.cloud.stream.bindings:
   process-in-0:
         destination: backlog-topic
+  process-in-1:
+        destination: backorder-topic        
   process-out-0:
         destination: bi-topic
 spring.cloud.stream.kafka.streams.binder:
@@ -17,6 +19,13 @@ spring.cloud.stream.kafka.streams.bindings:
         default.value.serde: org.springframework.kafka.support.serializer.JsonSerde
         spring.json.trusted.packages: '*'
         spring.json.value.default.type: mercury.shareDomain.events.Backlog
+  process-in-1:
+    consumer:
+      configuration:
+        default.key.serde: org.apache.kafka.common.serialization.Serdes$StringSerde
+        default.value.serde: org.springframework.kafka.support.serializer.JsonSerde
+        spring.json.trusted.packages: '*'
+        spring.json.value.default.type: mercury.shareDomain.events.Backorder        
   process-out-0:
     producer:
       configuration:
