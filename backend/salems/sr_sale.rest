@@ -5,7 +5,7 @@
 D:\kafka_2.13-3.3.1\bin\windows\zookeeper-server-start.bat D:\kafka_2.13-3.3.1\config\zookeeper.properties
 D:\kafka_2.13-3.3.1\bin\windows\kafka-server-start.bat D:\kafka_2.13-3.3.1\config\server.properties
 D:\kafka_2.13-3.3.1\bin\windows\kafka-topics.bat --bootstrap-server=localhost:9092 --list
-D:\kafka_2.13-3.3.1\bin\windows\kafka-console-consumer.bat --bootstrap-server localhost:9092 --topic backorder-topic --from-beginning
+D:\kafka_2.13-3.3.1\bin\windows\kafka-console-consumer.bat --bootstrap-server localhost:9092 --topic backlog-topic --from-beginning
 ###
 #****************************************************
 #                   CREATE A STORE

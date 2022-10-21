@@ -1,5 +1,7 @@
 package mercury.salems.application.internal.commandservices;
 
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.Date;
 
 import mercury.salems.application.internal.outboundservices.BacklogEventPublisherService;
@@ -41,6 +43,8 @@ public class SaleCommandService {
   private ExternalOrderSaleService externalOrderSaleService;
   @Autowired
   private BacklogEventPublisherService backlogEventPublisherService;
+  private DecimalFormat df;
+
 
   public SaleCommandService(
       SaleRepository<OnlineSale> onlineSaleRepository,
@@ -59,6 +63,8 @@ public class SaleCommandService {
     this.orderingService = orderingService;
     this.externalOrderSaleService = externalOrderSaleService;
     this.backlogEventPublisherService = backlogEventPublisherService;
+    this.df = new DecimalFormat("0.00");
+    this.df.setRoundingMode(RoundingMode.DOWN);
   }
 
   // **********************************************************************
@@ -88,7 +94,7 @@ public class SaleCommandService {
     newSale = externalOrderSaleService.processOrder(returnOrder, newSale);
     newSale = inStoreSaleRepository.save(newSale);
     if (newSale.getOrderStatus().equals("COMPLETE")) {
-      backlogEventPublisherService.handleSaleBacklogEvent(new Backlog(newSale.getId(), newSale.getTotal(), newSale.getProductName()));
+      backlogEventPublisherService.handleSaleBacklogEvent(new Backlog(newSale.getId(), Double.valueOf(df.format(newSale.getTotal())), newSale.getProductName()));
     }
     Store store = storeRepository
         .findById(id)
@@ -120,7 +126,7 @@ public class SaleCommandService {
     newSale = externalOrderSaleService.processOrder(returnOrder, newSale);
     newSale = onlineSaleRepository.save(newSale);
     if (newSale.getOrderStatus().equals("COMPLETE")) {
-      backlogEventPublisherService.handleSaleBacklogEvent(new Backlog(newSale.getId(), newSale.getTotal(), newSale.getProductName()));
+      backlogEventPublisherService.handleSaleBacklogEvent(new Backlog(newSale.getId(), Double.valueOf(df.format(newSale.getTotal())), newSale.getProductName()));
     }
 
     EntityModel<OnlineSale> entityModel = assembler.toModel(onlineSaleRepository.save(newSale));
