@@ -14,12 +14,12 @@ C:\tmp
 D:\kafka_2.13-3.3.1\bin\windows\zookeeper-server-start.bat D:\kafka_2.13-3.3.1\config\zookeeper.properties
 D:\kafka_2.13-3.3.1\bin\windows\kafka-server-start.bat D:\kafka_2.13-3.3.1\config\server.properties
 D:\kafka_2.13-3.3.1\bin\windows\kafka-topics.bat --bootstrap-server=localhost:9092 --list
-D:\kafka_2.13-3.3.1\bin\windows\kafka-console-consumer.bat --bootstrap-server localhost:9092 --topic backorder-topic --from-beginning
+D:\kafka_2.13-3.3.1\bin\windows\kafka-console-consumer.bat --bootstrap-server localhost:9092 --topic backlog-topic --from-beginning
 ###
 #****************************************************
 #              GET GROSS SALES REVENUE
 #****************************************************
-# curl -v http://localhost:8789/sales/store/33333200 | json_pp
+# curl -v http://localhost:8790/bi-sales/gross-profit | json_pp
 GET http://localhost:8790/bi-sales/gross-profit
 
 ###
