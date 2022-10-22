@@ -5,6 +5,7 @@ import java.util.List;
 public class SaleIntel {
     private Double TotalRevenue;
     private List<ProductTotal> productIntel;
+    private int quantity;
 
     public SaleIntel() {
     }
@@ -28,6 +29,14 @@ public class SaleIntel {
 
     public void setTotalRevenue(Double totalRevenue) {
         TotalRevenue = totalRevenue;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 
     @Override

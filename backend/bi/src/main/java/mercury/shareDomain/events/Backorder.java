@@ -5,6 +5,7 @@ import java.util.Date;
 public class Backorder {
 
     private Long saleID;
+    private String productName;
     private Double total;
     private Date dateTime = new Date();
     
@@ -17,8 +18,24 @@ public class Backorder {
         return saleID;
     }
 
+    public void setSaleID(Long saleID) {
+        this.saleID = saleID;
+    }
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+
     public Double getTotal() {
         return total;
+    }
+
+    public void setTotal(Double total) {
+        this.total = total;
     }
 
     public Date getDateTime() {
@@ -27,6 +44,8 @@ public class Backorder {
 
     @Override
     public String toString() {
-        return "Backorder [saleID=" + saleID + ", total=" + total + ", dateTime=" + dateTime + "]";
+        return "Backorder [saleID=" + saleID + ", productName=" + productName + ", total=" + total + ", dateTime="
+                + dateTime + "]";
     }
+
 }

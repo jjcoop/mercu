@@ -3,7 +3,7 @@ package mercury.inventoryms.application.internal.outboundservices;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cloud.stream.function.StreamBridge;
-import mercury.shareDomain.events.Backorder;
+import mercury.shareDomain.events.Backlog;
 
 import org.springframework.stereotype.Service;
 
@@ -17,7 +17,7 @@ public class BackorderEventPublisherService {
         this.streamBridge = streamBridge;
     }
 
-    public void handleSaleBackorderEvent(Backorder backorderEvent) {
+    public void handleSaleBackorderEvent(Backlog backorderEvent) {
         log.info(backorderEvent.toString());
         streamBridge.send("output-out-0", backorderEvent);
     }

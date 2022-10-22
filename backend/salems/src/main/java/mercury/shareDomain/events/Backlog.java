@@ -4,14 +4,18 @@ public class Backlog {
     private Long saleID;
     private Double total;
     private String productName;
-    
+    private int quantity;
+    boolean isBackorder;
+
     public Backlog() {
     }
 
-    public Backlog(Long saleID, Double total, String productName) {
+    public Backlog(Long saleID, Double total, String productName, int quantity, boolean isBackorder) {
         this.saleID = saleID;
         this.total = total;
         this.productName = productName;
+        this.quantity = quantity;
+        this.isBackorder = isBackorder;
     }
 
     public Long getSaleID() {
@@ -38,9 +42,25 @@ public class Backlog {
         this.productName = productName;
     }
 
-    @Override
-    public String toString() {
-        return "Backlog [saleID=" + saleID + ", total=" + total + ", productName=" + productName + "]";
+    public int getQuantity() {
+        return quantity;
     }
 
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public boolean isBackorder() {
+        return isBackorder;
+    }
+
+    public void setBackorder(boolean isBackorder) {
+        this.isBackorder = isBackorder;
+    }
+
+    @Override
+    public String toString() {
+        return "Backlog [saleID=" + saleID + ", total=" + total + ", productName=" + productName + ", quantity="
+                + quantity + ", isBackorder=" + isBackorder + "]";
+    }
 }

@@ -2,7 +2,7 @@ package mercury.inventoryms.application.internal.commandservices;
 
 import mercury.inventoryms.interfaces.rest.transform.ProductModelAssembler;
 import mercury.shareDomain.Order;
-import mercury.shareDomain.events.Backorder;
+import mercury.shareDomain.events.Backlog;
 import mercury.inventoryms.interfaces.rest.ProductController;
 import mercury.inventoryms.interfaces.rest.transform.PartModelAssembler;
 
@@ -212,7 +212,7 @@ public class ProductInventoryCommandService {
   }
 
 public Order backorder(Order order) {
-  backorderEventPublisherService.handleSaleBackorderEvent(new Backorder(order.getSaleID(), order.getTotal()));
+  backorderEventPublisherService.handleSaleBackorderEvent(new Backlog(order.getSaleID(), order.getTotal(), order.getProductName(), order.getQuantity(), true));
   return order;
 }
 
