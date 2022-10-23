@@ -16,19 +16,11 @@ import Link from "@mui/material/Link";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import { mainListItems, secondaryListItems } from "../listItems";
-import ContactsTable from "../Procurement/ContactsTable";
 import Copyright from "../Copyright";
 import SettingsIcon from "@mui/icons-material/Settings";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-import SuppliersTable from "../Procurement/SuppliersTable";
 import Title from "../Title";
-import ProductsTable from "../Inventory/ProductsTable";
-import PartsTable from "../Inventory/PartsTable";
-import StoresTable from "../Sale/StoresTable";
-import StoreSalesTable from "../Sale/StoreSalesTable";
-import OnlineSalesTable from "../Sale/OnlineSalesTable";
-
 
 
 const drawerWidth = 240;
@@ -77,7 +69,7 @@ const Drawer = styled(MuiDrawer, {
   },
 }));
 
-function DashboardContent() {
+function BusinessIntelligence() {
   const settings = [
     {
       page: "account",
@@ -143,7 +135,7 @@ function DashboardContent() {
             noWrap
             sx={{ flexGrow: 1 }}
           >
-            Dashboard
+            Business Intelligence
           </Typography>
           <Box sx={{ flexGrow: 0 }}>
             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
@@ -211,47 +203,18 @@ function DashboardContent() {
         <Toolbar />
         <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
           <Grid container spacing={3}>
+
             <Grid item xs={12}>
-              <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
-                <Title>Suppliers</Title>
-                <SuppliersTable />
-              </Paper>
-            </Grid>
-            {/* Suppliers */}
-            <Grid item xs={12}>
-              <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
-                <Title>Contacts</Title>
-                <ContactsTable />
-              </Paper>
-            </Grid>
-            <Grid item xs={12}>
-              <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
-                <Title>Products</Title>
-                <ProductsTable />
-              </Paper>
-            </Grid>
-            <Grid item xs={12}>
-              <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
-                <Title>Parts</Title>
-                <PartsTable />
-              </Paper>
-            </Grid>
-            <Grid item xs={12}>
-              <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
-                <Title>Stores</Title>
-                <StoresTable />
-              </Paper>
-            </Grid>
-            <Grid item xs={12}>
-              <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
-                <Title>Store Sales</Title>
-                <StoreSalesTable />
-              </Paper>
-            </Grid>
-            <Grid item xs={12}>
-              <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
-                <Title>Online Sales</Title>
-                <OnlineSalesTable />
+              <Paper
+                sx={{
+                  p: 2,
+                  display: "flex",
+                  flexDirection: "column",
+                  height: 300,
+                }}
+              >
+                <Title>Lookup Sales By Product</Title>
+                
               </Paper>
             </Grid>
           </Grid>
@@ -262,6 +225,6 @@ function DashboardContent() {
   );
 }
 
-export default function Dashboard() {
-  return <DashboardContent />;
+export default function BI() {
+  return <BusinessIntelligence />;
 }
