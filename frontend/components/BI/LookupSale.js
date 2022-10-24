@@ -46,15 +46,20 @@ export default function LookupSale() {
   const fetchData = () => {
     fetch(`http://localhost:8788/productInventory`)
       .then((response) => response.json())
-      .then((data) => setData(data._embedded.productList))
-      .catch((err) => console.error(err));
+      .then((data) => {
+        setData(data._embedded.productList);
+      })
+      .catch(error => console.warn(error));
   };
 
   const fetchSalesData = () => {
     fetch(`http://localhost:8790/bi-sales/product/?productName=${encodeThatProduct(inputValue)}`)
       .then((response) => response.json())
-      .then((data) => setSalesAmount(data))
-      .catch((err) => console.error(err));
+      .then((responseData) => {
+        setSalesAmount(responseData);
+      })
+      .catch(error => console.warn(error));
+
   }
 
   useEffect(() => {
@@ -64,11 +69,9 @@ export default function LookupSale() {
 
   return (
     <div>
-
-
       <Grid container spacing={2}>
         <Grid item xs={7}>
-          <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column', height: 200 }}>
+          <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column', height: 150 }}>
             <Title>Look Up Sales By Product</Title>
 
             <form>
@@ -81,8 +84,10 @@ export default function LookupSale() {
                 onInputChange={(event, newInputValue) => {
                   setInputValue(newInputValue);
                   setDate(new Date().toLocaleString());
-                  setProductName(newInputValue)
+                  setProductName(newInputValue);
+                  fetchSalesData();
                 }}
+                onClick={fetchSalesData()}
                 disablePortal
                 id="combo-box-demo"
                 options={data}
@@ -95,21 +100,11 @@ export default function LookupSale() {
                   </div>
                 )}
               />
-              <br />
-              <Button
-                color="success"
-                sx={{ width: 250, marginTop: 2 }}
-                variant="contained"
-                endIcon={<SendIcon />}
-                onClick={fetchSalesData()}
-              >
-                Search
-              </Button>
             </form>
           </Paper>
         </Grid>
         <Grid item xs={5}>
-          <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column', height: 200 }}>
+          <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column', height: 150 }}>
             <Title>{productName}</Title>
             <Typography component="p" variant="h4">
               {currencyFormat(salesAmount)}
