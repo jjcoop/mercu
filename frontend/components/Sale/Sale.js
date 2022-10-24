@@ -77,7 +77,7 @@ const Drawer = styled(MuiDrawer, {
   },
 }));
 
-function Inventory() {
+function Sale() {
   const settings = [
     {
       page: "account",
@@ -143,7 +143,7 @@ function Inventory() {
             noWrap
             sx={{ flexGrow: 1 }}
           >
-            Inventory
+            Sales
           </Typography>
           <Box sx={{ flexGrow: 0 }}>
             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
@@ -209,7 +209,7 @@ function Inventory() {
         }}
       >
         <Toolbar />
-        <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+        <Container maxWidth={false} sx={{ mt: 4, mb: 4 }}>
           <Grid container spacing={3}>
             <Grid item xs={12}>
               <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
@@ -289,6 +289,6 @@ function Inventory() {
   );
 }
 
-export default function Procure() {
-  return <Inventory />;
+export default function Sales() {
+  return <Sale />;
 }

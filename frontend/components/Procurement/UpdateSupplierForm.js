@@ -100,6 +100,7 @@ export default function UpdateSupplierForm() {
         <Autocomplete
           inputValue={supplier}
           onChange={(e,v)=>setSupplier(v?.companyName||v)}
+          isOptionEqualToValue={(option, value) => option.id === value.id}
           getOptionLabel={(option) => `${option.companyName}: ${option.id}`}
           onInputChange={(event, newInputValue) => {
             setInputValue(newInputValue);

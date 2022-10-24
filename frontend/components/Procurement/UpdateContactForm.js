@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import {useState, useEffect } from "react";
 import { Button } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
@@ -49,17 +49,18 @@ export default function UpdateContactForm() {
     
   };
 
-  useEffect(() => {
-    setInterval(() => {
-      fetchSupplierData();
-    }, 1000);
-  }, []);
 
-  const fetchContactData = () => {
-    fetch(`http://localhost:8787/${keyword}/${inputId}`)
+  useEffect(() => {
+    fetchSupplierData();
+   },[]);
+
+  const fetchContactData = (test) => {
+
+    fetch(`http://localhost:8787/${keyword}/${test}`)
       .then((response) => response.json())
       .then((cData) => setContactData(cData.contacts))
       .catch((err) => console.error(err));
+
   };
 
   const handleSubmit = async (event) => {
@@ -121,15 +122,16 @@ export default function UpdateContactForm() {
       <form onSubmit={handleSubmit}>
         <Autocomplete
           inputValue={supplier}
-          onChange={(e,v)=>setSupplier(v?.companyName||v)}
           getOptionLabel={(option) => `${option.companyName}: ${option.id}`}
+          isOptionEqualToValue={(option, value) => option.id === value.id}
+
+          onChange={(e,v)=>setSupplier(v.companyName)}
+
           onInputChange={(event, newInputValue) => {
-            setInputValue(newInputValue)
             setInputId(newInputValue.replace(/\D/g, ""))
+            fetchContactData(newInputValue.replace(/\D/g, ""))
           }}
-          //onMouseOut is crucial to the fetching of contact data
-          //don't delete this line
-          onMouseOut={fetchContactData()}
+
           disablePortal
           id="combo-box-demo"
           options={sData}
@@ -145,7 +147,7 @@ export default function UpdateContactForm() {
         <br />
         <Autocomplete
           inputValue={contact}
-          onChange={(e,v)=>setContact(v?.name||v)}
+          onChange={(e,v)=>setContact(v.name)}
           isOptionEqualToValue={(option, value) => option.id === value.id}
           getOptionLabel={(option) => `${option.name}: ${option.id}`}
           onInputChange={(event, value) => {
