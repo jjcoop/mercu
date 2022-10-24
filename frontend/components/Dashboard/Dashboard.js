@@ -28,8 +28,9 @@ import PartsTable from "../Inventory/PartsTable";
 import StoresTable from "../Sale/StoresTable";
 import StoreSalesTable from "../Sale/StoreSalesTable";
 import OnlineSalesTable from "../Sale/OnlineSalesTable";
-
-
+import Deposits from "./Deposits";
+import Chart from "./Chart"
+import TotalSale from "../BI/TotalSale"
 
 const drawerWidth = 240;
 
@@ -209,8 +210,33 @@ function DashboardContent() {
         }}
       >
         <Toolbar />
-        <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+        <Container maxWidth={false} sx={{ mt: 4, mb: 4 }}>
           <Grid container spacing={3}>
+            <Grid item xs={12} md={8} lg={8}>
+              <Paper
+                sx={{
+                  p: 2,
+                  display: "flex",
+                  flexDirection: "column",
+                  height: 240,
+                }}
+              >
+                <Chart />
+              </Paper>
+            </Grid>
+            {/* Recent Deposits */}
+            <Grid item xs={12} md={4} lg={4}>
+              <Paper
+                sx={{
+                  p: 2,
+                  display: "flex",
+                  flexDirection: "column",
+                  height: 240,
+                }}
+              >
+                <TotalSale />
+              </Paper>
+            </Grid>
             <Grid item xs={12}>
               <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
                 <Title>Suppliers</Title>

@@ -114,6 +114,7 @@ export default function CreateStoreSale() {
       <Autocomplete
           inputValue={test}
           onChange={(e,v)=>setTest(v?.address||v)}
+          isOptionEqualToValue={(option, value) => option.id === value.id}
           getOptionLabel={(option) => `${option.id}: ${option.address}`}
           onInputChange={(event, newInputValue) => {
             setInputValue(newInputValue);
@@ -134,6 +135,7 @@ export default function CreateStoreSale() {
         <Autocomplete
           inputValue={product}
           onChange={(e,v)=>setProduct(v?.name||v)}
+          isOptionEqualToValue={(option, value) => option.id === value.id}
           getOptionLabel={(x) => `${x.name}: ${x.id}`}
           onInputChange={(event, newproductValue) => {
             setProductId(newproductValue.replace(/\D/g, ""));

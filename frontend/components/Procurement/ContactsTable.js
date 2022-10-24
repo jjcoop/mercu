@@ -23,8 +23,8 @@ export default function contacts() {
     { field: "id", headerName: "Contact ID", width: 100, minWidth: 100, maxWidth: 200 },
     { field: "name", headerName: "Name", width: 125, minWidth: 150, maxWidth: 200 },
     { field: "phone", headerName: "Phone", width: 125, minWidth: 150, maxWidth: 200 },
-    { field: "email", headerName: "Email", width: 200, minWidth: 200, maxWidth: 300},
-    { field: "position", headerName: "Position", width: 200, minWidth: 200, maxWidth: 300 },
+    { field: "email", headerName: "Email", width: 350, minWidth: 200, maxWidth: 300},
+    { field: "position", headerName: "Position", width: 250, minWidth: 200, maxWidth: 300 },
   ];
 
   const rows = [];

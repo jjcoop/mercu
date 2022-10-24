@@ -111,6 +111,7 @@ export default function UpdateContactForm() {
         <Autocomplete
             inputValue={product}
             onChange={(e,v)=>setProduct(v?.name||v)}
+            isOptionEqualToValue={(option, value) => option.id === value.id}
             getOptionLabel={(x) => `${x.name}: ${x.id}`}
             onInputChange={(event, newproductValue) => {
               setProductValue(newproductValue);

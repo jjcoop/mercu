@@ -55,9 +55,8 @@ export default function UpdatePartForm() {
   const fetchProductData = () => {
     fetch(`http://localhost:8788/productInventory/parts/${inputId}`)
       .then((response) => response.json())
-      .then((p) => setProductId(p.productURI.split("/").pop()))
-      .then(console.log(productId))
-      .catch((err) => console.log(err));
+      .then((p) => setProductId(p.productURI?.split("/").pop()))
+      .catch((err) => console.error(err));
   };
 
   const fetchManufacturerData = () => {
@@ -129,10 +128,11 @@ export default function UpdatePartForm() {
       <form onSubmit={handleSubmit}>
         <Autocomplete
           getOptionLabel={(option) => `${option.partName}: ${option.id}`}
+          isOptionEqualToValue={(option, value) => option.id === value.id}
           onInputChange={(event, newInputValue) => {
             setInput(newInputValue);
             setInputId(newInputValue.replace(/\D/g, ""));
-            console.log(data.name)
+            //fetchProductData(newInputValue.replace(/\D/g, ""))
           }}
 
           onChange={fetchProductData()}
@@ -168,6 +168,7 @@ export default function UpdatePartForm() {
         <Autocomplete
           inputValue={manufacturer}
           onChange={(e,v)=>setManufacturer(v?.companyName||v)}
+          isOptionEqualToValue={(option, value) => option.id === value.id}
           getOptionLabel={(option) => `${option.companyName}: ${option.id}`}
           onInputChange={(event, newManufacturerValue) => {
             setManufacturerId(newManufacturerValue.replace(/\W/g, ''));

@@ -80,7 +80,6 @@ export default function CreatePartForm() {
     // Send the data to the server in JSON format.
     const JSONdata = JSON.stringify(returnData);
 
-    console.log(JSONdata);
 
     // API endpoint where we send form data.
 
@@ -123,7 +122,8 @@ export default function CreatePartForm() {
       <form onSubmit={handleSubmit}>
         <Autocomplete
           inputValue={product}
-          onChange={(e,v)=>setProduct(v?.name||v)}
+          isOptionEqualToValue={(option, value) => option.id === value.id}
+          onChange={(e,v)=>setProduct(v.name)}
           getOptionLabel={(x) => `${x.name}: ${x.id}`}
           onInputChange={(event, newproductValue) => {
             setProductValue(newproductValue);
@@ -164,11 +164,11 @@ export default function CreatePartForm() {
         <Autocomplete
           inputValue={manufacturer}
           onChange={(e,v)=>setManufacturer(v?.companyName||v)}
+          isOptionEqualToValue={(option, value) => option.id === value.id}
           getOptionLabel={(option) => `${option.companyName}: ${option.id}`}
           onInputChange={(event, newManufacturerValue) => {
             setManufacturerId(newManufacturerValue.replace(/\W/g, ''));
             setManufacturerValue(newManufacturerValue.substring(0, newManufacturerValue.indexOf(':')));
-            console.log("Manufacturer value after split: ", manufacturerValue)
           }}
           disablePortal
           id="combo-box-demo"

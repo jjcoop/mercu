@@ -132,6 +132,7 @@ export default function CreateOnlineSale() {
         <Autocomplete
           inputValue={test}
           onChange={(e,v)=>setTest(v?.name||v)}
+          isOptionEqualToValue={(option, value) => option.id === value.id}
           getOptionLabel={(x) => `${x.name}: ${x.id}`}
           onInputChange={(event, newproductValue) => {
             setProductValue(newproductValue.substring(0, newproductValue.indexOf(':')));

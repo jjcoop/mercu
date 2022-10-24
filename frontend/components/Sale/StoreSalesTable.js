@@ -54,6 +54,7 @@ export default function StoreSalesTable() {
         columns={columns}
         pageSize={5}
         rowsPerPageOptions={[5]}
+        getRowId={(rows) => rows.sale_id}
         // checkboxSelection
       />
     </div>
