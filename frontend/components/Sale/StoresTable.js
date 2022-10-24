@@ -21,8 +21,8 @@ export default function StoresTable() {
   }, []);
 
   const columns = [
-    { field: "id", headerName: "ID", width: 100, minWidth: 75, maxWidth: 200 },
-    { field: "address", headerName: "Address", width: 200, minWidth: 100, maxWidth: 400},
+    { field: "id", headerName: "ID", width: 150, minWidth: 75, maxWidth: 200 },
+    { field: "address", headerName: "Address", width: 400, minWidth: 100, maxWidth: 400},
     { field: "managerName", headerName: "Manager Name", width: 125, minWidth: 150, maxWidth: 200},
     { field: "salesCount", headerName: "# Sales", width: 100, minWidth: 75, maxWidth: 200}
   ];

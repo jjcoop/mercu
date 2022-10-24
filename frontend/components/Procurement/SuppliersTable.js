@@ -25,7 +25,7 @@ export default function contacts() {
   const columns = [
     { field: "id", headerName: "ID", width: 75, minWidth: 75, maxWidth: 200 },
     { field: "companyName", headerName: "Company Name", width: 250, minWidth: 200, maxWidth: 300},
-    { field: "base", headerName: "Base", width: 125, minWidth: 150, maxWidth: 200},
+    { field: "base", headerName: "Base", width: 200, minWidth: 150, maxWidth: 200},
     { field: "contacts", headerName: "Contacts #", width: 100, minWidth: 75, maxWidth: 200},
   ];
 
