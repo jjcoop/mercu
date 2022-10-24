@@ -98,7 +98,7 @@ export default function UpdateSupplierForm() {
       setEmail('');
       setPosition('');
     }
-    else{
+    else {
       setBadOpen(true);
     }
   };
@@ -108,7 +108,7 @@ export default function UpdateSupplierForm() {
       <form onSubmit={handleSubmit}>
         <Autocomplete
           inputValue={supplier}
-          onChange={(e,v)=>setSupplier(v.companyName)}
+          onChange={(e, v) => setSupplier(v.companyName)}
           getOptionLabel={(option) => `${option.companyName}: ${option.id}`}
           isOptionEqualToValue={(option, value) => option.id === value.id}
           onInputChange={(event, newInputValue) => {
@@ -186,15 +186,15 @@ export default function UpdateSupplierForm() {
         </Button>
 
         <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
-        <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
-          Success! New Contact Created!
-        </Alert>
+          <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+            Success! New Contact Created!
+          </Alert>
         </Snackbar>
 
         <Snackbar open={badOpen} autoHideDuration={6000} onClose={handleClose}>
-        <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
-          Failed to create a new contact!
-        </Alert>
+          <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
+            Failed to create a new contact!
+          </Alert>
         </Snackbar>
       </form>
     </div>

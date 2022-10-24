@@ -13,6 +13,7 @@ function currencyFormat(num) {
 export default function Deposits() {
   const [grossText, setGrossText] = '';
   const [data, setData] = useState([]);
+  const [date, setDate] = useState("");
   const fetchData = () => {
     fetch(`http://localhost:8790/bi-sales/gross-profit`)
       .then((response) => response.json())
@@ -23,6 +24,7 @@ export default function Deposits() {
   useEffect(() => {
     setInterval(() => {
       fetchData();
+      setDate(new Date().toLocaleString())
     }, 1000);
   }, []);
 
@@ -33,12 +35,9 @@ export default function Deposits() {
       <Typography component="p" variant="h4">
         {currencyFormat(data)}
       </Typography>
-      <Typography color="text.secondary" sx={{ flex: 1 }}>
-        {/* {new Date().toLocaleString() + ""} */}
+      <Typography id="d" color="text.secondary" sx={{ flex: 1 }}>
+        {date}
       </Typography>
-      
-      <div>
-      </div>
     </React.Fragment>
   );
 }

@@ -18,8 +18,8 @@ export default function CreateBackorder() {
   const [inputId, setInputId] = React.useState("");
   const [keyword, setKeyword] = useState("sales");
   const [pKeyword] = useState("productInventory");
+  const [saleID, setSaleID] = useState("sales");
   const [data, setData] = useState([]);
-
   const [open, setOpen] = React.useState(false);
   const [badOpen, setBadOpen] = React.useState(false);
 
@@ -40,9 +40,7 @@ export default function CreateBackorder() {
   };
 
   useEffect(() => {
-    setInterval(() => {
-      fetchData();
-    }, 1000);
+    fetchData();
   }, []);
 
 
@@ -52,7 +50,7 @@ export default function CreateBackorder() {
 
     // Send the data to the server in JSON format.
 
-    const endpoint = `http://localhost:8789/${keyword}/backorder/${inputId}`;
+    const endpoint = `http://localhost:8789/${keyword}/backorder/${saleID}`;
 
     // Form the request for sending data to the server.
     const options = {
@@ -67,11 +65,10 @@ export default function CreateBackorder() {
     // If server returns the name submitted, that means the form works.
     const result = await response.json();
 
-    if(response.status == 200){
+    if (response.status == 200) {
       setOpen(true);
-      setTest('');
     }
-    else{
+    else {
       setBadOpen(true);
     }
   };
@@ -79,13 +76,15 @@ export default function CreateBackorder() {
   return (
     <div>
       <form onSubmit={handleSubmit}>
-      <Autocomplete
-          onChange={(e,v)=>setTest(v.id)}
+        <Autocomplete
+          // onChange={(e, v) => setSaleID(v.id)}
           isOptionEqualToValue={(option, value) => option.id === value.id}
           getOptionLabel={(option) => `${option.id}`}
           onInputChange={(event, newInputValue) => {
+            setSaleID(newInputValue);
             setInputValue(newInputValue);
             setInputId(newInputValue);
+            fetchData();
           }}
           disablePortal
           id="combo-box-demo"
@@ -107,15 +106,15 @@ export default function CreateBackorder() {
           Create Backorder
         </Button>
         <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
-        <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
-          Success! Backorder Created
-        </Alert>
+          <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+            Success! Backorder Created
+          </Alert>
         </Snackbar>
 
         <Snackbar open={badOpen} autoHideDuration={6000} onClose={handleClose}>
-        <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
-          Fail! Couldn't create backorder!
-        </Alert>
+          <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
+            Fail! Couldn't create backorder!
+          </Alert>
         </Snackbar>
       </form>
     </div>

@@ -89,7 +89,7 @@ export default function UpdateSupplierForm() {
       setBaseName('');
       setSupplier('');
     }
-    else{
+    else {
       setBadOpen(true);
     }
   };
@@ -99,7 +99,7 @@ export default function UpdateSupplierForm() {
       <form onSubmit={handleSubmit}>
         <Autocomplete
           inputValue={supplier}
-          onChange={(e,v)=>setSupplier(v?.companyName||v)}
+          onChange={(e, v) => setSupplier(v?.companyName || v)}
           isOptionEqualToValue={(option, value) => option.id === value.id}
           getOptionLabel={(option) => `${option.companyName}: ${option.id}`}
           onInputChange={(event, newInputValue) => {
@@ -149,15 +149,15 @@ export default function UpdateSupplierForm() {
           Update Supplier
         </Button>
         <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
-        <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
-          Success! Updated Supplier!
-        </Alert>
+          <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+            Success! Updated Supplier!
+          </Alert>
         </Snackbar>
 
         <Snackbar open={badOpen} autoHideDuration={6000} onClose={handleClose}>
-        <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
-          Failed to update the supplier!
-        </Alert>
+          <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
+            Failed to update the supplier!
+          </Alert>
         </Snackbar>
       </form>
     </div>
