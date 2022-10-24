@@ -21,9 +21,9 @@ export default function ProductsTable() {
 
   const columns = [
     { field: "id", headerName: "ID", width: 125, minWidth: 150, maxWidth: 200 },
-    { field: "name", headerName: "Product Name", width: 125, minWidth: 150, maxWidth: 200},
+    { field: "name", headerName: "Product Name", width: 300, minWidth: 150, maxWidth: 300},
     { field: "price", headerName: "Price", width: 125, minWidth: 150, maxWidth: 200},
-    { field: "description", headerName: "Description", width: 125, minWidth: 150, maxWidth: 200},
+    { field: "description", headerName: "Description", width: 450, minWidth: 150, maxWidth: 450},
     { field: "quantity", headerName: "Quantity", width: 125, minWidth: 150, maxWidth: 200},
     { field: "parts", headerName: "Parts #", width: 125, minWidth: 150, maxWidth: 200},
   ];

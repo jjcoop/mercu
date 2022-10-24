@@ -21,7 +21,7 @@ export default function OnlineSalesTable() {
   const columns = [
     { field: "id", headerName: "ID", width: 100, minWidth: 75, maxWidth: 200 },
     { field: "customerName", headerName: "Customer Name", width: 125, minWidth: 150, maxWidth: 200 },
-    { field: "customerAddress", headerName: "Customer Address", width: 250, minWidth: 200, maxWidth: 600 },
+    { field: "customerAddress", headerName: "Customer Address", width: 450, minWidth: 200, maxWidth: 600 },
     { field: "productName", headerName: "Product Name", width: 125, minWidth: 150, maxWidth: 200 },
     { field: "quantity", headerName: "Quantity", width: 100, minWidth: 50, maxWidth: 200},
     { field: "date", headerName: "Date", width: 100, minWidth: 75, maxWidth: 200 },
