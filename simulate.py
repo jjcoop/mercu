@@ -160,7 +160,7 @@ if input("Create Products and Parts: Y/N ").upper() == "Y":
         for x in range(productNumber):
             product = {
                 "name": f"{fake.color_name()} {fake.word()}",
-                "price": float(f"{fake.random_number(digits=1, fix_len=True)}.{fake.random_number(digits=1, fix_len=True)}"),
+                "price": float(f"{fake.random_number(digits=2, fix_len=True)}.{fake.random_number(digits=1, fix_len=True)}"),
                 "description": fake.sentence(nb_words=7, variable_nb_words=False),
                 "quantity": fake.random_number(digits=2, fix_len=True)
             }
@@ -225,7 +225,7 @@ if input("Create High Traffic Online Sales: Y/N ").upper() == "Y":
             "customerName": f"{fake.first_name()} {ln}",
             "address": fake.address(),
             "productName": choice(productNames),
-            "quantity": 1
+            "quantity": 2
         }
         print(sale)
         postOnlineSale(sale)

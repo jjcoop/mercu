@@ -2,27 +2,43 @@ import * as React from 'react';
 import { useTheme } from '@mui/material/styles';
 import { LineChart, Line, XAxis, YAxis, Label, ResponsiveContainer } from 'recharts';
 import Title from '../Title';
+import { useEffect, useState } from "react";
 
-// Generate Sales Data
-function createData(time, amount) {
-  return { time, amount };
-}
 
-const data = [
-  createData('00:00', 0),
-  createData('03:00', 300),
-  createData('06:00', 600),
-  createData('09:00', 800),
-  createData('12:00', 1500),
-  createData('15:00', 2000),
-  createData('18:00', 2400),
-  createData('21:00', 2400),
-  createData('24:00', undefined),
-];
+
+// const data = [
+//   createData('00:00', 0),
+//   createData('03:00', 300),
+//   createData('06:00', 600),
+//   createData('09:00', 800),
+//   createData('12:00', 1500),
+//   createData('15:00', 2000),
+//   createData('18:00', 2400),
+//   createData('21:00', 2400),
+//   createData('24:00', undefined),
+// ];
 
 export default function Chart() {
   const theme = useTheme();
+  const [data, setData] = useState([]);
 
+  useEffect(() => {
+    setData(arr => [...arr, { time: new Date().getSeconds(), amount:0 }]);
+    setInterval(() => {
+      fetchData();
+    }, 1500);
+  }, []);
+
+  const fetchData = () => {
+    fetch(`http://localhost:8790/bi-sales/gross-profit`)
+      .then((response) => response.json())
+      .then((responseData) => {
+        setData(arr => [...arr, { time: new Date().getSeconds(), amount:parseInt(responseData.totalRevenue) }]);
+        return parseInt(responseData.totalRevenue);
+      })
+      .catch(error => console.warn(error));
+
+  };
   return (
     <React.Fragment>
       <Title>Today</Title>
@@ -36,11 +52,6 @@ export default function Chart() {
             left: 24,
           }}
         >
-          <XAxis
-            dataKey="time"
-            stroke={theme.palette.text.secondary}
-            style={theme.typography.body2}
-          />
           <YAxis
             stroke={theme.palette.text.secondary}
             style={theme.typography.body2}
