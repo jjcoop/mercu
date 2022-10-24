@@ -220,22 +220,21 @@ function DashboardContent() {
               </Grid>
               <Grid item xs={12}>
                 <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-                  <Title>Gross Sales</Title>
+                  <Title>Product Revenue</Title>
                 <GrossTable />
                 </Paper>
               </Grid>
               <Grid item xs={12}>
-                <Paper
+                {/* <Paper
                   sx={{
                     p: 2,
                     display: 'flex',
                     flexDirection: 'column',
                     height: 250,
                   }}
-                >
-                  <Title>Look Up Sales By Product</Title>
+                > */}
                   <LookupSale />
-                </Paper>
+                {/* </Paper> */}
               </Grid>
               {/* Recent Deposits */}
               
