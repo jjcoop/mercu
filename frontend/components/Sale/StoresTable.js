@@ -7,7 +7,7 @@ export default function StoresTable() {
   const [data, setData] = useState([]);
   
   const fetchData = () => {
-    fetch(`http://localhost:8789/${keyword}/store`)
+    fetch(`http://${process.env.NEXT_PUBLIC_DB_HOST}:8789/${keyword}/store`)
       .then((response) => response.json())
       .then((data) => setData(data._embedded.storeList))
       .catch((err) => console.error(err));

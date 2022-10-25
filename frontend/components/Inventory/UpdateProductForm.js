@@ -42,7 +42,7 @@ export default function UpdateContactForm() {
   };
 
   const fetchProductData = () => {
-    fetch(`http://localhost:8788/${pKeyword}`)
+    fetch(`http://${process.env.NEXT_PUBLIC_DB_HOST}:8788/${pKeyword}`)
       .then((response) => response.json())
       .then((pData) => setProductData(pData._embedded.productList))
       .catch((err) => console.error(err));
@@ -62,7 +62,7 @@ export default function UpdateContactForm() {
 
     // API endpoint where we send form data.
 
-    const endpoint = `http://localhost:8788/productInventory/${productId}`;
+    const endpoint = `http://${process.env.NEXT_PUBLIC_DB_HOST}:8788/productInventory/${productId}`;
 
     const data = {
       name: event.target.productName.value,

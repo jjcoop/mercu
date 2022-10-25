@@ -46,7 +46,7 @@ export default function CreatePartForm() {
 
   const fetchProductData = () => {
     setInterval(() => {
-      fetch(`http://localhost:8788/${pKeyword}`)
+      fetch(`http://${process.env.NEXT_PUBLIC_DB_HOST}:8788/${pKeyword}`)
       .then((response) => response.json())
       .then((pData) => setProductData(pData._embedded.productList))
       .catch((err) => console.error(err));
@@ -55,7 +55,7 @@ export default function CreatePartForm() {
 
   const fetchManufacturerData = () => {
     setInterval(() => {
-      fetch(`http://localhost:8787/${sKeyword}`)
+      fetch(`http://${process.env.NEXT_PUBLIC_DB_HOST}:8787/${sKeyword}`)
       .then((response) => response.json())
       .then((data) => setManufacturerData(data._embedded.supplierList))
       .catch((err) => console.error(err));
@@ -85,7 +85,7 @@ export default function CreatePartForm() {
 
     // API endpoint where we send form data.
 
-    const endpoint = `http://localhost:8788/productInventory/${productId}/part`;
+    const endpoint = `http://${process.env.NEXT_PUBLIC_DB_HOST}:8788/productInventory/${productId}/part`;
 
     // Form the request for sending data to the server.
     const options = {

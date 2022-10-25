@@ -12,7 +12,7 @@ export default function PartsTable() {
     },
   ]);
   const fetchData = () => {
-    fetch(`http://localhost:8788/${keyword}`)
+    fetch(`http://${process.env.NEXT_PUBLIC_DB_HOST}:8788/${keyword}`)
       .then((response) => response.json())
       .then((data) => setData(data._embedded.productList))
       .catch((err) => console.error(err));

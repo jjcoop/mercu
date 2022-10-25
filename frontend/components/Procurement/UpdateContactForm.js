@@ -46,7 +46,7 @@ export default function UpdateContactForm() {
 
 
   const fetchSupplierData = () => {
-    fetch(`http://localhost:8787/${keyword}`)
+    fetch(`http://${process.env.NEXT_PUBLIC_DB_HOST}:8787/${keyword}`)
       .then((response) => response.json())
       .then((sData) => setSupplierData(sData._embedded.supplierList))
       .catch((err) => console.error(err));
@@ -60,7 +60,7 @@ export default function UpdateContactForm() {
 
   const fetchContactData = (test) => {
 
-    fetch(`http://localhost:8787/${keyword}/${test}`)
+    fetch(`http://${process.env.NEXT_PUBLIC_DB_HOST}:8787/${keyword}/${test}`)
       .then((response) => response.json())
       .then((cData) => setContactData(cData.contacts))
       .catch((err) => console.error(err));
@@ -95,7 +95,7 @@ export default function UpdateContactForm() {
 
     // API endpoint where we send form data.
 
-    const endpoint = `http://localhost:8787/supplierProcurement/${inputId}/contact/${contactID}`;
+    const endpoint = `http://${process.env.NEXT_PUBLIC_DB_HOST}:8787/supplierProcurement/${inputId}/contact/${contactID}`;
 
     // Form the request for sending data to the server.
     const options = {

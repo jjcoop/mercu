@@ -6,7 +6,7 @@ export default function GrossTable() {
   const [keyword, setKeyword] = useState("bi-sales");
   const [data, setData] = useState([]);
   const fetchData = () => {
-    fetch(`http://localhost:8790/bi-sales/gross-profit`)
+    fetch(`http://${process.env.NEXT_PUBLIC_DB_HOST}:8790/bi-sales/gross-profit`)
       .then((response) => response.json())
       .then((data) => setData(data.productIntel))
       .catch((err) => console.error(err));

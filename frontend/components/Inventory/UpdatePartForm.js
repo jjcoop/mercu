@@ -48,21 +48,21 @@ export default function UpdatePartForm() {
 
 
   const fetchData = () => {
-    fetch(`http://localhost:8788/productInventory/parts`)
+    fetch(`http://${process.env.NEXT_PUBLIC_DB_HOST}:8788/productInventory/parts`)
       .then((response) => response.json())
       .then((data) => setData(data._embedded.partList))
       .catch((err) => console.error(err));
   };
 
   const fetchProductData = () => {
-    fetch(`http://localhost:8788/productInventory/parts/${inputId}`)
+    fetch(`http://${process.env.NEXT_PUBLIC_DB_HOST}:8788/productInventory/parts/${inputId}`)
       .then((response) => response.json())
       .then((p) => setProductId(p.productURI?.split("/").pop()))
       .catch((err) => console.error(err));
   };
 
   const fetchManufacturerData = () => {
-    fetch(`http://localhost:8787/${sKeyword}`)
+    fetch(`http://${process.env.NEXT_PUBLIC_DB_HOST}:8787/${sKeyword}`)
       .then((response) => response.json())
       .then((data) => setManufacturerData(data._embedded.supplierList))
       .catch((err) => console.error(err));
@@ -91,7 +91,7 @@ export default function UpdatePartForm() {
 
     const JSONdata = JSON.stringify(returnData);
 
-    const endpoint = `http://localhost:8788/productInventory/${productId}/part/${inputId}`
+    const endpoint = `http://${process.env.NEXT_PUBLIC_DB_HOST}:8788/productInventory/${productId}/part/${inputId}`
 
     // Form the request for sending data to the server.
     const options = {

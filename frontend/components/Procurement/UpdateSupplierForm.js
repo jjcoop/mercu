@@ -35,7 +35,7 @@ export default function UpdateSupplierForm() {
 
 
   const fetchSupplierData = () => {
-    fetch(`http://localhost:8787/${keyword}`)
+    fetch(`http://${process.env.NEXT_PUBLIC_DB_HOST}:8787/${keyword}`)
       .then((response) => response.json())
       .then((data) => setData(data._embedded.supplierList))
       .catch((err) => console.error(err));
@@ -62,7 +62,7 @@ export default function UpdateSupplierForm() {
 
     // API endpoint where we send form data.
 
-    const endpoint = `http://localhost:8787/supplierProcurement/${inputId}`;
+    const endpoint = `http://${process.env.NEXT_PUBLIC_DB_HOST}:8787/supplierProcurement/${inputId}`;
 
     // Form the request for sending data to the server.
     const options = {

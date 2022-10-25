@@ -16,7 +16,7 @@ export default function Chart() {
   }, []);
 
   const fetchData = () => {
-    fetch(`http://localhost:8790/bi-sales/gross-profit`)
+    fetch(`http://${process.env.NEXT_PUBLIC_DB_HOST}:8790/bi-sales/gross-profit`)
       .then((response) => response.json())
       .then((responseData) => {
         setData(arr => [...arr, { time: new Date().getSeconds(), amount:parseInt(responseData.totalRevenue) }]);

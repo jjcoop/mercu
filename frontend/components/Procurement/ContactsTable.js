@@ -6,7 +6,7 @@ export default function contacts() {
   const [keyword, setKeyword] = useState("supplierProcurement");
   const [data, setData] = useState([]);
   const fetchData = () => {
-    fetch(`http://localhost:8787/${keyword}`)
+    fetch(`http://${process.env.NEXT_PUBLIC_DB_HOST}:8787/${keyword}`)
       .then((response) => response.json())
       .then((data) => setData(data._embedded.supplierList))
       .catch((err) => console.error(err));
