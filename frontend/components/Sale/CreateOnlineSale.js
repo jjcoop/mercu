@@ -32,6 +32,7 @@ export default function CreateOnlineSale() {
   const [customerName, setCustomerName] = useState('');
   const [quantity, setQuantity] = useState('');
   const [test, setTest] = useState('');
+  const [resetBool, setReset] = React.useState(false)
 
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {
@@ -99,6 +100,7 @@ export default function CreateOnlineSale() {
       setCustomerAddress('');
       setQuantity('');
       setTest('');
+      setReset(true);
     }
     else{
       setBadOpen(true);
@@ -130,11 +132,14 @@ export default function CreateOnlineSale() {
         <br />
         <br />
         <Autocomplete
+          //disableClearable
           inputValue={test}
-          onChange={(e,v)=>setTest(v?.name||v)}
+          key={resetBool}
+          //onChange={(e,v)=>setTest(v?.name||v)}
           isOptionEqualToValue={(option, value) => option.id === value.id}
           getOptionLabel={(x) => `${x.name}: ${x.id}`}
           onInputChange={(event, newproductValue) => {
+            setTest(newproductValue);
             setProductValue(newproductValue.substring(0, newproductValue.indexOf(':')));
           }}
           disablePortal

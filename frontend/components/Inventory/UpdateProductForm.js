@@ -31,6 +31,7 @@ export default function UpdateContactForm() {
   const [price, setPrice] = useState('');
   const [description, setDescription] = useState('');
   const [quantity, setQuantity] = useState('');
+  const [resetBool, setReset] = React.useState(false)
 
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {
@@ -94,7 +95,7 @@ export default function UpdateContactForm() {
 
     if (response.status == 201) {
       setOpen(true);
-      setProduct('');
+      setReset(true)
       setName('');
       setPrice('');
       setDescription('');
@@ -109,11 +110,14 @@ export default function UpdateContactForm() {
     <div>
       <form onSubmit={handleSubmit}>
         <Autocomplete
+            key={resetBool}
             inputValue={product}
-            onChange={(e,v)=>setProduct(v?.name||v)}
+            //onChange={(e,v)=>setProduct(v?.name||v)}
             isOptionEqualToValue={(option, value) => option.id === value.id}
             getOptionLabel={(x) => `${x.name}: ${x.id}`}
             onInputChange={(event, newproductValue) => {
+
+              setProduct(newproductValue)
               setProductValue(newproductValue);
               setProductId(newproductValue.replace(/\D/g, ""));
 

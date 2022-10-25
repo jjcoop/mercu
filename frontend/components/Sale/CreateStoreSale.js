@@ -30,6 +30,7 @@ export default function CreateStoreSale() {
   const [test, setTest] = useState('');
   const [product, setProduct] = useState('');
   const [quantity, setQuantity] = useState('');
+  const [resetBool, setReset] = React.useState(false)
   
 
   const handleClose = (event, reason) => {
@@ -98,6 +99,7 @@ export default function CreateStoreSale() {
     const result = await response.json();
 
     if(response.status == 201){
+      setReset(true)
       setOpen(true);
       setTest('');
       setProduct('');
@@ -112,11 +114,15 @@ export default function CreateStoreSale() {
     <div>
       <form onSubmit={handleSubmit}>
       <Autocomplete
+          disableClearable
+          //key={resetBool}
           inputValue={test}
-          onChange={(e,v)=>setTest(v?.address||v)}
+          onChange={(e,v)=>setTest(`${v.id}: ${v.address}`)}
+          
           isOptionEqualToValue={(option, value) => option.id === value.id}
           getOptionLabel={(option) => `${option.id}: ${option.address}`}
           onInputChange={(event, newInputValue) => {
+            //setTest(newInputValue)
             setInputValue(newInputValue);
             setInputId(newInputValue.substring(0, newInputValue.indexOf(':')));
           }}
@@ -133,11 +139,14 @@ export default function CreateStoreSale() {
         />
         <br />
         <Autocomplete
+          key={resetBool}
+          disableClearable
           inputValue={product}
-          onChange={(e,v)=>setProduct(v?.name||v)}
+          //onChange={(e,v)=>setProduct(v?.name||v)}
           isOptionEqualToValue={(option, value) => option.id === value.id}
           getOptionLabel={(x) => `${x.name}: ${x.id}`}
           onInputChange={(event, newproductValue) => {
+            setProduct(newproductValue)
             setProductId(newproductValue.replace(/\D/g, ""));
             setProductValue(newproductValue.substring(0, newproductValue.indexOf(':')));
           }}
