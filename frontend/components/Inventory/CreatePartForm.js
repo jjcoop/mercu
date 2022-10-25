@@ -124,6 +124,7 @@ export default function CreatePartForm() {
     <div>
       <form onSubmit={handleSubmit}>
         <Autocomplete
+          disableClearable
           inputValue={product}
           isOptionEqualToValue={(option, value) => option.id === value.id}
           getOptionLabel={(x) => `${x.name}: ${x.id}`}

@@ -129,6 +129,7 @@ export default function UpdatePartForm() {
     <div>
       <form onSubmit={handleSubmit}>
         <Autocomplete
+          disableClearable
           key={resetBool}
           getOptionLabel={(option) => `${option.partName}: ${option.id}`}
           isOptionEqualToValue={(option, value) => option.id === value.id}
@@ -169,8 +170,9 @@ export default function UpdatePartForm() {
         />
         <br /><br />
         <Autocomplete
+          disableClearable
           inputValue={manufacturer}
-          onChange={(e,v)=>setManufacturer(v?.companyName||v)}
+          onChange={(e,v)=>setManufacturer(`${v.companyName}: ${v.id}`)}
           isOptionEqualToValue={(option, value) => option.id === value.id}
           getOptionLabel={(option) => `${option.companyName}: ${option.id}`}
           onInputChange={(event, newManufacturerValue) => {
