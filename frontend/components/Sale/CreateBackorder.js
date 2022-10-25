@@ -79,7 +79,7 @@ export default function CreateBackorder() {
     <div>
       <form onSubmit={handleSubmit}>
         <Autocomplete
-          //disableClearable
+          disableClearable
           // onChange={(e, v) => setSaleID(v.id)}
           key={resetBool}
           isOptionEqualToValue={(option, value) => option.id === value.id}
