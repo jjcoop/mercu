@@ -135,6 +135,7 @@ export default function UpdateContactForm() {
     <div>
       <form onSubmit={handleSubmit}>
         <Autocomplete
+          
           disableClearable
           inputValue={supplier}
           getOptionLabel={(option) => `${option.companyName}: ${option.id}`}
@@ -152,7 +153,7 @@ export default function UpdateContactForm() {
           disablePortal
           id="combo-box-demo"
           options={sData}
-          sx={{ width: 400 }}
+          sx={{ width: 470 }}
           renderInput={(params) => (
             <div>
               <TextField {...params} 
@@ -177,7 +178,7 @@ export default function UpdateContactForm() {
           disablePortal
           id="combo-box-demo"
           options={cData}
-          sx={{ width: 400 }}
+          sx={{ width: 470 }}
           renderInput={(params) => (
             <div>
               <TextField {...params} label={getLabel()} />
@@ -187,6 +188,7 @@ export default function UpdateContactForm() {
         />
         <br />
         <TextField
+          sx={{mr: 2}}
           required
           id="outlined-required"
           label="First Name"
@@ -195,6 +197,7 @@ export default function UpdateContactForm() {
           value={fname}
         />
         <TextField
+          
           required
           id="outlined-required"
           label="Last Name"
@@ -204,7 +207,7 @@ export default function UpdateContactForm() {
         />
         <br />
         <TextField
-          fullWidth
+          sx={{ width: 470 }}
           margin="normal"
           required
           id="outlined-required"
@@ -213,8 +216,9 @@ export default function UpdateContactForm() {
           onChange={event => setPhone(event.target.value)}
           value={phone}
         />
+        <br />
         <TextField
-          fullWidth
+          sx={{ width: 470 }}
           margin="normal"
           required
           id="outlined-required"
@@ -223,8 +227,9 @@ export default function UpdateContactForm() {
           onChange={event => setEmail(event.target.value)}
           value={email}
         />
+        <br />
         <TextField
-          fullWidth
+          sx={{ width: 470 }}
           margin="normal"
           required
           id="outlined-required"

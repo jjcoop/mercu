@@ -86,7 +86,7 @@ export default function AlertDialog() {
           disablePortal
           id="combo-box-demo"
           options={data}
-          sx={{ width: 400 }}
+          sx={{ width: 470 }}
           renderInput={(params) => (
             <div>
               <TextField {...params} label="Suppliers" />

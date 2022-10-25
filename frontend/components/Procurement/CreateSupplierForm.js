@@ -90,8 +90,8 @@ export default function CreateSupplierForm() {
     <div>
       <form onSubmit={handleSubmit}>
         <TextField
-          fullWidth
-          margin="normal"
+          sx={{ width: 470 }}
+
           required
           id="outlined-required"
           label="Company Name"
@@ -100,9 +100,10 @@ export default function CreateSupplierForm() {
           value={name}
         />
         <br />
+        <br />
         <TextField
-          fullWidth
-          margin="normal"
+          sx={{ width: 470 }}
+          
           required
           id="outlined-required"
           label="Base Name"
@@ -112,6 +113,7 @@ export default function CreateSupplierForm() {
         />
         <br />
         <br />
+        
         <Button color="success" type="submit" variant="contained" endIcon={<SendIcon />}>
           Create Supplier
         </Button>

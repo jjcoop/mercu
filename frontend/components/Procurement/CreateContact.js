@@ -107,9 +107,8 @@ export default function UpdateSupplierForm() {
     <div>
       <form onSubmit={handleSubmit}>
         <Autocomplete
-          disableClearable
           inputValue={supplier}
-          onChange={(e, v) => setSupplier(`${v.companyName}: ${v.id}`)}
+          onChange={(e, v) => setSupplier(v.companyName)}
           getOptionLabel={(option) => `${option.companyName}: ${option.id}`}
           isOptionEqualToValue={(option, value) => option.id === value.id}
           onInputChange={(event, newInputValue) => {
@@ -119,7 +118,7 @@ export default function UpdateSupplierForm() {
           disablePortal
           id="combo-box-demo"
           options={data}
-          sx={{ width: 400 }}
+          sx={{ width: 470 }}
           renderInput={(params) => (
             <div>
               <TextField {...params} label="Select Supplier To Add Contact" />
@@ -129,6 +128,7 @@ export default function UpdateSupplierForm() {
         />
         <br />
         <TextField
+          sx={{mr: 2}}
           required
           id="outlined-required"
           label="First Name"
@@ -137,6 +137,7 @@ export default function UpdateSupplierForm() {
           value={fname}
         />
         <TextField
+        
           required
           id="outlined-required"
           label="Last Name"
@@ -146,7 +147,7 @@ export default function UpdateSupplierForm() {
         />
         <br />
         <TextField
-          fullWidth
+          sx={{ width: 470 }}
           margin="normal"
           required
           id="outlined-required"
@@ -155,8 +156,9 @@ export default function UpdateSupplierForm() {
           onChange={event => setPhone(event.target.value)}
           value={phone}
         />
+        <br />
         <TextField
-          fullWidth
+          sx={{ width: 470 }}
           margin="normal"
           required
           id="outlined-required"
@@ -165,8 +167,9 @@ export default function UpdateSupplierForm() {
           onChange={event => setEmail(event.target.value)}
           value={email}
         />
+        <br />
         <TextField
-          fullWidth
+          sx={{ width: 470 }}
           margin="normal"
           required
           id="outlined-required"
@@ -178,14 +181,14 @@ export default function UpdateSupplierForm() {
         <br />
         <Button
           color="success"
-          sx={{ width: 250, marginTop: 2 }}
+          sx={{ width: 250, marginTop: 1 }}
           type="submit"
           variant="contained"
           endIcon={<SendIcon />}
         >
           Create Contact
         </Button>
-
+        
         <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
           <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
             Success! New Contact Created!
