@@ -33,6 +33,9 @@ export default function UpdateContactForm() {
 
   const [open, setOpen] = React.useState(false);
   const [badOpen, setBadOpen] = React.useState(false);
+
+  const [contactBool, setContactBool] = React.useState(true);
+
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {
       return;
@@ -63,6 +66,16 @@ export default function UpdateContactForm() {
       .catch((err) => console.error(err));
 
   };
+
+  const getLabel = () => {
+    if(contactBool){
+      return "Select a Supplier"
+
+    }
+    else{
+      return "Contact"
+    }
+  }
 
   const handleSubmit = async (event) => {
     // Stop the form from submitting and refreshing the page.
@@ -130,6 +143,7 @@ export default function UpdateContactForm() {
             setSupplier(`${v.companyName}: ${v.id}`)}
 
           onInputChange={(event, newInputValue) => {
+            setContactBool(false)
             setInputId(newInputValue.replace(/\D/g, ""))
             setContact('');
             fetchContactData(newInputValue.replace(/\D/g, ""))
@@ -149,6 +163,7 @@ export default function UpdateContactForm() {
         />
         <br />
         <Autocomplete
+          disabled={contactBool}
           disableClearable
           key={resetBool}
           inputValue={contact}
@@ -165,7 +180,7 @@ export default function UpdateContactForm() {
           sx={{ width: 400 }}
           renderInput={(params) => (
             <div>
-              <TextField {...params} label="Contact" />
+              <TextField {...params} label={getLabel()} />
               <br />
             </div>
           )}
