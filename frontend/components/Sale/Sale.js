@@ -235,7 +235,7 @@ function Sale() {
                   p: 2,
                   display: "flex",
                   flexDirection: "column",
-                  height: 300
+                  height: 265
                 }}
               >
                 <Title>Create Store</Title>
@@ -261,7 +261,7 @@ function Sale() {
                   p: 2,
                   display: "flex",
                   flexDirection: "column",
-                  height: 450,
+                  height: 420,
                 }}
               >
                 <Title>Create Online Sale</Title>
