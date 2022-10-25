@@ -98,8 +98,9 @@ export default function UpdateSupplierForm() {
     <div>
       <form onSubmit={handleSubmit}>
         <Autocomplete
+          disableClearable
           inputValue={supplier}
-          onChange={(e, v) => setSupplier(v?.companyName || v)}
+          onChange={(e, v) => setSupplier(`${v.companyName}: ${v.id}`)}
           isOptionEqualToValue={(option, value) => option.id === value.id}
           getOptionLabel={(option) => `${option.companyName}: ${option.id}`}
           onInputChange={(event, newInputValue) => {

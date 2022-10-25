@@ -74,7 +74,9 @@ export default function AlertDialog() {
     <div>
       <Autocomplete
           inputValue={supplier}
-          onChange={(e,v)=>setSupplier(v?.companyName||v)}
+          disableClearable
+          onChange={(e,v)=>setSupplier(`${v.companyName}: ${v.id}`)}
+          isOptionEqualToValue={(option, value) => option.id === value.id}
           getOptionLabel={(option) => `${option.companyName}: ${option.id}`}
           onInputChange={(event, newInputValue) => {
             setInputValue(newInputValue);

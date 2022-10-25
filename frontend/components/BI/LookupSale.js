@@ -78,11 +78,11 @@ export default function LookupSale() {
               <Autocomplete
                 disableClearable
                 inputValue={product}
-                onChange={(e, v) => setProduct(v?.name || v)}
-                getOptionLabel={(option) => `${option.name}`}
+                onChange={(e, v) => setProduct(`${v.name}: ${v.id}`)}
+                getOptionLabel={(option) => `${option.name}: ${option.id}`}
                 isOptionEqualToValue={(option, value) => option.name === value.name}
                 onInputChange={(event, newInputValue) => {
-                  setInputValue(newInputValue);
+                  setInputValue(newInputValue.substring(0, newInputValue.indexOf(':')));
                   setDate(new Date().toLocaleString());
                   setProductName(newInputValue);
                   fetchSalesData();

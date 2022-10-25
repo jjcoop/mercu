@@ -33,6 +33,8 @@ export default function CreatePartForm() {
 
   const [open, setOpen] = React.useState(false);
   const [badOpen, setBadOpen] = React.useState(false);
+  const [resetBool, setReset] = React.useState(false)
+
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {
       return;
@@ -111,6 +113,7 @@ export default function CreatePartForm() {
       setDescription('');
       setManufacturer('');
       setQuantity('');
+      setReset(true);
     }
     else{
       setBadOpen(true);
@@ -121,14 +124,15 @@ export default function CreatePartForm() {
     <div>
       <form onSubmit={handleSubmit}>
         <Autocomplete
+          disableClearable
           inputValue={product}
           isOptionEqualToValue={(option, value) => option.id === value.id}
-          onChange={(e,v)=>setProduct(v.name)}
           getOptionLabel={(x) => `${x.name}: ${x.id}`}
+          onChange={(e,v)=>setProduct(`${v.name}: ${v.id}`)}
           onInputChange={(event, newproductValue) => {
+            // setProduct(newproductValue)
             setProductValue(newproductValue);
             setProductId(newproductValue.replace(/\D/g, ""));
-
           }}
           disablePortal
           id="combo-box-demo"
@@ -163,10 +167,12 @@ export default function CreatePartForm() {
         <br /><br />
         <Autocomplete
           inputValue={manufacturer}
-          onChange={(e,v)=>setManufacturer(v?.companyName||v)}
+          key={resetBool}
+          //onChange={(e,v)=>setManufacturer(v?.companyName||v)}
           isOptionEqualToValue={(option, value) => option.id === value.id}
           getOptionLabel={(option) => `${option.companyName}: ${option.id}`}
           onInputChange={(event, newManufacturerValue) => {
+            setManufacturer(newManufacturerValue);
             setManufacturerId(newManufacturerValue.replace(/\W/g, ''));
             setManufacturerValue(newManufacturerValue.substring(0, newManufacturerValue.indexOf(':')));
           }}
