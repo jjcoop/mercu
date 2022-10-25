@@ -84,7 +84,7 @@ export default function CreateBackorder() {
           key={resetBool}
           isOptionEqualToValue={(option, value) => option.id === value.id}
           
-          getOptionLabel={(option) => `${option.id}: ${option.customerName}, ${option.productName}`}
+          getOptionLabel={(option) => `${option.id}: ${option.productName}`}
           onInputChange={(event, newInputValue) => {
             setSaleID(newInputValue.replace(/\D/g, ''));
             setInputValue(newInputValue);

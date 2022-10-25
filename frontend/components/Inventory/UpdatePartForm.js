@@ -36,6 +36,8 @@ export default function UpdatePartForm() {
 
   const [open, setOpen] = React.useState(false);
   const [badOpen, setBadOpen] = React.useState(false);
+  const [resetBool, setReset] = React.useState(false)
+  
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {
       return;
@@ -112,7 +114,7 @@ export default function UpdatePartForm() {
 
     if (response.status == 201) {
       setOpen(true);
-      setPart('');
+      setReset(true);
       setPartName('');
       setDescription('');
       setManufacturer('');
@@ -127,6 +129,7 @@ export default function UpdatePartForm() {
     <div>
       <form onSubmit={handleSubmit}>
         <Autocomplete
+          key={resetBool}
           getOptionLabel={(option) => `${option.partName}: ${option.id}`}
           isOptionEqualToValue={(option, value) => option.id === value.id}
           onInputChange={(event, newInputValue) => {
