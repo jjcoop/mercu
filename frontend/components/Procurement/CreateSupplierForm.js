@@ -56,7 +56,7 @@ export default function CreateSupplierForm() {
     const JSONdata = JSON.stringify(data);
 
     // API endpoint where we send form data.
-    const endpoint = "http://${process.env.NEXT_PUBLIC_DB_HOST}:8787/supplierProcurement";
+    const endpoint = `http://${process.env.NEXT_PUBLIC_DB_HOST}:8787/supplierProcurement`;
 
     // Form the request for sending data to the server.
     const options = {
