@@ -1,0 +1,42 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Launch Current File",
+            "request": "launch",
+            "mainClass": "${file}"
+        },
+        {
+            "type": "java",
+            "name": "Launch BusinessIntellApplication",
+            "request": "launch",
+            "mainClass": "mercury.business.BusinessIntellApplication",
+            "projectName": "bi"
+        },
+        {
+            "type": "java",
+            "name": "Launch InventorymsApplication",
+            "request": "launch",
+            "mainClass": "mercury.inventoryms.InventorymsApplication",
+            "projectName": "inventoryms"
+        },
+        {
+            "type": "java",
+            "name": "Launch ProcuremsApplication",
+            "request": "launch",
+            "mainClass": "mercury.procurems.ProcuremsApplication",
+            "projectName": "procurems"
+        },
+        {
+            "type": "java",
+            "name": "Launch SalemsApplication",
+            "request": "launch",
+            "mainClass": "mercury.salems.SalemsApplication",
+            "projectName": "salems"
+        }
+    ]
+}

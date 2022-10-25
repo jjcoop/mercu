@@ -222,24 +222,6 @@ function DashboardContent() {
             <Grid item xs={12}>
               <LookupSale />
             </Grid>
-            <Grid item xs={6}>
-              <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-                <Title>Product Revenue</Title>
-                <GrossTable />
-              </Paper>
-            </Grid>
-            <Grid item xs={6} md={6} lg={6}>
-              <Paper
-                sx={{
-                  p: 2,
-                  display: "flex",
-                  flexDirection: "column",
-                  height: 470,
-                }}
-              >
-                <Chart />
-              </Paper>
-            </Grid>
           </Grid>
           <Copyright sx={{ pt: 4 }} />
         </Container>
