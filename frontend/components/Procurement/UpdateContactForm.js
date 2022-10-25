@@ -29,6 +29,7 @@ export default function UpdateContactForm() {
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
   const [position, setPosition] = useState('');
+  const [resetBool, setReset] = React.useState(false);
 
   const [open, setOpen] = React.useState(false);
   const [badOpen, setBadOpen] = React.useState(false);
@@ -121,14 +122,16 @@ export default function UpdateContactForm() {
     <div>
       <form onSubmit={handleSubmit}>
         <Autocomplete
+          disableClearable
           inputValue={supplier}
           getOptionLabel={(option) => `${option.companyName}: ${option.id}`}
           isOptionEqualToValue={(option, value) => option.id === value.id}
-
-          onChange={(e,v)=>setSupplier(v.companyName)}
+          onChange={(e,v)=>
+            setSupplier(`${v.companyName}: ${v.id}`)}
 
           onInputChange={(event, newInputValue) => {
             setInputId(newInputValue.replace(/\D/g, ""))
+            setContact('');
             fetchContactData(newInputValue.replace(/\D/g, ""))
           }}
 
@@ -146,8 +149,10 @@ export default function UpdateContactForm() {
         />
         <br />
         <Autocomplete
+          disableClearable
+          key={resetBool}
           inputValue={contact}
-          onChange={(e,v)=>setContact(v.name)}
+          onChange={(e,v)=>setContact(`${v.name}: ${v.id}`)}
           isOptionEqualToValue={(option, value) => option.id === value.id}
           getOptionLabel={(option) => `${option.name}: ${option.id}`}
           onInputChange={(event, value) => {
