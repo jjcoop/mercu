@@ -29,7 +29,9 @@ function loadScript(src, position, id) {
   position.appendChild(script);
 }
 
-const autocompleteService = { current: null };
+const autocompleteService = { 
+  current: null 
+};
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -100,6 +102,7 @@ export default function CreateStoreForm() {
       setOpen(true);
       setStoreAddress("");
       setManagerName("");
+      setValue("");
     } else {
       setBadOpen(true);
     }
@@ -108,7 +111,7 @@ export default function CreateStoreForm() {
   if (typeof window !== "undefined" && !loaded.current) {
     if (!document.querySelector("#google-maps")) {
       loadScript(
-        `https://maps.googleapis.com/maps/api/js?key=${GOOGLE_MAPS_API_KEY}&libraries=places`,
+        `https://maps.googleapis.com/maps/api/js?key=${GOOGLE_MAPS_API_KEY}&region=au&libraries=places`,
         document.querySelector("head"),
         "google-maps"
       );
@@ -165,7 +168,6 @@ export default function CreateStoreForm() {
   return (
     <div>
       <form onSubmit={handleSubmit}>
-        <br />
         <Autocomplete
           
           id="google-map-demo"

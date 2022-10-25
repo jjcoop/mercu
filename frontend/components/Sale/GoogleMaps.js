@@ -10,8 +10,7 @@ import Typography from '@mui/material/Typography';
 import parse from 'autosuggest-highlight/parse';
 import throttle from 'lodash/throttle';
 
-// This key was created specifically for the demo in mui.com.
-// You need to create a new one for your application.
+
 const GOOGLE_MAPS_API_KEY = 'AIzaSyAE-jxMqVoEB-SSDEUHcG79O2zh8Sy5ZiU';
 
 function loadScript(src, position, id) {
@@ -47,7 +46,7 @@ export default function GoogleMaps() {
     loaded.current = true;
   }
 
-  const fetch = React.useMemo(
+  const gFetch = React.useMemo(
     () =>
       throttle((request, callback) => {
         autocompleteService.current.getPlacePredictions(request, callback);
@@ -71,7 +70,7 @@ export default function GoogleMaps() {
       return undefined;
     }
 
-    fetch({ input: iv }, (results) => {
+    gFetch({ input: iv }, (results) => {
       if (active) {
         let newOptions = [];
 
@@ -90,7 +89,7 @@ export default function GoogleMaps() {
     return () => {
       active = false;
     };
-  }, [value, iv, fetch]);
+  }, [value, iv, gFetch]);
 
   return (
     <Autocomplete
