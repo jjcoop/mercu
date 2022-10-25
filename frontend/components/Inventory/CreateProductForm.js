@@ -100,6 +100,7 @@ export default function CreateProductForm() {
       <form onSubmit={handleSubmit}>
         <br />
         <TextField
+          sx={{width: 470}}
           required
           id="outlined-required"
           label="Product Name"
@@ -110,6 +111,7 @@ export default function CreateProductForm() {
         <br />
         <br />
         <TextField
+          sx={{width: 470}}
           required
           id="outlined-required"
           label="Product Price"
@@ -119,7 +121,7 @@ export default function CreateProductForm() {
         />
         <br />
         <TextField
-          fullWidth
+          sx={{width: 470}}
           margin="normal"
           required
           id="outlined-required"
@@ -130,7 +132,7 @@ export default function CreateProductForm() {
         />
         <br />
         <TextField
-          fullWidth
+          sx={{width: 470}}
           margin="normal"
           required
           id="outlined-required"

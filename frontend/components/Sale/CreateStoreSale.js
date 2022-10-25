@@ -129,7 +129,7 @@ export default function CreateStoreSale() {
           disablePortal
           id="combo-box-demo"
           options={data}
-          sx={{ width: 400 }}
+          sx={{width: 470}}
           renderInput={(params) => (
             <div>
               <TextField {...params} label="Select Store" />
@@ -153,7 +153,7 @@ export default function CreateStoreSale() {
           disablePortal
           id="combo-box-demo"
           options={pData}
-          sx={{ width: 400 }}
+          sx={{width: 470}}
           renderInput={(params) => (
             <div>
               <TextField {...params} label="Select Product" />
@@ -164,6 +164,7 @@ export default function CreateStoreSale() {
         <br />
         <TextField
           required
+          sx={{width: 470}}
           id="outlined-required"
           label="Quantity"
           name="quantity"

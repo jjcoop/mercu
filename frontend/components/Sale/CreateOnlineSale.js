@@ -191,6 +191,7 @@ export default function CreateOnlineSale() {
     <div>
       <form onSubmit={handleSubmit}>
         <TextField
+          sx={{width: 470}}
           required
           id="outlined-required"
           label="Customer Name"
@@ -202,7 +203,7 @@ export default function CreateOnlineSale() {
         <br />
         <Autocomplete
           id="google-map-demo"
-          sx={{ width: 500 }}
+          sx={{ width: 470 }}
           getOptionLabel={(option) =>
             typeof option === "string" ? option : option.description
           }
@@ -294,7 +295,7 @@ export default function CreateOnlineSale() {
           disablePortal
           id="combo-box-demo"
           options={pData}
-          sx={{ width: 500 }}
+          sx={{width: 470}}
           renderInput={(params) => (
             <div>
               <TextField {...params} label="Select Product" />
@@ -304,6 +305,7 @@ export default function CreateOnlineSale() {
         />
         <br />
         <TextField
+          sx={{width: 470}}
           required
           id="outlined-required"
           label="Quantity"

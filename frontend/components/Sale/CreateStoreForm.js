@@ -171,7 +171,7 @@ export default function CreateStoreForm() {
         <Autocomplete
           
           id="google-map-demo"
-          sx={{ width: 500 }}
+          sx={{width: 470}}
           getOptionLabel={(option) =>
             typeof option === "string" ? option : option.description
           }
@@ -208,7 +208,7 @@ export default function CreateStoreForm() {
         <br />
         <TextField
           required
-          sx={{ width: 500 }}
+          sx={{width: 470}}
           id="outlined-required"
           label="Store Manager Name"
           name="storeManager"
@@ -218,7 +218,7 @@ export default function CreateStoreForm() {
         <br />
         <Button
           color="success"
-          sx={{ width: 250, marginTop: 2 }}
+          sx={{ width: 470, marginTop: 2 }}
           type="submit"
           variant="contained"
           endIcon={<SendIcon />}

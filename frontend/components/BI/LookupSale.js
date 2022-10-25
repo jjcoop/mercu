@@ -132,7 +132,7 @@ export default function LookupSale() {
                 disablePortal
                 id="combo-box-demo"
                 options={productList}
-                sx={{ width: 400 }}
+                sx={{width: 470}}
                 renderInput={(params) => (
                   <div>
                     <TextField {...params}
