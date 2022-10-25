@@ -42,14 +42,14 @@ export default function CreateStoreSale() {
   };
 
   const fetchData = () => {
-    fetch(`http://localhost:8789/${keyword}/store`)
+    fetch(`http://${process.env.NEXT_PUBLIC_DB_HOST}:8789/${keyword}/store`)
       .then((response) => response.json())
       .then((data) => setData(data._embedded.storeList))
       .catch((err) => console.error(err));
   };
 
   const fetchProductData = () => {
-    fetch(`http://localhost:8788/${pKeyword}`)
+    fetch(`http://${process.env.NEXT_PUBLIC_DB_HOST}:8788/${pKeyword}`)
       .then((response) => response.json())
       .then((pData) => setProductData(pData._embedded.productList))
       .catch((err) => console.error(err));
@@ -77,7 +77,7 @@ export default function CreateStoreSale() {
     // Send the data to the server in JSON format.
     const JSONdata = JSON.stringify(data);
 
-    const endpoint = `http://localhost:8789/${keyword}/store/${inputId}`;
+    const endpoint = `http://${process.env.NEXT_PUBLIC_DB_HOST}:8789/${keyword}/store/${inputId}`;
 
     // Form the request for sending data to the server.
     const options = {

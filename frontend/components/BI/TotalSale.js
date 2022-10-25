@@ -15,7 +15,7 @@ export default function Deposits() {
   const [data, setData] = useState([]);
   const [date, setDate] = useState("");
   const fetchData = () => {
-    fetch(`http://localhost:8790/bi-sales/gross-profit`)
+    fetch(`http://${process.env.NEXT_PUBLIC_DB_HOST}:8790/bi-sales/gross-profit`)
       .then((response) => response.json())
       .then((data) => setData(data.totalRevenue))
       .catch((err) => console.error(err));

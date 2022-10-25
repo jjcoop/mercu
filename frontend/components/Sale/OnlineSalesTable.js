@@ -6,7 +6,7 @@ export default function OnlineSalesTable() {
   const [keyword, setKeyword] = useState("sales");
   const [data, setData] = useState([]);
   const fetchData = () => {
-    fetch(`http://localhost:8789/${keyword}/online`)
+    fetch(`http://${process.env.NEXT_PUBLIC_DB_HOST}:8789/${keyword}/online`)
       .then((response) => response.json())
       .then((data) => setData(data._embedded.onlineSaleList))
       .catch((err) => console.error(err));

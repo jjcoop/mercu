@@ -32,7 +32,7 @@ export default function CreateSupplierForm() {
   const [keyword, setKeyword] = useState("supplierProcurement");
   const [data, setData] = useState([]);
   const fetchData = () => {
-    fetch(`http://localhost:8787/${keyword}`)
+    fetch(`http://${process.env.NEXT_PUBLIC_DB_HOST}:8787/${keyword}`)
       .then((response) => response.json())
       .then((data) => setData(data._embedded.supplierList))
       .catch((err) => console.error(err));
@@ -56,7 +56,7 @@ export default function CreateSupplierForm() {
     const JSONdata = JSON.stringify(data);
 
     // API endpoint where we send form data.
-    const endpoint = "http://localhost:8787/supplierProcurement";
+    const endpoint = "http://${process.env.NEXT_PUBLIC_DB_HOST}:8787/supplierProcurement";
 
     // Form the request for sending data to the server.
     const options = {

@@ -34,7 +34,7 @@ export default function CreateBackorder() {
   };
 
   const fetchData = () => {
-    fetch(`http://localhost:8789/${keyword}/unavailable`)
+    fetch(`http://${process.env.NEXT_PUBLIC_DB_HOST}:8789/${keyword}/unavailable`)
       .then((response) => response.json())
       .then((data) => setData(data))
       .catch((err) => console.error(err));
@@ -51,7 +51,7 @@ export default function CreateBackorder() {
 
     // Send the data to the server in JSON format.
 
-    const endpoint = `http://localhost:8789/${keyword}/backorder/${saleID}`;
+    const endpoint = `http://${process.env.NEXT_PUBLIC_DB_HOST}:8789/${keyword}/backorder/${saleID}`;
 
     // Form the request for sending data to the server.
     const options = {

@@ -244,6 +244,7 @@ function DashboardContent() {
               </Paper>
             </Grid>
             {/* Suppliers */}
+            {console.log(process.env.NEXT_PUBLIC_DB_HOST)}
             <Grid item xs={12}>
               <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
                 <Title>Contacts</Title>

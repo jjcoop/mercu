@@ -69,7 +69,7 @@ export default function CreateOnlineSale() {
   };
 
   const fetchProductData = () => {
-    fetch(`http://localhost:8788/${pKeyword}`)
+    fetch(`http://${process.env.NEXT_PUBLIC_DB_HOST}:8788/${pKeyword}`)
       .then((response) => response.json())
       .then((pData) => setProductData(pData._embedded.productList))
       .catch((err) => console.error(err));
@@ -96,7 +96,7 @@ export default function CreateOnlineSale() {
     // Send the data to the server in JSON format.
     const JSONdata = JSON.stringify(data);
 
-    const endpoint = `http://localhost:8789/${keyword}/online`;
+    const endpoint = `http://${process.env.NEXT_PUBLIC_DB_HOST}:8789/${keyword}/online`;
 
     // Form the request for sending data to the server.
     const options = {

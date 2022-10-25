@@ -34,7 +34,7 @@ export default function CreateProductForm() {
   };
 
   const fetchData = () => {
-    fetch(`http://localhost:8788/${keyword}/parts`)
+    fetch(`http://${process.env.NEXT_PUBLIC_DB_HOST}:8788/${keyword}/parts`)
       .then((response) => response.json())
       .then((data) => setData(data._embedded.partList))
       .catch((err) => console.error(err));
@@ -61,7 +61,7 @@ export default function CreateProductForm() {
 
     // API endpoint where we send form data.
 
-    const endpoint = `http://localhost:8788/productInventory`;
+    const endpoint = `http://${process.env.NEXT_PUBLIC_DB_HOST}:8788/productInventory`;
 
     // Form the request for sending data to the server.
     const options = {

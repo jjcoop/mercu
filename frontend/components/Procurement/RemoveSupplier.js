@@ -51,14 +51,14 @@ export default function AlertDialog() {
   const [supplier, setSupplier] = useState('');
 
   const fetchData = () => {
-    fetch(`http://localhost:8787/${keyword}`)
+    fetch(`http://${process.env.NEXT_PUBLIC_DB_HOST}:8787/${keyword}`)
       .then((response) => response.json())
       .then((data) => setData(data._embedded.supplierList))
       .catch((err) => console.error(err));
   };
 
   const deleteSupplier = () => {
-    fetch(`http://localhost:8787/${keyword}/${inputId}`, { method: 'DELETE' })
+    fetch(`http://${process.env.NEXT_PUBLIC_DB_HOST}:8787/${keyword}/${inputId}`, { method: 'DELETE' })
     .then(async response => {
       window.location.reload(false);
     })
