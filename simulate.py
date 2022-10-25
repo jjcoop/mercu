@@ -187,7 +187,7 @@ if input("Create Stores and Store sales: Y/N ").upper() == "Y":
     storeNumber = 5
     for x in range(storeNumber):
         store = {
-            "address": fake.address(),
+            "address": f"{fake.address()}".replace("\n", ", "),
             "managerName": fake.first_name()
         }
         storeID = postStore(store)
@@ -205,7 +205,7 @@ if input("Create Online Sales: Y/N ").upper() == "Y":
         ln = fake.last_name()
         sale = {
             "customerName": f"{fake.first_name()} {ln}",
-            "address": fake.address(),
+            "address": f"{fake.address()}".replace("\n", ", "),
             "productName": choice(productNames),
             "quantity": fake.random_number(digits=1, fix_len=True)
         }
@@ -223,7 +223,7 @@ if input("Create High Traffic Online Sales: Y/N ").upper() == "Y":
         ln = fake.last_name()
         sale = {
             "customerName": f"{fake.first_name()} {ln}",
-            "address": fake.address(),
+            "address": f"{fake.address()}".replace("\n", ", "),
             "productName": choice(productNames),
             "quantity": 2
         }
