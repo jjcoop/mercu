@@ -22,6 +22,7 @@ export default function CreateBackorder() {
   const [data, setData] = useState([]);
   const [open, setOpen] = React.useState(false);
   const [badOpen, setBadOpen] = React.useState(false);
+  const [resetBool, setReset] = React.useState(false)
 
 
   const handleClose = (event, reason) => {
@@ -67,6 +68,7 @@ export default function CreateBackorder() {
 
     if (response.status == 200) {
       setOpen(true);
+      setReset(true)
     }
     else {
       setBadOpen(true);
@@ -77,11 +79,14 @@ export default function CreateBackorder() {
     <div>
       <form onSubmit={handleSubmit}>
         <Autocomplete
+
           // onChange={(e, v) => setSaleID(v.id)}
+          key={resetBool}
           isOptionEqualToValue={(option, value) => option.id === value.id}
-          getOptionLabel={(option) => `${option.id}`}
+          
+          getOptionLabel={(option) => `${option.id}: ${option.customerName}, ${option.productName}`}
           onInputChange={(event, newInputValue) => {
-            setSaleID(newInputValue);
+            setSaleID(newInputValue.replace(/\D/g, ''));
             setInputValue(newInputValue);
             setInputId(newInputValue);
             fetchData();
