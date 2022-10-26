@@ -133,8 +133,8 @@ export default function LookupSale() {
   return (
     <div>
       <Container maxWidth={false} sx={{ mt: 4, mb: 4 }}>
-        <Grid container spacing={2}>
-          <Grid item xs={7}>
+        <Grid container spacing={3}>
+          <Grid item xs={12} md={7} lg={7}> 
             <Paper
               sx={{ p: 2, display: "flex", flexDirection: "column", height: 150 }}
             >
@@ -176,7 +176,7 @@ export default function LookupSale() {
               </form>
             </Paper>
           </Grid>
-          <Grid item xs={5}>
+          <Grid item xs={12} md={5} lg={5} sx={{p: 0}}> 
             <Paper
               sx={{ p: 2, display: "flex", flexDirection: "column", height: 150 }}
             >
@@ -189,7 +189,7 @@ export default function LookupSale() {
               </Typography>
             </Paper>
           </Grid>
-          <Grid item xs={5}>
+          <Grid item xs={12} md={5} lg={5}>
             <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
               <Title>Products Revenue</Title>
               <div style={{ height: 400, width: "100%" }}>
@@ -203,7 +203,7 @@ export default function LookupSale() {
               </div>
             </Paper>
           </Grid>
-          <Grid item xs={7}>
+          <Grid item xs={12} md={7} lg={7}>
             <Paper
               sx={{
                 p: 2,
