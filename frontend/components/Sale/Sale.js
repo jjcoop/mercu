@@ -229,20 +229,20 @@ function Sale() {
                 <OnlineSalesTable />
               </Paper>
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={12} md={6} lg={6}> 
               <Paper
                 sx={{
                   p: 2,
                   display: "flex",
                   flexDirection: "column",
-                  height: 265
+                  height: 350
                 }}
               >
                 <Title>Create Store</Title>
                 <CreateStoreForm />
               </Paper>
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={12} md={6} lg={6}>
               <Paper
                 sx={{
                   p: 2,
@@ -255,7 +255,7 @@ function Sale() {
                 <CreateStoreSale />
               </Paper>
             </Grid>
-            <Grid item xs={12} md={12} lg={12}>
+            <Grid item xs={12} md={7} lg={7}>
               <Paper
                 sx={{
                   p: 2,
@@ -268,13 +268,13 @@ function Sale() {
                 <CreateOnlineSale />
               </Paper>
             </Grid>
-            <Grid item xs={12} md={12} lg={12}>
+            <Grid item xs={12} md={5} lg={5}>
               <Paper
                 sx={{
                   p: 2,
                   display: "flex",
                   flexDirection: "column",
-                  height: 200,
+                  height: 420,
                 }}
               >
                 <Title>Create Backorder</Title>

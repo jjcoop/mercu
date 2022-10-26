@@ -137,7 +137,7 @@ export default function CreatePartForm() {
           disablePortal
           id="combo-box-demo"
           options={pData}
-          sx={{width: 470}}
+          sx={{width: "75%"}}
           renderInput={(params) => (
             <div>
               <TextField {...params} label="Select Product To Add Part To" />
@@ -147,7 +147,7 @@ export default function CreatePartForm() {
         />
         <br />
         <TextField
-          sx={{width: 470}}
+          sx={{width: "75%"}}
           required
           id="outlined-required"
           label="Part Name"
@@ -157,7 +157,7 @@ export default function CreatePartForm() {
         />
         <br /><br />
         <TextField
-          sx={{width: 470}}
+          sx={{width: "75%"}}
           required
           id="outlined-required"
           label="Description"
@@ -180,7 +180,7 @@ export default function CreatePartForm() {
           disablePortal
           id="combo-box-demo"
           options={mData}
-          sx={{width: 470}}
+          sx={{width: "75%"}}
           renderInput={(params) => (
             <div>
               <TextField {...params} label="Select Manufacturer" />
@@ -190,7 +190,7 @@ export default function CreatePartForm() {
         />
         
         <TextField
-          sx={{width: 470}}
+          sx={{width: "75%"}}
           margin="normal"
           required
           id="outlined-required"
@@ -202,7 +202,7 @@ export default function CreatePartForm() {
         <br />
         <Button
           color="success"
-          sx={{ width: 250, marginTop: 2 }}
+          sx={{ width: "75%", marginTop: 2 }}
           type="submit"
           variant="contained"
           endIcon={<SendIcon />}

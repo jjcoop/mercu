@@ -103,7 +103,7 @@ export default function CreateBackorder() {
         />
         <Button
           color="success"
-          sx={{ width: 250, marginTop: 2 }}
+          sx={{ width: 250, marginTop: 32 }}
           type="submit"
           variant="contained"
           endIcon={<SendIcon />}

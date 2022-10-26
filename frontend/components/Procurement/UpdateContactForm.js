@@ -153,7 +153,7 @@ export default function UpdateContactForm() {
           disablePortal
           id="combo-box-demo"
           options={sData}
-          sx={{ width: 470 }}
+          sx={{ width: "50%" }}
           renderInput={(params) => (
             <div>
               <TextField {...params} 
@@ -178,7 +178,7 @@ export default function UpdateContactForm() {
           disablePortal
           id="combo-box-demo"
           options={cData}
-          sx={{ width: 470 }}
+          sx={{ width: "50%" }}
           renderInput={(params) => (
             <div>
               <TextField {...params} label={getLabel()} />
@@ -188,7 +188,7 @@ export default function UpdateContactForm() {
         />
         <br />
         <TextField
-          sx={{mr: 2}}
+          sx={{mr: "2%", width: "24%"}}
           required
           id="outlined-required"
           label="First Name"
@@ -197,7 +197,7 @@ export default function UpdateContactForm() {
           value={fname}
         />
         <TextField
-          
+          sx={{width: "24%"}}
           required
           id="outlined-required"
           label="Last Name"
@@ -207,7 +207,7 @@ export default function UpdateContactForm() {
         />
         <br />
         <TextField
-          sx={{ width: 470 }}
+          sx={{ width: "50%" }}
           margin="normal"
           required
           id="outlined-required"
@@ -218,7 +218,7 @@ export default function UpdateContactForm() {
         />
         <br />
         <TextField
-          sx={{ width: 470 }}
+          sx={{ width: "50%" }}
           margin="normal"
           required
           id="outlined-required"
@@ -229,7 +229,7 @@ export default function UpdateContactForm() {
         />
         <br />
         <TextField
-          sx={{ width: 470 }}
+          sx={{ width: "50%" }}
           margin="normal"
           required
           id="outlined-required"
@@ -241,7 +241,7 @@ export default function UpdateContactForm() {
         <br />
         <Button
           color="warning"
-          sx={{ width: 250, marginTop: 2 }}
+          sx={{ width: "50%", marginTop: 2 }}
           type="submit"
           variant="contained"
           endIcon={<SendIcon />}

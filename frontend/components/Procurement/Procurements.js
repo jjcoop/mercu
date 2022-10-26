@@ -221,34 +221,20 @@ function Procurements() {
                 <ContactsTable />
               </Paper>
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={12} md={7} lg={7}> 
               <Paper
                 sx={{
                   p: 2,
                   display: "flex",
                   flexDirection: "column",
-                  height: 300,
+                  height: 350,
                 }}
               >
                 <Title>Create Supplier</Title>
                 <CreateSupplierForm />
               </Paper>
             </Grid>
-            <Grid item xs={12}>
-              <Paper
-                sx={{
-                  p: 2,
-                  display: "flex",
-                  flexDirection: "column",
-                  height: 500,
-                }}
-              >
-                <Title>Create Contact</Title>
-                <CreateContact />
-              </Paper>
-            </Grid>
-            {/* Recent Deposits */}
-            <Grid item xs={12} md={12} lg={12}>
+            <Grid item xs={12} md={5} lg={5}>
               <Paper
                 sx={{
                   p: 2,
@@ -261,7 +247,22 @@ function Procurements() {
                 <UpdateSupplierForm/>
               </Paper>
             </Grid>
-            <Grid item xs={12} md={12} lg={12}>
+            <Grid item xs={12} md={6} lg={6}> 
+              <Paper
+                sx={{
+                  p: 2,
+                  display: "flex",
+                  flexDirection: "column",
+                  height: 600,
+                }}
+              >
+                <Title>Create Contact</Title>
+                <CreateContact />
+              </Paper>
+            </Grid>
+            {/* Recent Deposits */}
+            
+            <Grid item xs={12} md={6} lg={6}>
               <Paper
                 sx={{
                   p: 2,

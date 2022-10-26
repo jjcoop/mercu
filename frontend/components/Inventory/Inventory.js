@@ -221,35 +221,20 @@ function Inventory() {
                 <PartsTable />
               </Paper>
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={12} md={7} lg={7}> 
               <Paper
                 sx={{
                   p: 2,
                   display: "flex",
                   flexDirection: "column",
-                  height: 450
+                  height: 500
                 }}
               >
                 <Title>Create Product</Title>
                 <CreateProductForm />
               </Paper>
             </Grid>
-            <Grid item xs={12}>
-              <Paper
-                sx={{
-                  p: 2,
-                  display: "flex",
-                  flexDirection: "column",
-                  height: 500,
-                }}
-              >
-                <Title>Create Part</Title>
-                <CreatePartForm />
-              </Paper>
-            </Grid>
-            
-            {/* Recent Deposits */}
-            <Grid item xs={12} md={12} lg={12}>
+            <Grid item xs={12} md={5} lg={5}>
               <Paper
                 sx={{
                   p: 2,
@@ -262,7 +247,20 @@ function Inventory() {
                 <UpdateProductForm/>
               </Paper>
             </Grid>
-            <Grid item xs={12} md={12} lg={12}>
+            <Grid item xs={12} md={6} lg={6}>
+              <Paper
+                sx={{
+                  p: 2,
+                  display: "flex",
+                  flexDirection: "column",
+                  height: 500,
+                }}
+              >
+                <Title>Create Part</Title>
+                <CreatePartForm />
+              </Paper>
+            </Grid>
+            <Grid item xs={12} md={6} lg={6}> 
               <Paper
                 sx={{
                   p: 2,
