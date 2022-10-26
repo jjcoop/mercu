@@ -203,7 +203,7 @@ export default function CreateOnlineSale() {
         <br />
         <Autocomplete
           id="google-map-demo"
-          sx={{ width: 470 }}
+          sx={{ width: "50%" }}
           getOptionLabel={(option) =>
             typeof option === "string" ? option : option.description
           }
