@@ -125,7 +125,7 @@ export default function UpdateContactForm() {
             disablePortal
             id="combo-box-demo"
             options={pData}
-            sx={{width: 470}}
+            sx={{width: "75%"}}
             renderInput={(params) => (
               <div>
                 <TextField {...params} label="Select Product to Update" />
@@ -134,7 +134,7 @@ export default function UpdateContactForm() {
           />
           <br />
         <TextField
-          sx={{width: 470}}
+          sx={{width: "75%"}}
           required
           id="outlined-required"
           label="Product Name"
@@ -143,9 +143,9 @@ export default function UpdateContactForm() {
           value={name}
         />
         <br />
-        <br />
         <TextField
-          sx={{width: 470}}
+          sx={{width: "75%"}}
+          margin="normal"
           required
           id="outlined-required"
           label="Product Price"
@@ -155,7 +155,7 @@ export default function UpdateContactForm() {
         />
         <br />
         <TextField
-          sx={{width: 470}}
+          sx={{width: "75%"}}
           margin="normal"
           required
           id="outlined-required"
@@ -166,7 +166,7 @@ export default function UpdateContactForm() {
         />
         <br />
         <TextField
-          sx={{width: 470}}
+          sx={{width: "75%"}}
           margin="normal"
           required
           id="outlined-required"
@@ -178,7 +178,7 @@ export default function UpdateContactForm() {
         <br />
         <Button
           color="warning"
-          sx={{ width: 250, marginTop: 2 }}
+          sx={{ width: "75%", marginTop: 2 }}
           type="submit"
           variant="contained"
           endIcon={<SendIcon />}

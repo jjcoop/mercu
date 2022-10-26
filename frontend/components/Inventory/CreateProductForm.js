@@ -98,9 +98,8 @@ export default function CreateProductForm() {
   return (
     <div>
       <form onSubmit={handleSubmit}>
-        <br />
         <TextField
-          sx={{width: 470}}
+          sx={{width: "65%"}}
           required
           id="outlined-required"
           label="Product Name"
@@ -111,7 +110,7 @@ export default function CreateProductForm() {
         <br />
         <br />
         <TextField
-          sx={{width: 470}}
+          sx={{width: "65%"}}
           required
           id="outlined-required"
           label="Product Price"
@@ -121,7 +120,7 @@ export default function CreateProductForm() {
         />
         <br />
         <TextField
-          sx={{width: 470}}
+          sx={{width: "65%"}}
           margin="normal"
           required
           id="outlined-required"
@@ -132,7 +131,7 @@ export default function CreateProductForm() {
         />
         <br />
         <TextField
-          sx={{width: 470}}
+          sx={{width: "65%"}}
           margin="normal"
           required
           id="outlined-required"
@@ -144,7 +143,7 @@ export default function CreateProductForm() {
         <br />
         <Button
           color="success"
-          sx={{ width: 250, marginTop: 2 }}
+          sx={{ width: "65%", marginTop: 12 }}
           type="submit"
           variant="contained"
           endIcon={<SendIcon />}
