@@ -86,7 +86,7 @@ export default function AlertDialog() {
           disablePortal
           id="combo-box-demo"
           options={data}
-          sx={{ width: "35%" }}
+          fullWidth
           renderInput={(params) => (
             <div>
               <TextField {...params} label="Suppliers" />
@@ -96,7 +96,8 @@ export default function AlertDialog() {
         />
       <Button
           color="error"
-          sx={{ width: "35%", marginTop: 4 }}
+          fullWidth
+          sx={{marginTop: "2%" }}
           type="submit"
           variant="contained"
           endIcon={<SendIcon />}

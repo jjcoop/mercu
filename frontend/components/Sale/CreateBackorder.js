@@ -94,7 +94,7 @@ export default function CreateBackorder() {
           disablePortal
           id="combo-box-demo"
           options={data}
-          sx={{width: 470}}
+          fullWidth
           renderInput={(params) => (
             <div>
               <TextField {...params} label="Select Sale Order" />
@@ -103,7 +103,8 @@ export default function CreateBackorder() {
         />
         <Button
           color="success"
-          sx={{ width: 250, marginTop: 32 }}
+          fullWidth
+          sx={{marginTop: "41%" }}
           type="submit"
           variant="contained"
           endIcon={<SendIcon />}

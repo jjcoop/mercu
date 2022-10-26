@@ -110,7 +110,7 @@ export default function UpdateSupplierForm() {
           disablePortal
           id="combo-box-demo"
           options={data}
-          sx={{ width: "50%" }}
+          fullWidth
           renderInput={(params) => (
             <div>
               <TextField {...params} label="Suppliers" />
@@ -120,7 +120,7 @@ export default function UpdateSupplierForm() {
         />
         <br />
         <TextField
-          sx={{ width: "50%" }}
+          fullWidth
           required
           id="outlined-required"
           label="New Company Name"
@@ -130,7 +130,7 @@ export default function UpdateSupplierForm() {
         />
         <br />
         <TextField
-          sx={{ width: "50%" }}
+          fullWidth
           margin="normal"
           required
           id="outlined-required"
@@ -142,7 +142,8 @@ export default function UpdateSupplierForm() {
         <br />
         <Button
           color="warning"
-          sx={{ width: "50%", marginTop: 2 }}
+          fullWidth
+          sx={{marginTop: "10%", marginTop: "4%" }} 
           type="submit"
           variant="contained"
           endIcon={<SendIcon />}

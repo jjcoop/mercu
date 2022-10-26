@@ -143,7 +143,7 @@ export default function UpdatePartForm() {
           disablePortal
           id="combo-box-demo"
           options={data}
-          sx={{width: "75%"}}
+          fullWidth
           renderInput={(params) => (
             <div>
               <TextField {...params} label="Select Part" />
@@ -152,7 +152,7 @@ export default function UpdatePartForm() {
         />
         <br />
         <TextField
-          sx={{width: "75%"}}
+          fullWidth
           required
           id="outlined-required"
           label="Part Name"
@@ -162,7 +162,7 @@ export default function UpdatePartForm() {
         />
         <br /><br />
         <TextField
-          sx={{width: "75%"}}
+          fullWidth
           required
           id="outlined-required"
           label="Part Description"
@@ -185,7 +185,7 @@ export default function UpdatePartForm() {
           disablePortal
           id="combo-box-demo"
           options={mData}
-          sx={{width: "75%"}}
+          fullWidth
           renderInput={(params) => (
             <div>
               <TextField {...params} label="Select Manufacturer" />
@@ -193,7 +193,7 @@ export default function UpdatePartForm() {
           )}
         />
         <TextField
-          sx={{width: "75%"}}
+          fullWidth
           margin="normal"
           required
           id="outlined-required"
@@ -205,7 +205,8 @@ export default function UpdatePartForm() {
         <br />
         <Button
           color="warning"
-          sx={{ width: "75%", marginTop: 2 }}
+          fullWidth
+          sx={{marginTop: "2%" }}
           type="submit"
           variant="contained"
           endIcon={<SendIcon />}

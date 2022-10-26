@@ -191,7 +191,7 @@ export default function CreateOnlineSale() {
     <div>
       <form onSubmit={handleSubmit}>
         <TextField
-          sx={{width: "75%"}}
+          fullWidth
           required
           id="outlined-required"
           label="Customer Name"
@@ -203,7 +203,7 @@ export default function CreateOnlineSale() {
         <br />
         <Autocomplete
           id="google-map-demo"
-          sx={{ width: "75%" }}
+          fullWidth
           getOptionLabel={(option) =>
             typeof option === "string" ? option : option.description
           }
@@ -295,7 +295,7 @@ export default function CreateOnlineSale() {
           disablePortal
           id="combo-box-demo"
           options={pData}
-          sx={{width: "75%"}}
+          fullWidth
           renderInput={(params) => (
             <div>
               <TextField {...params} label="Select Product" />
@@ -305,7 +305,7 @@ export default function CreateOnlineSale() {
         />
         <br />
         <TextField
-          sx={{width: "75%"}}
+          fullWidth
           required
           id="outlined-required"
           label="Quantity"
@@ -316,7 +316,8 @@ export default function CreateOnlineSale() {
         <br />
         <Button
           color="success"
-          sx={{ width: "75%", marginTop: 2 }}
+          fullWidth
+          sx={{marginTop: "2%" }}
           type="submit"
           variant="contained"
           endIcon={<SendIcon />}

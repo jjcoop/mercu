@@ -165,7 +165,7 @@ export default function LookupSale() {
                   disablePortal
                   id="combo-box-demo"
                   options={productList}
-                  sx={{ width: "50%" }}
+                  fullWidth
                   renderInput={(params) => (
                     <div>
                       <TextField {...params} label="Product" />
