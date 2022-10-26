@@ -35,10 +35,10 @@ export default function TotalSale() {
     <div>
       <React.Fragment>
         <Title>Gross Sales</Title>
-        <Typography component="p" variant="h4">
+        <Typography noWrap component="p" variant="h4">
           {currencyFormat(data)}
         </Typography>
-        <Typography id="d" color="text.secondary" sx={{ flex: 1 }}>
+        <Typography noWrap id="d" color="text.secondary" sx={{ flex: 1 }}>
           {date}
         </Typography>
       </React.Fragment>
