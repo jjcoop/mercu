@@ -45,26 +45,24 @@ export default function CreatePartForm() {
 
 
   const fetchProductData = () => {
-    setInterval(() => {
-      fetch(`http://${process.env.NEXT_PUBLIC_DB_HOST}:8788/${pKeyword}`)
-      .then((response) => response.json())
-      .then((pData) => setProductData(pData._embedded.productList))
-      .catch((err) => console.error(err));
-    }, 1000);
+    fetch(`http://${process.env.NEXT_PUBLIC_DB_HOST}:8788/${pKeyword}`)
+    .then((response) => response.json())
+    .then((pData) => setProductData(pData._embedded.productList))
+    .catch((err) => console.error(err));
   };
 
   const fetchManufacturerData = () => {
-    setInterval(() => {
-      fetch(`http://${process.env.NEXT_PUBLIC_DB_HOST}:8787/${sKeyword}`)
-      .then((response) => response.json())
-      .then((data) => setManufacturerData(data._embedded.supplierList))
-      .catch((err) => console.error(err));
-    }, 1000);
+    fetch(`http://${process.env.NEXT_PUBLIC_DB_HOST}:8787/${sKeyword}`)
+    .then((response) => response.json())
+    .then((data) => setManufacturerData(data._embedded.supplierList))
+    .catch((err) => console.error(err));
   };
 
   useEffect(() => {
-    fetchProductData(),
-    fetchManufacturerData()
+    setInterval(() => {
+      fetchProductData();
+      fetchManufacturerData();
+    }, 1000);
   }, []);
 
   const handleSubmit = async (event) => {

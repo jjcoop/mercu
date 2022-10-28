@@ -122,7 +122,7 @@ export default function CreateOnlineSale() {
       setCustomerName("");
       setCustomerAddress("");
       setQuantity("");
-      setTest("");
+      setTest('');
       setReset(true);
       setValue("");
     } else {
@@ -280,10 +280,8 @@ export default function CreateOnlineSale() {
         /> */}
         <br />
         <Autocomplete
-          //disableClearable
           inputValue={test}
           key={resetBool}
-          //onChange={(e,v)=>setTest(v?.name||v)}
           isOptionEqualToValue={(option, value) => option.id === value.id}
           getOptionLabel={(x) => `${x.name}: ${x.id}`}
           onInputChange={(event, newproductValue) => {
