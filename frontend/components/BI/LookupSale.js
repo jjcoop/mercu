@@ -39,7 +39,7 @@ export default function LookupSale() {
   const [data, setData] = useState([]);
 
   const fetchTableData = () => {
-    fetch(`http://localhost:8790/bi-sales/gross-profit`)
+    fetch(`http://${process.env.NEXT_PUBLIC_DB_HOST}:8790/bi-sales/gross-profit`)
       .then((response) => response.json())
       .then((responseData) => {
         setTableData(responseData.productIntel);
@@ -49,7 +49,7 @@ export default function LookupSale() {
 
   const fetchGraphData = () => {
     fetch(
-      `http://localhost:8790/bi-sales/product/?productName=${encodeThatProduct(
+      `http://${process.env.NEXT_PUBLIC_DB_HOST}:8790/bi-sales/product/?productName=${encodeThatProduct(
         inputValue
       )}`
     )
@@ -96,7 +96,7 @@ export default function LookupSale() {
     return "$" + new_num.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
   }
   const fetchProductNames = () => {
-    fetch(`http://localhost:8788/productInventory`)
+    fetch(`http://${process.env.NEXT_PUBLIC_DB_HOST}:8788/productInventory`)
       .then((response) => response.json())
       .then((data) => {
         setProductList(data._embedded.productList);
@@ -107,7 +107,7 @@ export default function LookupSale() {
   const fetchSalesData = () => {
     if (check) {
       fetch(
-        `http://localhost:8790/bi-sales/product/?productName=${encodeThatProduct(
+        `http://${process.env.NEXT_PUBLIC_DB_HOST}:8790/bi-sales/product/?productName=${encodeThatProduct(
           inputValue
         )}`
       )
